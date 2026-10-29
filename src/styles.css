@@ -1,22 +1,32 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/jetbrains-mono';
 @import 'tailwindcss';
 
 /*
  * Design tokens. Tailwind 4 turns each one into utilities
  * (bg-surface, text-accent, font-display…) and exposes it as a CSS variable.
- * ponytail: provisional values, the palette and fonts get decided in the plan.
+ * Contrast (WCAG AA) checked against bg, surface and the hottest part of the ember.
  */
 @theme {
-  --color-bg: #07060d;
-  --color-surface: #100e1a;
-  --color-surface-2: #181528;
-  --color-border: #2a2540;
-  --color-text: #ece9f5;
-  --color-text-muted: #a7a1bd;
-  --color-accent: #a78bfa;
-  --color-accent-strong: #7c5cf0;
+  --color-bg: #0a0a0a;
+  --color-surface: #141414;
+  --color-surface-2: #1c1c1c;
+  --color-border: #262626;
+  --color-text: #f5f5f4; /* 18.2:1 */
+  --color-text-muted: #a8a29e; /* 7.9:1 */
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* Deep red, two tones: solid fills with white text, lighter red for text accents. */
+  --color-brand: #dc2626; /* fill, white text 4.8:1 */
+  --color-on-brand: #ffffff;
+  --color-accent: #ff6b6b; /* text/icons 7.1:1 */
+
+  /* Errors and warnings use amber so they never read as the brand color. */
+  --color-alert: #fbbf24; /* 11.9:1 */
+
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, Consolas, monospace;
 
   --radius-card: 1rem;
 }
@@ -30,6 +40,28 @@
 
   body {
     @apply min-h-dvh bg-bg font-sans text-text antialiased;
+  }
+
+  /*
+   * "Brasa" background: black warming up toward the bottom-right corner, with fine grain.
+   * Fixed layer instead of background-attachment: fixed, which iOS ignores and repaints on scroll.
+   */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E"),
+      radial-gradient(ellipse 60% 70% at 100% 105%, rgb(220 38 38 / 0.4), transparent 60%),
+      linear-gradient(160deg, var(--color-bg) 45%, #1f0606 100%);
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display text-balance;
   }
 
   :focus-visible {

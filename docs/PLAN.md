@@ -72,22 +72,33 @@ Assets en `public/`: `img/` (AVIF/WebP en 2–3 anchos), `cv/`, `og/cover.jpg` (
 
 ## 3. Design tokens
 
-Definidos en `src/styles.css` (`@theme`), Tailwind los convierte en utilidades. Los actuales son **provisionales**.
+Definidos en `src/styles.css` (`@theme`), Tailwind los convierte en utilidades (`bg-brand`, `text-accent`, `font-display`…). ✅ **Finales.**
 
-### Color — elegir uno como acento (todos verificados WCAG AA sobre el fondo)
+### Color — negro + rojo profundo (todo verificado WCAG AA)
 
-| Opción | Acento | Contraste sobre `#07060d` | Carácter |
+| Token | Valor | Uso | Contraste |
 |---|---|---|---|
-| A · Lavanda | `#b9a4ff` | 9.43 : 1 | La familia morada que te gustó, sin ser el `purple-600` de Tailwind de Candela (3.75 : 1, no pasa AA) |
-| B · Índigo | `#8b9cff` | 7.97 : 1 | Más técnico y frío, se separa más de la referencia |
-| C · Magenta | `#f07ccf` | 8.16 : 1 | Más cálido y memorable, menos común en portafolios dev |
+| `bg` | `#0a0a0a` | Fondo | — |
+| `surface` / `surface-2` | `#141414` / `#1c1c1c` | Tarjetas, sidebar | — |
+| `border` | `#262626` | Bordes | — |
+| `text` | `#f5f5f4` | Texto principal | 18.2 : 1 |
+| `text-muted` | `#a8a29e` | Texto secundario | 7.9 : 1 |
+| `brand` + `on-brand` | `#dc2626` + blanco | Botón primario, indicador activo | 4.8 : 1 |
+| `accent` | `#ff6b6b` | Texto e íconos destacados | 7.1 : 1 |
+| `alert` | `#fbbf24` | Errores y avisos (ámbar, para no confundirse con la marca) | 11.9 : 1 |
 
-Base común: fondo `#07060d`, superficie `#100e1a` / `#181528`, borde `#2a2540`, texto `#ece9f5` (16.9 : 1), texto secundario `#a7a1bd` (8.1 : 1). Botón primario: texto oscuro sobre el acento (≥ 7 : 1).
+Todos los colores de texto siguen pasando AA sobre la zona más roja de la brasa.
 
-### Tipografía (autoalojada, `font-display: swap`, subset latino, sin Google Fonts)
-- **Display** (H1/H2): una grotesca con carácter — propuesta *Space Grotesk* o *Sora*.
-- **Texto**: *Inter* variable o fuente del sistema.
-- **Código** (tarjeta `perfil.ts`): *JetBrains Mono*.
+**Fondo "brasa"**: capa fija (`body::before`) con degradado lineal negro → `#1f0606`, brillo radial rojo en la esquina inferior derecha y grano fino SVG. Solo CSS, sin imágenes.
+
+### Tipografía (autoalojada con Fontsource, `font-display: swap`, sin Google Fonts)
+- **Display** (H1–H3): *Space Grotesk Variable* → `font-display`
+- **Texto**: *Inter Variable* → `font-sans`
+- **Código** (tarjeta `perfil.ts`): *JetBrains Mono Variable* → `font-mono`
+
+### Íconos y logos
+- **Íconos de interfaz:** [`@animateicons/angular`](https://github.com/Avijit07x/animateicons) (MIT; formas de Lucide, ISC). Componente standalone con signal inputs, compatible con SSR y zoneless, y ya respeta `prefers-reduced-motion`. Usar solo el subpath `lucide`. Se instala cuando lo use el primer componente (la navegación).
+- **Logos de marca** (GitHub, LinkedIn, tecnologías): SVG de [theSVG](https://github.com/glincker/thesvg), copiados uno a uno en `public/logos/`. Sin dependencia ni CDN: no hay paquete para Angular y enlazar a `@main` cambiaría sin aviso. Revisar la licencia de cada logo al copiarlo; las marcas solo se usan para identificar (enlaces a perfiles y tu stack), nunca como si te respaldaran.
 
 ### Escala
 - Espaciado: escala de 4 px de Tailwind; ritmo vertical entre secciones `py-24` (móvil `py-16`).
@@ -103,7 +114,7 @@ Base común: fondo `#07060d`, superficie `#100e1a` / `#181528`, borde `#2a2540`,
 - [x] Angular 22 + Tailwind 4 + zoneless + prerender estático
 - [x] Shell accesible (skip link, `<main>`), estilos base (foco, reduced-motion)
 - [x] Repo en GitHub + **deploy automático desde el día 1** (GitHub Actions) → https://jhonmario7.github.io/portafolio/
-- [ ] Tokens finales (color + fuentes autoalojadas)
+- [x] Tokens finales (color + fuentes autoalojadas) + fondo brasa
 - [ ] `core/seo.ts` + `robots.txt` + `sitemap.xml` + favicon + JSON-LD `Person`
 
 **Terminado cuando:** cada push a `main` publica el sitio y la URL pública responde.
@@ -136,6 +147,7 @@ Base común: fondo `#07060d`, superficie `#100e1a` / `#181528`, borde `#2a2540`,
 - [ ] Dominio propio
 - [ ] Analítica sin cookies (p. ej. Cloudflare Web Analytics)
 - [ ] Páginas de caso de estudio por proyecto
+- [ ] **Fondo interactivo**: campo de glifos (binario / fragmentos de código) en `<canvas>` sobre la brasa que reacciona al mouse (se iluminan o cambian cerca del cursor). Condiciones: solo con `pointer: fine` (no en móvil), se pausa con la pestaña oculta y fuera de pantalla, sin animar con `prefers-reduced-motion`, se carga con `@defer (on idle)` para no tocar el LCP, y opacidad baja para no competir con el texto.
 
 ---
 
@@ -151,7 +163,7 @@ Base común: fondo `#07060d`, superficie `#100e1a` / `#181528`, borde `#2a2540`,
 - [ ] 3–4 proyectos: nombre, captura, descripción, stack, demo, repo, permiso
 - [ ] Formación: título universitario + certificaciones relevantes
 - [ ] Email, LinkedIn, GitHub, (WhatsApp)
-- [ ] Opción de color (A / B / C) y si te gusta la propuesta de fuentes
+- [x] Color (negro + rojo profundo), fondo (brasa) y fuentes
 
 ---
 
