@@ -12,7 +12,7 @@
 | Objetivo | **Empleo remoto como Frontend Angular** (principal) + clientes freelance de landings (secundario) | Si es solo freelance, el hero y el CTA giran a "cotiza tu landing" y entra WhatsApp como CTA principal |
 | Idioma | **Solo español** en el MVP; contenido en archivos de datos para poder sumar inglés después | Inglés = Fase 4 (rutas `/es` y `/en` prerenderizadas) |
 | Proyectos | 3–4 proyectos con captura y permiso para mostrarlos | Si no hay permiso, se muestran como caso anónimo ("Clínica dental, Bogotá") sin capturas |
-| Hosting | Estático (sin servidor). Repo público → GitHub Pages; privado → Cloudflare Pages / Netlify | Ninguno en el código, solo el workflow de deploy |
+| Hosting | Estático (sin servidor) en **Cloudflare Pages**, junto a los demás proyectos | Ninguno en el código: `public/_headers` y `.node-version` son lo único específico |
 
 ---
 
@@ -113,9 +113,10 @@ Todos los colores de texto siguen pasando AA sobre la zona más roja de la brasa
 ### Fase 0 — Fundaciones ✅ parcial
 - [x] Angular 22 + Tailwind 4 + zoneless + prerender estático
 - [x] Shell accesible (skip link, `<main>`), estilos base (foco, reduced-motion)
-- [x] Repo en GitHub + **deploy automático desde el día 1** (GitHub Actions) → https://jhonmario7.github.io/portafolio/
+- [x] Repo en GitHub + **deploy automático desde el día 1** (Cloudflare Pages: tests + build en cada push a `main`) → https://jhonmario.pages.dev/
+- [x] Cabeceras de seguridad + caché inmutable para assets con hash (`public/_headers`)
 - [x] Tokens finales (color + fuentes autoalojadas) + fondo brasa
-- [ ] `core/seo.ts` + `robots.txt` + `sitemap.xml` + favicon + JSON-LD `Person`
+- [ ] `core/seo.ts` + `robots.txt` + `sitemap.xml` + favicon + JSON-LD `Person` + `404.html` (hoy una ruta inexistente responde 200 con la home)
 
 **Terminado cuando:** cada push a `main` publica el sitio y la URL pública responde.
 
