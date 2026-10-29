@@ -110,13 +110,13 @@ Todos los colores de texto siguen pasando AA sobre la zona más roja de la brasa
 
 ## 4. Fases
 
-### Fase 0 — Fundaciones ✅ parcial
+### Fase 0 — Fundaciones ✅
 - [x] Angular 22 + Tailwind 4 + zoneless + prerender estático
 - [x] Shell accesible (skip link, `<main>`), estilos base (foco, reduced-motion)
 - [x] Repo en GitHub + **deploy automático desde el día 1** (Cloudflare Pages: tests + build en cada push a `main`) → https://jhonmario.pages.dev/
 - [x] Cabeceras de seguridad + caché inmutable para assets con hash (`public/_headers`)
 - [x] Tokens finales (color + fuentes autoalojadas) + fondo brasa
-- [ ] `core/seo.ts` + `robots.txt` + `sitemap.xml` + favicon + JSON-LD `Person` + `404.html` (hoy una ruta inexistente responde 200 con la home)
+- [x] SEO en `index.html` (title, description, canonical, Open Graph, JSON-LD `Person`) + `robots.txt` + `sitemap.xml` + favicon SVG + `404.html` con estado 404 real. `core/seo.ts` se crea cuando haya más de una ruta (Fase 4)
 
 **Terminado cuando:** cada push a `main` publica el sitio y la URL pública responde.
 
