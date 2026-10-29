@@ -102,7 +102,7 @@ Base común: fondo `#07060d`, superficie `#100e1a` / `#181528`, borde `#2a2540`,
 ### Fase 0 — Fundaciones ✅ parcial
 - [x] Angular 22 + Tailwind 4 + zoneless + prerender estático
 - [x] Shell accesible (skip link, `<main>`), estilos base (foco, reduced-motion)
-- [ ] Repo en GitHub + **deploy automático desde el día 1** (GitHub Actions)
+- [x] Repo en GitHub + **deploy automático desde el día 1** (GitHub Actions) → https://jhonmario7.github.io/portafolio/
 - [ ] Tokens finales (color + fuentes autoalojadas)
 - [ ] `core/seo.ts` + `robots.txt` + `sitemap.xml` + favicon + JSON-LD `Person`
 
