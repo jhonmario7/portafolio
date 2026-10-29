@@ -1,0 +1,62 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens. Tailwind 4 turns each one into utilities
+ * (bg-surface, text-accent, font-display…) and exposes it as a CSS variable.
+ * ponytail: provisional values, the palette and fonts get decided in the plan.
+ */
+@theme {
+  --color-bg: #07060d;
+  --color-surface: #100e1a;
+  --color-surface-2: #181528;
+  --color-border: #2a2540;
+  --color-text: #ece9f5;
+  --color-text-muted: #a7a1bd;
+  --color-accent: #a78bfa;
+  --color-accent-strong: #7c5cf0;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --radius-card: 1rem;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply min-h-dvh bg-bg font-sans text-text antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-4 outline-accent;
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .skip-link {
+    @apply fixed left-4 top-3 z-50 -translate-y-24 rounded-full bg-accent px-4 py-2 font-semibold text-bg transition-transform focus:translate-y-0;
+  }
+}
