@@ -97,7 +97,7 @@ const glassConfig = {
         -->
         <figure
           #glass
-          class="mt-4 rounded-card border border-border lg:absolute lg:inset-x-4 lg:bottom-4 lg:mt-0"
+          class="mt-4 rounded-card border border-border transition-colors duration-500 lg:absolute lg:inset-x-4 lg:bottom-4 lg:mt-0"
           [class]="glassOn() ? 'border-white/15' : 'overflow-hidden bg-surface/95 shadow-2xl backdrop-blur'"
         >
           <figcaption class="flex items-center gap-2 border-b border-border px-4 py-2.5 font-mono text-xs text-text-muted">
@@ -145,6 +145,10 @@ export class Hero {
               root: this.glassRoot().nativeElement,
               glassElements: [this.glass().nativeElement],
             });
+            // Drop the opaque CSS card only once the blurred glass has painted, or the code
+            // briefly sits on the sharp photo and becomes unreadable.
+            await new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
+            await new Promise((done) => setTimeout(done, 200));
             this.glassOn.set(true);
           } catch {
             // No WebGL or capture failed: the CSS card stays.
