@@ -80,7 +80,7 @@ const glassConfig = {
           width="640"
           height="800"
           priority
-          alt="Jhon Mario Rodriguez sonriendo, con camisa clara, en un jardín de noche."
+          alt="Jhon Mario Rodriguez sonriendo, de traje vinotinto y corbata roja, al aire libre entre árboles."
           class="rounded-card border border-border object-cover"
         />
         <p class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-border bg-bg/85 px-3 py-1.5 text-xs font-medium backdrop-blur">
