@@ -120,19 +120,22 @@ Todos los colores de texto siguen pasando AA sobre la zona más roja de la brasa
 
 **Terminado cuando:** cada push a `main` publica el sitio y la URL pública responde.
 
-### Fase 1 — MVP publicable
-- [ ] `data/` con contenido real (perfil, 1 experiencia, 3 proyectos)
-- [ ] `nav` (sidebar + barra inferior) con `active-section`
-- [ ] `hero` + `code-card`
-- [ ] `experience` (caso destacado)
-- [ ] `projects` (portadas, sin galería aún)
-- [ ] `contact` + copiar email
-- [ ] `footer`
+### Fase 1 — MVP publicable ✅ (falta medir Lighthouse en producción)
+- [x] `data/` con contenido real (perfil, caso MASSEQ, FisioYuli, IUS Counter, King Padel)
+- [x] `nav` (sidebar + barra inferior) con sección activa (IntersectionObserver dentro de `nav.ts`)
+- [x] `hero` con la tarjeta `perfil.ts` en la misma plantilla
+- [x] `experience` (caso destacado)
+- [x] `projects` (portadas 16:10, sin galería aún)
+- [x] `contact` + copiar email (con aviso si el navegador niega el portapapeles)
+- [x] `footer` (en `app.html`)
+- [x] Imágenes en WebP 640/1200 vía `IMAGE_LOADER`; foto sin metadatos. Fuentes originales en `docs/` fuera de git
 
-**Terminado cuando:** el sitio se puede enviar a un reclutador; Lighthouse móvil ≥ 90 en las 4 categorías; 0 errores axe.
+Simplificaciones respecto a la sección 2: sin `pages/home.ts` ni router (una sola página), sin `core/active-section.ts` (un solo consumidor). Se crean cuando haya más rutas.
+
+**Terminado cuando:** el sitio se puede enviar a un reclutador; Lighthouse móvil ≥ 90 en las 4 categorías; 0 errores axe (✅ axe local, 0 violaciones).
 
 ### Fase 2 — Contenido completo
-- [ ] Galería de proyecto en `<dialog>` con teclado y `@defer`
+- [ ] Galería de proyecto en `<dialog>` con teclado y `@defer`. Ojo: la captura 4 de King Padel (ranking) muestra nombres reales de jugadores; difuminarlos o no usarla
 - [ ] Línea de tiempo del resto de la experiencia
 - [ ] `education`
 - [ ] Imagen OG 1200×630 y verificación de vista previa en LinkedIn/WhatsApp

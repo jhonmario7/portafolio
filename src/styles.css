@@ -91,4 +91,34 @@
   .skip-link {
     @apply fixed left-4 top-3 z-50 -translate-y-24 rounded-full bg-accent px-4 py-2 font-semibold text-bg transition-transform focus:translate-y-0;
   }
+
+  /* Shared by every section: one source for buttons, chips and headings. */
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 font-semibold transition-colors;
+  }
+
+  /* Use as "btn btn-primary": Tailwind 4 can't @apply one component class into another. */
+  .btn-primary {
+    @apply bg-brand text-on-brand hover:bg-red-700;
+  }
+
+  .btn-secondary {
+    @apply border border-border bg-surface text-text hover:border-text-muted;
+  }
+
+  .chip {
+    @apply rounded-full border border-border bg-surface px-3 py-1 font-mono text-xs text-text-muted;
+  }
+
+  .eyebrow {
+    @apply font-mono text-sm text-accent;
+  }
+
+  .section {
+    @apply mx-auto max-w-6xl scroll-mt-8 px-4 py-16 sm:px-6 lg:py-24;
+  }
+
+  .section-title {
+    @apply mt-2 text-3xl font-bold sm:text-4xl;
+  }
 }
