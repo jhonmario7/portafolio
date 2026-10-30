@@ -170,9 +170,18 @@ export class Hero {
         }
       };
 
-      void sync();
-      desktop.addEventListener('change', sync);
+      // The capture behind the glass is ~1 s of main-thread work, so it waits for the first
+      // interaction instead of competing with page load. The CSS frost shows until then.
+      const interactions = ['pointermove', 'keydown', 'scroll', 'touchstart'] as const;
+      const start = () => {
+        for (const type of interactions) removeEventListener(type, start);
+        void sync();
+        desktop.addEventListener('change', sync);
+      };
+      for (const type of interactions) addEventListener(type, start, { once: true, passive: true });
+
       destroyRef.onDestroy(() => {
+        for (const type of interactions) removeEventListener(type, start);
         desktop.removeEventListener('change', sync);
         instance?.destroy();
       });
