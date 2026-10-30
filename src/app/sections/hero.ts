@@ -97,23 +97,29 @@ const glassConfig = {
         -->
         <figure
           #glass
-          class="isolate mt-4 rounded-card border lg:absolute lg:inset-x-4 lg:bottom-4 lg:mt-0"
-          [class]="glassOn() ? 'border-white/15' : 'overflow-hidden border-border bg-surface/95 shadow-2xl backdrop-blur'"
+          class="isolate mt-4 rounded-card border border-white/15 bg-black/40 bg-linear-to-br from-white/10 via-transparent to-transparent
+            shadow-[inset_0_1px_0_rgb(255_255_255/0.15),0_25px_50px_-12px_rgb(0_0_0/0.6)] backdrop-blur-xl backdrop-brightness-50
+            lg:absolute lg:inset-x-4 lg:bottom-4 lg:mt-0 [&>canvas]:transition-opacity [&>canvas]:duration-700"
+          [class]="glassOn() ? '[&>canvas]:opacity-100' : '[&>canvas]:opacity-0'"
         >
           <!--
-            "isolate" matters: LiquidGlass injects its canvas with z-index:-1. Without a stacking
-            context on the figure, that canvas sinks behind the photo and the card turns clear.
-            Until the canvas paints, the CSS background underneath shows instead.
+            CSS frosted glass paints from the first frame (and is the final look on phones or
+            without WebGL); the liquid glass canvas fades in over it once ready, so there's no
+            dark-card-then-glass jump. Blur + 50% brightness + 40% black, with the lighter code
+            colors below (stone-300, red-300, amber-200), keeps the code above 4.5:1 even over
+            the light shirt.
+            "isolate" matters: LiquidGlass injects its canvas with z-index:-1; without a stacking
+            context on the figure, that canvas sinks behind the photo.
           -->
-          <figcaption class="flex items-center gap-2 border-b border-border px-4 py-2.5 font-mono text-xs text-text-muted">
+          <figcaption class="flex items-center gap-2 border-b border-white/10 px-4 py-2.5 font-mono text-xs text-stone-300">
             <span class="flex gap-1.5" aria-hidden="true">
-              <span class="size-2.5 rounded-full bg-border"></span>
-              <span class="size-2.5 rounded-full bg-border"></span>
+              <span class="size-2.5 rounded-full bg-white/25"></span>
+              <span class="size-2.5 rounded-full bg-white/25"></span>
               <span class="size-2.5 rounded-full bg-brand"></span>
             </span>
             perfil.ts
           </figcaption>
-          <pre class="whitespace-pre-wrap p-4 font-mono text-[0.8rem] leading-relaxed"><code><span class="text-accent">const</span> perfil = {{ '{' }}
+          <pre class="whitespace-pre-wrap p-4 font-mono text-[0.8rem] leading-relaxed"><code><span class="text-red-300">const</span> perfil = {{ '{' }}
   nombre: <span class="text-amber-200">'{{ p.nombre }}'</span>,
   rol: <span class="text-amber-200">'{{ p.rol }}'</span>,
   stack: [{{ quoted(p.stack) }}],
