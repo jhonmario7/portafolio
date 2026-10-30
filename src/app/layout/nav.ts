@@ -1,5 +1,6 @@
 import { Component, DestroyRef, afterNextRender, inject, signal } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
+import { IconHover } from '../shared/icon-hover';
 import { Briefcase, FolderOpen, GraduationCap, House, Mail } from '@animateicons/angular/lucide';
 
 const links = [
@@ -12,7 +13,7 @@ const links = [
 
 @Component({
   selector: 'app-nav',
-  imports: [AnimateIcons],
+  imports: [AnimateIcons, IconHover],
   template: `
     <nav
       aria-label="Secciones"
@@ -24,6 +25,7 @@ const links = [
           @let current = active() === link.id;
           <li class="flex-1 lg:flex-none">
             <a
+              appIconHover
               [href]="'#' + link.id"
               [attr.aria-current]="current ? 'location' : null"
               class="flex h-full flex-col items-center justify-center gap-1 text-xs font-medium transition-colors

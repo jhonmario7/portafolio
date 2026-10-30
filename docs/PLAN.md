@@ -142,10 +142,12 @@ Simplificaciones respecto a la sección 2: sin `pages/home.ts` ni router (una so
 - [x] Extra: **liquid glass** (WebGL) en la tarjeta `perfil.ts`, solo en escritorio y cargado aparte (~15 kB). Librería copiada en `src/app/vendor/liquidglass/` porque su `postinstall` rompe `npm ci`; volver al paquete de npm cuando lo arreglen
 
 ### Fase 3 — Pulido
-- [ ] Directiva `reveal` (progresiva, respeta reduced-motion)
-- [ ] Microinteracciones de hover/foco
-- [ ] Lighthouse 100 en SEO / Accesibilidad / Buenas prácticas; Rendimiento ≥ 95
-- [ ] Pruebas unitarias de la lógica: `active-section`, copiar email, `seo`
+- [x] Aparición al hacer scroll: clase `.reveal` en CSS (`animation-timeline: view()`), sin directiva ni JS. Visible por defecto; solo anima donde hay soporte y sin reduced-motion
+- [x] Microinteracciones: botones con presión, íconos que se animan al pasar o enfocar todo el control (`shared/icon-hover.ts`), portadas clickeables que abren la galería
+- [x] Rendimiento: precarga de las fuentes del H1 y del texto (nombres fijos con `outputHashing: "bundles"`), foto del hero sin prioridad alta (en móvil queda bajo el pliegue), variante de 960 px para foto y portadas
+- [x] CSP en `_headers` (orígenes propios). `autoCsp` de Angular no funciona con prerender todavía; por eso conserva `'unsafe-inline'`
+- [x] Pruebas: copiar correo (copiado y rechazado) y límites de la galería. Sin `active-section` ni `seo`: no existen como servicios
+- [ ] Lighthouse móvil ≥ 95 en rendimiento (100 en el resto ya se cumple)
 
 ### Fase 4 — Opcional
 - [ ] Inglés (`/es`, `/en`, `hreflang`)

@@ -4,7 +4,7 @@ export interface Proyecto {
   descripcion: string;
   logros: string[];
   stack: string[];
-  /** Base name in public/img/, served as `<imagen>-640.webp` and `<imagen>-1200.webp`. */
+  /** Base name in public/img/, served as `<imagen>-640.webp`, `-960.webp` and `-1200.webp`. */
   imagen: string;
   alt: string;
   demo?: string;

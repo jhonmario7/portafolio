@@ -1,6 +1,7 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, DestroyRef, ElementRef, afterNextRender, inject, signal, viewChild } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
+import { IconHover } from '../shared/icon-hover';
 import { Download, Github, Linkedin, Mail } from '@animateicons/angular/lucide';
 import { perfil } from '../data/perfil';
 
@@ -19,7 +20,7 @@ const glassConfig = {
 
 @Component({
   selector: 'app-hero',
-  imports: [NgOptimizedImage, AnimateIcons],
+  imports: [NgOptimizedImage, AnimateIcons, IconHover],
   host: { class: 'block' },
   template: `
     <section
@@ -38,24 +39,24 @@ const glassConfig = {
         </p>
 
         <div class="mt-8 flex flex-wrap gap-3">
-          <a href="#contacto" class="btn btn-primary">
+          <a appIconHover href="#contacto" class="btn btn-primary">
             <animate-icons [icon]="icons.mail" [size]="18" aria-hidden="true" />
             Contactar
           </a>
-          <a [href]="p.cv" download class="btn btn-secondary">
+          <a appIconHover [href]="p.cv" download class="btn btn-secondary">
             <animate-icons [icon]="icons.download" [size]="18" aria-hidden="true" />
             Descargar CV
           </a>
         </div>
         <ul class="mt-6 flex gap-5 text-sm">
           <li>
-            <a [href]="p.linkedin" rel="me noopener" target="_blank" class="inline-flex min-h-11 items-center gap-2 text-text-muted hover:text-text">
+            <a appIconHover [href]="p.linkedin" rel="me noopener" target="_blank" class="inline-flex min-h-11 items-center gap-2 text-text-muted hover:text-text">
               <animate-icons [icon]="icons.linkedin" [size]="18" aria-hidden="true" />
               LinkedIn<span class="sr-only"> (abre en otra pestaña)</span>
             </a>
           </li>
           <li>
-            <a [href]="p.github" rel="me noopener" target="_blank" class="inline-flex min-h-11 items-center gap-2 text-text-muted hover:text-text">
+            <a appIconHover [href]="p.github" rel="me noopener" target="_blank" class="inline-flex min-h-11 items-center gap-2 text-text-muted hover:text-text">
               <animate-icons [icon]="icons.github" [size]="18" aria-hidden="true" />
               GitHub<span class="sr-only"> (abre en otra pestaña)</span>
             </a>
@@ -75,11 +76,11 @@ const glassConfig = {
       <div #glassRoot class="relative mx-auto w-full max-w-sm lg:mr-0">
         <img
           ngSrc="jhon"
-          ngSrcset="640w, 1200w"
+          ngSrcset="640w, 960w, 1200w"
           sizes="(min-width: 640px) 384px, 90vw"
           width="640"
           height="800"
-          priority
+          loading="eager"
           alt="Jhon Mario Rodriguez sonriendo, de traje vinotinto y corbata roja, al aire libre entre árboles."
           class="rounded-card border border-border object-cover"
         />

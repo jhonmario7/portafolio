@@ -14,7 +14,7 @@ import { cursos, formacion } from '../data/formacion';
           <h3 class="font-display text-lg font-semibold">Académica</h3>
           <ul class="mt-4 space-y-3">
             @for (item of formacion; track item.titulo) {
-              <li class="rounded-card border border-border bg-surface/80 p-5">
+              <li class="reveal rounded-card border border-border bg-surface/80 p-5">
                 <p class="font-semibold">{{ item.titulo }}</p>
                 <p class="mt-1 text-sm text-text-muted">{{ item.lugar }} · <span class="font-mono">{{ item.periodo }}</span></p>
               </li>
@@ -25,7 +25,7 @@ import { cursos, formacion } from '../data/formacion';
           <h3 class="font-display text-lg font-semibold">Cursos</h3>
           <ul class="mt-4 space-y-3">
             @for (item of cursos; track item.titulo) {
-              <li class="rounded-card border border-border bg-surface/80 p-5">
+              <li class="reveal rounded-card border border-border bg-surface/80 p-5">
                 <p class="font-semibold">{{ item.titulo }}</p>
                 <p class="mt-1 text-sm text-text-muted">{{ item.lugar }} · <span class="font-mono">{{ item.periodo }}</span></p>
               </li>

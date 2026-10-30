@@ -9,7 +9,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideClientHydration(),
-    // Every image in public/img/ ships as <name>-640.webp and <name>-1200.webp.
+    // Images in public/img/ ship as <name>-640.webp and <name>-1200.webp (hero photo and covers also -960).
     {
       provide: IMAGE_LOADER,
       useValue: ({ src, width }: ImageLoaderConfig) => `img/${src}-${width ?? 1200}.webp`,

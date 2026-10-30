@@ -1,15 +1,16 @@
 import { Component, signal } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
+import { IconHover } from '../shared/icon-hover';
 import { Copy, CopyCheck, Download, Linkedin, Mail } from '@animateicons/angular/lucide';
 import { perfil } from '../data/perfil';
 
 @Component({
   selector: 'app-contact',
-  imports: [AnimateIcons],
+  imports: [AnimateIcons, IconHover],
   host: { class: 'block' },
   template: `
     <section id="contacto" aria-labelledby="contacto-titulo" class="section">
-      <div class="rounded-card border border-border bg-surface/80 p-6 text-center sm:p-12">
+      <div class="reveal rounded-card border border-border bg-surface/80 p-6 text-center sm:p-12">
         <p class="inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-sm text-text-muted">
           <span class="size-2 rounded-full bg-accent" aria-hidden="true"></span>
           {{ p.disponibilidad }}
@@ -21,11 +22,11 @@ import { perfil } from '../data/perfil';
         </p>
 
         <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a [href]="'mailto:' + p.email" class="btn btn-primary">
+          <a appIconHover [href]="'mailto:' + p.email" class="btn btn-primary">
             <animate-icons [icon]="icons.mail" [size]="18" aria-hidden="true" />
             Escribirme
           </a>
-          <button type="button" class="btn btn-secondary cursor-pointer font-mono text-sm" (click)="copyEmail()">
+          <button appIconHover type="button" class="btn btn-secondary cursor-pointer font-mono text-sm" (click)="copyEmail()">
             <animate-icons [icon]="copy() === 'copied' ? icons.copyCheck : icons.copy" [size]="18" aria-hidden="true" />
             {{ p.email }}
             <span class="sr-only">, copiar correo</span>
@@ -41,13 +42,13 @@ import { perfil } from '../data/perfil';
 
         <ul class="mt-6 flex flex-wrap justify-center gap-6 text-sm">
           <li>
-            <a [href]="p.linkedin" target="_blank" rel="me noopener" class="inline-flex min-h-11 items-center gap-2 text-text-muted hover:text-text">
+            <a appIconHover [href]="p.linkedin" target="_blank" rel="me noopener" class="inline-flex min-h-11 items-center gap-2 text-text-muted hover:text-text">
               <animate-icons [icon]="icons.linkedin" [size]="18" aria-hidden="true" />
               LinkedIn<span class="sr-only"> (abre en otra pestaña)</span>
             </a>
           </li>
           <li>
-            <a [href]="p.cv" download class="inline-flex min-h-11 items-center gap-2 text-text-muted hover:text-text">
+            <a appIconHover [href]="p.cv" download class="inline-flex min-h-11 items-center gap-2 text-text-muted hover:text-text">
               <animate-icons [icon]="icons.download" [size]="18" aria-hidden="true" />
               Descargar CV (PDF)
             </a>

@@ -10,6 +10,9 @@
   <!-- ponytail: one page, so SEO lives here, not in a service. Move to core/seo.ts when case-study routes arrive (Fase 4). -->
   <link rel="canonical" href="https://jhonmario.pages.dev/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- The H1 (LCP) and body fonts; otherwise they're found only after the async stylesheet loads. -->
+  <link rel="preload" href="media/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="media/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 
   <meta property="og:type" content="profile">
   <meta property="og:locale" content="es_CO">

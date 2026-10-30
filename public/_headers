@@ -1,7 +1,11 @@
 # Cloudflare static asset headers. https://developers.cloudflare.com/pages/configuration/headers/
-# ponytail: no CSP yet; Angular's inline critical CSS needs hashes, add it in Fase 3 with "security.autoCsp".
+# ponytail: CSP keeps 'unsafe-inline' for scripts/styles because Angular's prerender emits inline
+# hydration scripts and an onload stylesheet swap, and "security.autoCsp" can't run with SSR yet.
+# It still blocks every third-party origin, plugins and <base> hijacking. Tighten to hashes when
+# autoCsp supports prerendering.
 
 /*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' data: blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
@@ -12,5 +16,6 @@
   Cache-Control: public, max-age=31536000, immutable
 /*.css
   Cache-Control: public, max-age=31536000, immutable
+# Fonts keep stable names (outputHashing "bundles") so index.html can preload them: a month, not immutable.
 /media/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=2592000
