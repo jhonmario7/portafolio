@@ -4,7 +4,7 @@ import { AnimateIcons } from '@animateicons/angular';
 import { Download, Github, Linkedin, Mail } from '@animateicons/angular/lucide';
 import { perfil } from '../data/perfil';
 
-// Tuned by eye. Readability doesn't depend on these: the code sits on its own dark panel.
+// Tuned by eye: enough blur and darkening that the code stays readable over the photo.
 const glassConfig = {
   cornerRadius: 16,
   zRadius: 24,
@@ -97,16 +97,14 @@ const glassConfig = {
         -->
         <figure
           #glass
-          class="mt-4 rounded-card border border-border transition-colors duration-500 lg:absolute lg:inset-x-4 lg:bottom-4 lg:mt-0"
-          [class]="glassOn() ? 'border-white/15' : 'overflow-hidden bg-surface/95 shadow-2xl backdrop-blur'"
+          class="isolate mt-4 rounded-card border lg:absolute lg:inset-x-4 lg:bottom-4 lg:mt-0"
+          [class]="glassOn() ? 'border-white/15' : 'overflow-hidden border-border bg-surface/95 shadow-2xl backdrop-blur'"
         >
           <!--
-            In glass mode the code keeps its own dark panel, inset so the glass shows as a rim.
-            The shader's blur isn't reliable on every GPU/browser, and without this panel the
-            text can land on the sharp photo. 80% black keeps every color above 4.5:1 even over
-            the light shirt.
+            "isolate" matters: LiquidGlass injects its canvas with z-index:-1. Without a stacking
+            context on the figure, that canvas sinks behind the photo and the card turns clear.
+            Until the canvas paints, the CSS background underneath shows instead.
           -->
-          <div class="relative" [class]="glassOn() ? 'm-2 rounded-xl bg-black/80' : ''">
           <figcaption class="flex items-center gap-2 border-b border-border px-4 py-2.5 font-mono text-xs text-text-muted">
             <span class="flex gap-1.5" aria-hidden="true">
               <span class="size-2.5 rounded-full bg-border"></span>
@@ -121,7 +119,6 @@ const glassConfig = {
   stack: [{{ quoted(p.stack) }}],
   enfoque: [{{ quoted(p.enfoque) }}],
 {{ '}' }};</code></pre>
-          </div>
         </figure>
       </div>
     </section>
@@ -153,10 +150,6 @@ export class Hero {
               root: this.glassRoot().nativeElement,
               glassElements: [this.glass().nativeElement],
             });
-            // Drop the opaque CSS card only once the blurred glass has painted, or the code
-            // briefly sits on the sharp photo and becomes unreadable.
-            await new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done)));
-            await new Promise((done) => setTimeout(done, 200));
             this.glassOn.set(true);
           } catch {
             // No WebGL or capture failed: the CSS card stays.
