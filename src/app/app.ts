@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { perfil } from './data/perfil';
+import { GlyphField } from './layout/glyph-field';
 import { Nav } from './layout/nav';
 import { Contact } from './sections/contact';
 import { Education } from './sections/education';
@@ -9,7 +10,7 @@ import { Projects } from './sections/projects';
 
 // ponytail: one page, so sections render here instead of behind a route. Add pages/ when case studies arrive (Fase 4).
 @Component({
-  imports: [Nav, Hero, Experience, Projects, Education, Contact],
+  imports: [Nav, GlyphField, Hero, Experience, Projects, Education, Contact],
   selector: 'app-root',
   templateUrl: './app.html',
 })

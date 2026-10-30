@@ -2,6 +2,11 @@
 
 <app-nav />
 
+<!-- Decorative, own chunk, loaded once the page is idle so it never touches LCP. -->
+@defer (on idle) {
+  <app-glyph-field />
+}
+
 <!-- Bottom padding clears the phone tab bar; left padding clears the desktop sidebar. -->
 <div class="pb-16 lg:pb-0 lg:pl-24">
   <main id="contenido" tabindex="-1">

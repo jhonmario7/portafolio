@@ -155,7 +155,7 @@ Simplificaciones respecto a la sección 2: sin `pages/home.ts` ni router (una so
 - [ ] Dominio propio
 - [ ] Analítica sin cookies (p. ej. Cloudflare Web Analytics)
 - [ ] Páginas de caso de estudio por proyecto
-- [ ] **Fondo interactivo**: campo de glifos (binario / fragmentos de código) en `<canvas>` sobre la brasa que reacciona al mouse (se iluminan o cambian cerca del cursor). Condiciones: solo con `pointer: fine` (no en móvil), se pausa con la pestaña oculta y fuera de pantalla, sin animar con `prefers-reduced-motion`, se carga con `@defer (on idle)` para no tocar el LCP, y opacidad baja para no competir con el texto.
+- [x] **Fondo interactivo** (`layout/glyph-field.ts`, chunk de ~1 kB con `@defer (on idle)`; reposo pintado una vez en un canvas aparte, cada frame solo redibuja las celdas cerca del cursor y el bucle se detiene solo): campo de glifos (binario / fragmentos de código) en `<canvas>` sobre la brasa que reacciona al mouse (se iluminan o cambian cerca del cursor). Condiciones: solo con `pointer: fine` (no en móvil), se pausa con la pestaña oculta y fuera de pantalla, sin animar con `prefers-reduced-motion`, se carga con `@defer (on idle)` para no tocar el LCP, y opacidad baja para no competir con el texto.
 
 ---
 
