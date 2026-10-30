@@ -1,8 +1,21 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, DestroyRef, ElementRef, afterNextRender, inject, signal, viewChild } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
 import { Download, Github, Linkedin, Mail } from '@animateicons/angular/lucide';
 import { perfil } from '../data/perfil';
+
+// Tuned by eye: enough blur and darkening that the code stays readable over the photo.
+const glassConfig = {
+  cornerRadius: 16,
+  zRadius: 24,
+  blurAmount: 0.9,
+  brightness: -0.45,
+  saturation: -0.3,
+  refraction: 0.6,
+  chromAberration: 0.04,
+  edgeHighlight: 0.12,
+  shadowOpacity: 0.4,
+};
 
 @Component({
   selector: 'app-hero',
@@ -51,7 +64,7 @@ import { perfil } from '../data/perfil';
 
         <dl class="mt-10 grid grid-cols-2 gap-6 border-t border-border pt-8 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
           @for (m of p.metricas; track m.valor) {
-            <div class="flex flex-col-reverse gap-1">
+            <div class="flex flex-col-reverse justify-end gap-1">
               <dt class="text-sm text-text-muted">{{ m.etiqueta }}</dt>
               <dd class="font-display text-2xl font-bold">{{ m.valor }}</dd>
             </div>
@@ -59,7 +72,7 @@ import { perfil } from '../data/perfil';
         </dl>
       </div>
 
-      <div class="relative mx-auto w-full max-w-sm lg:mr-0">
+      <div #glassRoot class="relative mx-auto w-full max-w-sm lg:mr-0">
         <img
           ngSrc="jhon"
           ngSrcset="640w, 1200w"
@@ -78,8 +91,15 @@ import { perfil } from '../data/perfil';
           Disponible para trabajar
         </p>
 
-        <!-- Code card: on large screens it overlaps the photo, on phones it stacks below. -->
-        <figure class="mt-4 overflow-hidden rounded-card border border-border bg-surface/95 shadow-2xl backdrop-blur lg:absolute lg:-bottom-10 lg:-left-10 lg:mt-0 lg:w-80">
+        <!--
+          Code card: on large screens it sits on the photo as liquid glass (WebGL), on phones it
+          stacks below as a plain card. The CSS look is also the fallback if WebGL never starts.
+        -->
+        <figure
+          #glass
+          class="mt-4 rounded-card border border-border lg:absolute lg:inset-x-4 lg:bottom-4 lg:mt-0"
+          [class]="glassOn() ? 'border-white/15' : 'overflow-hidden bg-surface/95 shadow-2xl backdrop-blur'"
+        >
           <figcaption class="flex items-center gap-2 border-b border-border px-4 py-2.5 font-mono text-xs text-text-muted">
             <span class="flex gap-1.5" aria-hidden="true">
               <span class="size-2.5 rounded-full bg-border"></span>
@@ -102,6 +122,50 @@ import { perfil } from '../data/perfil';
 export class Hero {
   protected readonly p = perfil;
   protected readonly icons = { mail: Mail, download: Download, linkedin: Linkedin, github: Github };
+  protected readonly glassOn = signal(false);
+  private readonly glassRoot = viewChild.required<ElementRef<HTMLElement>>('glassRoot');
+  private readonly glass = viewChild.required<ElementRef<HTMLElement>>('glass');
+
+  constructor() {
+    const destroyRef = inject(DestroyRef);
+    afterNextRender(() => {
+      // Only where the card overlaps the photo; the ~100 kB chunk never loads on phones.
+      const desktop = matchMedia('(min-width: 1024px)');
+      let instance: { destroy(): void } | undefined;
+      let starting = false;
+
+      const sync = async () => {
+        if (desktop.matches && !instance && !starting) {
+          starting = true;
+          try {
+            await document.fonts.ready; // captured text falls back to system fonts otherwise
+            const { LiquidGlass } = await import('../vendor/liquidglass/index.js');
+            this.glass().nativeElement.dataset['config'] = JSON.stringify(glassConfig);
+            instance = await LiquidGlass.init({
+              root: this.glassRoot().nativeElement,
+              glassElements: [this.glass().nativeElement],
+            });
+            this.glassOn.set(true);
+          } catch {
+            // No WebGL or capture failed: the CSS card stays.
+          } finally {
+            starting = false;
+          }
+        } else if (!desktop.matches && instance) {
+          instance.destroy();
+          instance = undefined;
+          this.glassOn.set(false);
+        }
+      };
+
+      void sync();
+      desktop.addEventListener('change', sync);
+      destroyRef.onDestroy(() => {
+        desktop.removeEventListener('change', sync);
+        instance?.destroy();
+      });
+    });
+  }
 
   protected quoted(list: string[]): string {
     return list.map((item) => `'${item}'`).join(', ');

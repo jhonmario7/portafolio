@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { casoDestacado } from '../data/experiencia';
+import { casoDestacado, trayectoria } from '../data/experiencia';
 
 @Component({
   selector: 'app-experience',
@@ -35,9 +35,22 @@ import { casoDestacado } from '../data/experiencia';
           </ul>
         </div>
       </article>
+
+      <h3 class="mt-16 font-display text-xl font-semibold">Antes</h3>
+      <ol class="mt-6 border-l border-border">
+        @for (item of trayectoria; track item.rol) {
+          <li class="relative pb-8 pl-6 last:pb-0">
+            <span class="absolute -left-[5px] top-2 size-2.5 rounded-full border-2 border-bg bg-accent" aria-hidden="true"></span>
+            <p class="font-mono text-sm text-text-muted">{{ item.periodo }}</p>
+            <h4 class="mt-1 font-semibold">{{ item.rol }} <span class="font-normal text-text-muted">· {{ item.lugar }}</span></h4>
+            <p class="mt-1 max-w-2xl text-text-muted">{{ item.resumen }}</p>
+          </li>
+        }
+      </ol>
     </section>
   `,
 })
 export class Experience {
   protected readonly c = casoDestacado;
+  protected readonly trayectoria = trayectoria;
 }

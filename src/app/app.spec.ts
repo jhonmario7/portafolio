@@ -32,7 +32,7 @@ describe('App', () => {
     const el = fixture.nativeElement as HTMLElement;
 
     const hrefs = [...el.querySelectorAll('nav a')].map((a) => a.getAttribute('href'));
-    expect(hrefs.length).toBe(4);
+    expect(hrefs.length).toBe(5);
     for (const href of hrefs) {
       expect(el.querySelector(`section${href}`), href ?? '').toBeTruthy();
     }

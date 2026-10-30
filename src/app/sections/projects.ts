@@ -1,12 +1,13 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
-import { ArrowUpRight } from '@animateicons/angular/lucide';
-import { proyectos } from '../data/proyectos';
+import { ArrowUpRight, Image as ImageIcon } from '@animateicons/angular/lucide';
+import { Proyecto, proyectos } from '../data/proyectos';
+import { ProjectGallery } from './project-gallery';
 
 @Component({
   selector: 'app-projects',
-  imports: [NgOptimizedImage, AnimateIcons],
+  imports: [NgOptimizedImage, AnimateIcons, ProjectGallery],
   host: { class: 'block' },
   template: `
     <section id="proyectos" aria-labelledby="proyectos-titulo" class="section">
@@ -44,23 +45,32 @@ import { proyectos } from '../data/proyectos';
                     <li class="chip">{{ tech }}</li>
                   }
                 </ul>
-                @if (proyecto.demo; as demo) {
-                  <a [href]="demo" target="_blank" rel="noopener" class="btn btn-secondary mt-8">
-                    Ver sitio<span class="sr-only"> de {{ proyecto.nombre }} (abre en otra pestaña)</span>
-                    <animate-icons [icon]="arrow" [size]="18" aria-hidden="true" />
-                  </a>
-                } @else if (proyecto.nota) {
-                  <p class="mt-8 text-sm text-text-muted">{{ proyecto.nota }}</p>
+                <div class="mt-8 flex flex-wrap items-center gap-3">
+                  @if (proyecto.demo; as demo) {
+                    <a [href]="demo" target="_blank" rel="noopener" class="btn btn-primary">
+                      Ver sitio<span class="sr-only"> de {{ proyecto.nombre }} (abre en otra pestaña)</span>
+                      <animate-icons [icon]="icons.arrow" [size]="18" aria-hidden="true" />
+                    </a>
+                  }
+                  <button type="button" class="btn btn-secondary cursor-pointer" (click)="selected.set(proyecto)">
+                    <animate-icons [icon]="icons.image" [size]="18" aria-hidden="true" />
+                    Ver capturas ({{ proyecto.galeria.length }})<span class="sr-only"> de {{ proyecto.nombre }}</span>
+                  </button>
+                </div>
+                @if (proyecto.nota) {
+                  <p class="mt-4 text-sm text-text-muted">{{ proyecto.nota }}</p>
                 }
               </div>
             </article>
           </li>
         }
       </ul>
+      <app-project-gallery [proyecto]="selected()" (closed)="selected.set(null)" />
     </section>
   `,
 })
 export class Projects {
   protected readonly proyectos = proyectos;
-  protected readonly arrow = ArrowUpRight;
+  protected readonly icons = { arrow: ArrowUpRight, image: ImageIcon };
+  protected readonly selected = signal<Proyecto | null>(null);
 }

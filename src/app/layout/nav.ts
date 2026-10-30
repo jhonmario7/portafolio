@@ -1,11 +1,12 @@
 import { Component, DestroyRef, afterNextRender, inject, signal } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
-import { Briefcase, FolderOpen, House, Mail } from '@animateicons/angular/lucide';
+import { Briefcase, FolderOpen, GraduationCap, House, Mail } from '@animateicons/angular/lucide';
 
 const links = [
   { id: 'inicio', label: 'Inicio', icon: House },
   { id: 'experiencia', label: 'Experiencia', icon: Briefcase },
   { id: 'proyectos', label: 'Proyectos', icon: FolderOpen },
+  { id: 'formacion', label: 'Formación', icon: GraduationCap },
   { id: 'contacto', label: 'Contacto', icon: Mail },
 ];
 

@@ -134,11 +134,12 @@ Simplificaciones respecto a la sección 2: sin `pages/home.ts` ni router (una so
 
 **Terminado cuando:** el sitio se puede enviar a un reclutador; Lighthouse móvil ≥ 90 en las 4 categorías; 0 errores axe (✅ axe local, 0 violaciones).
 
-### Fase 2 — Contenido completo
-- [ ] Galería de proyecto en `<dialog>` con teclado y `@defer`. Ojo: la captura 4 de King Padel (ranking) muestra nombres reales de jugadores; difuminarlos o no usarla
-- [ ] Línea de tiempo del resto de la experiencia
-- [ ] `education`
-- [ ] Imagen OG 1200×630 y verificación de vista previa en LinkedIn/WhatsApp
+### Fase 2 — Contenido completo ✅ (falta probar la vista previa real en LinkedIn/WhatsApp)
+- [x] Galería de proyecto en `<dialog>` nativo con flechas del teclado, Esc y clic en el fondo. Sin `@defer`: las imágenes solo se piden al abrirla. Fuera a propósito: King Padel 4 (nombres reales de jugadores) y FisioYuli 2 (reseña de un paciente)
+- [x] Línea de tiempo del resto de la experiencia (solo roles técnicos)
+- [x] `education` (académica + cursos) y su pestaña en la navegación
+- [x] Imagen OG 1200×630 (`public/og/cover.jpg`) + `summary_large_image`
+- [x] Extra: **liquid glass** (WebGL) en la tarjeta `perfil.ts`, solo en escritorio y cargado aparte (~15 kB). Librería copiada en `src/app/vendor/liquidglass/` porque su `postinstall` rompe `npm ci`; volver al paquete de npm cuando lo arreglen
 
 ### Fase 3 — Pulido
 - [ ] Directiva `reveal` (progresiva, respeta reduced-motion)
