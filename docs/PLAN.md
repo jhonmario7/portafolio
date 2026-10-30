@@ -147,7 +147,8 @@ Simplificaciones respecto a la sección 2: sin `pages/home.ts` ni router (una so
 - [x] Rendimiento: precarga de las fuentes del H1 y del texto (nombres fijos con `outputHashing: "bundles"`), foto del hero sin prioridad alta (en móvil queda bajo el pliegue), variante de 960 px para foto y portadas
 - [x] CSP en `_headers` (orígenes propios). `autoCsp` de Angular no funciona con prerender todavía; por eso conserva `'unsafe-inline'`
 - [x] Pruebas: copiar correo (copiado y rechazado) y límites de la galería. Sin `active-section` ni `seo`: no existen como servicios
-- [ ] Lighthouse móvil ≥ 95 en rendimiento (100 en el resto ya se cumple)
+- [x] Liquid glass arranca con la primera interacción (mouse, tecla, scroll): su captura ocupaba ~1 s de CPU durante la carga
+- [~] Lighthouse en vivo: escritorio **100/100/100/100**; móvil **94–95**/100/100/100 (FCP 1.8 s, LCP 2.4 s). El siguiente salto sería quitar JS inicial (el motor de animateicons pesa ~20 kB comprimido)
 
 ### Fase 4 — Opcional
 - [ ] Inglés (`/es`, `/en`, `hreflang`)
