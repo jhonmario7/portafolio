@@ -61,18 +61,9 @@ import { IconHover } from '../shared/icon-hover';
         </div>
 
         <div class="order-4 lg:mt-6">
-          <!-- A wrapping list: Angular strips the whitespace between inline spans, so they never broke. -->
-          <p id="blandas" class="text-sm text-text-muted">Habilidades blandas:</p>
-          <ul class="mt-1 flex flex-wrap gap-x-2 gap-y-1 text-sm" aria-labelledby="blandas">
-            @for (skill of p.habilidadesBlandas; track skill; let first = $first) {
-              <li class="flex items-center gap-2">
-                @if (!first) {
-                  <span class="text-text-muted" aria-hidden="true">•</span>
-                }
-                {{ skill }}
-              </li>
-            }
-          </ul>
+          <!-- Static copy from data/perfil.ts; [innerHTML] only to keep the <strong> highlights. -->
+          <p class="max-w-2xl leading-relaxed text-text-muted [&_strong]:font-semibold [&_strong]:text-text" [innerHTML]="p.bio"></p>
+          <p class="mt-3 max-w-2xl text-sm leading-relaxed text-text-muted">{{ p.bioExtra }}</p>
 
           <ul class="mt-6 flex flex-wrap justify-center gap-3 sm:gap-4 lg:justify-start">
             <li>
