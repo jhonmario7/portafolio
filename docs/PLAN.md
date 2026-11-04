@@ -139,7 +139,7 @@ Simplificaciones respecto a la sección 2: sin `pages/home.ts` ni router (una so
 - [x] Línea de tiempo del resto de la experiencia (solo roles técnicos)
 - [x] `education` (académica + cursos) y su pestaña en la navegación
 - [x] Imagen OG 1200×630 (`public/og/cover.jpg`) + `summary_large_image`
-- [x] Extra: **liquid glass** (WebGL) en la tarjeta `perfil.ts`, solo en escritorio y cargado aparte (~15 kB). Librería copiada en `src/app/vendor/liquidglass/` porque su `postinstall` rompe `npm ci`; volver al paquete de npm cuando lo arreglen
+- [x] ~~Liquid glass~~: retirado al pasar el hero a la estructura de Candela (la tarjeta ya no queda sobre la foto). Está en el historial de git si se quiere volver
 
 ### Fase 3 — Pulido
 - [x] Aparición al hacer scroll: clase `.reveal` en CSS (`animation-timeline: view()`), sin directiva ni JS. Visible por defecto; solo anima donde hay soporte y sin reduced-motion
