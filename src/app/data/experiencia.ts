@@ -23,11 +23,12 @@ export const casoDestacado = {
 };
 
 // Newest first. Non-technical roles from the CV (billing, audit) are left out on purpose.
-// resumen is always visible; detalles opens with "Ver detalles".
+// resumen is always visible; detalles opens with "Ver detalles". logo: square tile (freelance uses the site mark).
 export const trayectoria = [
   {
     rol: 'Desarrollador Frontend Freelance',
     lugar: 'Proyectos para clientes',
+    logo: 'favicon.svg',
     periodo: 'May 2026 – actualidad',
     resumen:
       'Construyo y publico sitios y paneles para clientes, desde la propuesta hasta el despliegue, con foco en rendimiento, SEO y accesibilidad.',
@@ -40,6 +41,7 @@ export const trayectoria = [
   {
     rol: 'Profesional TICs',
     lugar: 'OPTISALUD',
+    logo: 'logos/optisalud.webp',
     periodo: 'Oct 2023 – May 2024',
     resumen:
       'Apoyé la operación tecnológica de la empresa: soporte a usuarios, redes y gestión de incidencias de principio a fin.',
@@ -53,6 +55,7 @@ export const trayectoria = [
   {
     rol: 'Desarrollador Junior y Auxiliar TICs',
     lugar: 'Corporación Universitaria del Huila',
+    logo: 'logos/corhuila.webp',
     periodo: 'Feb 2023 – Ago 2023',
     resumen:
       'Desarrollé el frontend de un proyecto de laboratorio para el equipo de veterinaria, orientado a la extracción del subsuelo y a exámenes clínicos.',
@@ -65,6 +68,7 @@ export const trayectoria = [
   {
     rol: 'Desarrollador Frontend Junior',
     lugar: 'ADN Training',
+    logo: 'logos/adn-training.webp',
     periodo: 'Feb 2022 – May 2022',
     resumen:
       'Mi primer rol en desarrollo: llevé diseños de Adobe XD y Figma a interfaces responsive y di mis primeros pasos con TypeScript.',

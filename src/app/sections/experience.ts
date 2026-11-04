@@ -92,9 +92,20 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
             ></span>
             <article class="rounded-2xl border border-border bg-surface/80 p-5 sm:p-8">
               <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-                <div class="min-w-0">
-                  <h4 class="font-display text-xl font-semibold sm:text-2xl">{{ item.rol }}</h4>
-                  <p class="mt-1 text-left text-accent">{{ item.lugar }}</p>
+                <div class="flex min-w-0 items-center gap-4">
+                  <!-- Decorative: the company name is right next to it. -->
+                  <img
+                    [ngSrc]="item.logo"
+                    width="56"
+                    height="56"
+                    disableOptimizedSrcset
+                    alt=""
+                    class="size-12 shrink-0 rounded-xl border border-border object-cover sm:size-14"
+                  />
+                  <div class="min-w-0">
+                    <h4 class="font-display text-xl font-semibold sm:text-2xl">{{ item.rol }}</h4>
+                    <p class="mt-1 text-left text-accent">{{ item.lugar }}</p>
+                  </div>
                 </div>
                 <p class="order-first w-fit shrink-0 rounded-full border border-border px-3 py-1 font-mono text-xs text-text-muted sm:order-none">
                   {{ item.periodo }}
