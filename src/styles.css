@@ -64,6 +64,15 @@
     @apply font-display text-balance;
   }
 
+  /*
+   * Body copy is justified (project rule). Hyphenation (works because <html lang="es">) keeps
+   * narrow phone columns from opening wide gaps between words. A text-center utility still wins.
+   */
+  p {
+    text-align: justify;
+    hyphens: auto;
+  }
+
   :focus-visible {
     @apply outline-2 outline-offset-4 outline-accent;
   }

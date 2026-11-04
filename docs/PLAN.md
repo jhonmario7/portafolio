@@ -139,7 +139,7 @@ Simplificaciones respecto a la sección 2: sin `pages/home.ts` ni router (una so
 - [x] Línea de tiempo del resto de la experiencia (solo roles técnicos)
 - [x] `education` (académica + cursos) y su pestaña en la navegación
 - [x] Imagen OG 1200×630 (`public/og/cover.jpg`) + `summary_large_image`
-- [x] **Liquid glass** sobre la tarjeta `skills.ts` (escritorio, arranca con la primera interacción). Refracta dos destellos rojos sobre una base opaca: sin esa base la librería compone sobre blanco y el vidrio sale gris. Configuración medida sobre el canvas para mantener el texto ≥ 4.5:1
+- [x] ~~Liquid glass~~: probado sobre la foto y luego sobre `skills.ts`; retirado porque no encaja con el estilo sobrio del sitio. Queda la tarjeta de vidrio CSS sobre destellos rojos. Historial en git (commits bf30e15 y anteriores)
 
 ### Fase 3 — Pulido
 - [x] Aparición al hacer scroll: clase `.reveal` en CSS (`animation-timeline: view()`), sin directiva ni JS. Visible por defecto; solo anima donde hay soporte y sin reduced-motion
