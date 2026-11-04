@@ -12,7 +12,7 @@ import { ProjectGallery } from './project-gallery';
   host: { class: 'block' },
   template: `
     <section id="proyectos" aria-labelledby="proyectos-titulo" class="section">
-      <p class="eyebrow">// proyectos</p>
+      <p class="eyebrow"><span aria-hidden="true">// </span>proyectos</p>
       <h2 id="proyectos-titulo" class="section-title">Lo que he construido para clientes</h2>
 
       <ul class="mt-12 space-y-16 lg:space-y-24">

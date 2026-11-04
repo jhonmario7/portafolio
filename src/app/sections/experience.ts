@@ -8,11 +8,10 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
   host: { class: 'block' },
   template: `
     <section id="experiencia" aria-labelledby="experiencia-titulo" class="section">
-      <header class="mb-12 text-center">
-        <h2 id="experiencia-titulo" class="text-3xl font-bold sm:text-4xl">
-          <span class="text-accent">Experiencia</span> laboral
-        </h2>
-        <p class="mt-2 text-center text-sm text-text-muted">Caso destacado · Empresa</p>
+      <header class="mb-12">
+        <p class="eyebrow"><span aria-hidden="true">// </span>experiencia</p>
+        <h2 id="experiencia-titulo" class="section-title"><span class="text-accent">Experiencia</span> laboral</h2>
+        <p class="mt-2 text-sm text-text-muted">Caso destacado · Empresa</p>
       </header>
 
       <article class="group reveal overflow-hidden rounded-2xl border border-border bg-surface/80 shadow-lg">
@@ -80,12 +79,20 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
         </div>
       </article>
 
-      <h3 class="mt-20 font-display text-2xl font-semibold">Trayectoria</h3>
-      <!-- Timeline: a rail with a glowing dot per role, each role in its own card. -->
-      <ol class="relative mt-8 space-y-6 before:absolute before:inset-y-2 before:left-[7px] before:w-px before:bg-border">
+      <p class="eyebrow mt-20"><span aria-hidden="true">// </span>trayectoria</p>
+      <h3 class="mt-2 font-display text-2xl font-semibold sm:text-3xl">Trayectoria</h3>
+      <!--
+        Timeline: a glowing dot per role, each role in its own card. Every role but the last draws a
+        segment from its dot (center 39px down) to the next dot (gap 1.5rem + 39px), so the rail
+        starts and ends at a dot.
+      -->
+      <ol class="mt-8 space-y-6">
         @for (item of trayectoria; track item.rol; let i = $index) {
           @let open = abiertos().has(i);
-          <li class="reveal relative pl-7 sm:pl-10">
+          <li
+            class="reveal relative pl-7 sm:pl-10
+              before:absolute before:left-[7px] before:top-[39px] before:bottom-[calc(-1.5rem-39px)] before:w-px before:bg-border last:before:hidden"
+          >
             <span
               class="absolute left-0 top-8 size-[15px] rounded-full border-2 border-accent bg-bg shadow-[0_0_0_4px_rgb(255_107_107/0.15)]"
               aria-hidden="true"

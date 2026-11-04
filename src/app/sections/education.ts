@@ -6,7 +6,7 @@ import { cursos, formacion } from '../data/formacion';
   host: { class: 'block' },
   template: `
     <section id="formacion" aria-labelledby="formacion-titulo" class="section">
-      <p class="eyebrow">// formación</p>
+      <p class="eyebrow"><span aria-hidden="true">// </span>formación</p>
       <h2 id="formacion-titulo" class="section-title">Formación</h2>
 
       <div class="mt-10 grid gap-6 md:grid-cols-2">
