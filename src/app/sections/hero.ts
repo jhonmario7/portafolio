@@ -26,7 +26,7 @@ const glassConfig = {
     <section
       id="inicio"
       aria-labelledby="inicio-titulo"
-      class="section grid items-center gap-12 lg:min-h-dvh lg:grid-cols-[1.2fr_1fr] lg:gap-16"
+      class="section grid items-center gap-12 max-lg:pt-24 lg:min-h-dvh lg:grid-cols-[1.2fr_1fr] lg:gap-16"
     >
       <div>
         <p class="eyebrow">Hola, soy {{ p.nombreCorto }} · {{ p.rol }}</p>
