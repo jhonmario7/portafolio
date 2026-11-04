@@ -10,9 +10,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     // Images in public/img/ ship as <name>-640.webp and <name>-1200.webp (hero photo and covers also -960).
+    // A src with an extension (e.g. logos/masseq.webp) is a single file served as is.
     {
       provide: IMAGE_LOADER,
-      useValue: ({ src, width }: ImageLoaderConfig) => `img/${src}-${width ?? 1200}.webp`,
+      useValue: ({ src, width }: ImageLoaderConfig) =>
+        src.includes('.') ? src : `img/${src}-${width ?? 1200}.webp`,
     },
   ],
 };

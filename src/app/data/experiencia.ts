@@ -15,6 +15,9 @@ export const casoDestacado = {
     'Componentes reutilizables entre módulos, en sprints <b>Scrum</b> con GitHub y GitLab.',
   ],
   stack: ['Angular', 'TypeScript', 'RxJS', 'NgRx', 'Angular Material', 'PrimeNG', 'ApexCharts', 'Scrum'],
+  // Dark-background version of the company logo: its gray tagline recolored to warm white.
+  logo: 'logos/masseq.webp',
+  logoAlt: 'MASSEQ',
   imagen: 'datasseq',
   alt: 'Pantalla de inicio de sesión de DATASSEQ, la aplicación administrativa de MASSEQ.',
 };

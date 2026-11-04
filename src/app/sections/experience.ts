@@ -32,9 +32,19 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
 
           <div class="order-1 flex flex-col justify-center p-6 sm:p-10 lg:order-2 lg:p-14">
             <div class="max-w-[65ch] space-y-6">
-              <div>
-                <h3 class="text-lg font-semibold md:text-xl">{{ c.titulo }}</h3>
-                <p class="mt-1 font-mono text-xs text-text-muted">{{ c.periodo }}</p>
+              <div class="flex flex-wrap items-start justify-between gap-4">
+                <div class="min-w-0 flex-1">
+                  <h3 class="text-lg font-semibold md:text-xl">{{ c.titulo }}</h3>
+                  <p class="mt-1 font-mono text-xs text-text-muted">{{ c.periodo }}</p>
+                </div>
+                <img
+                  [ngSrc]="c.logo"
+                  width="234"
+                  height="96"
+                  disableOptimizedSrcset
+                  [alt]="c.logoAlt"
+                  class="h-9 w-auto shrink-0 object-contain md:h-10"
+                />
               </div>
 
               <dl class="space-y-1.5 border-b border-border pb-4 text-xs">
