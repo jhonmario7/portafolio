@@ -7,7 +7,8 @@ import { cursos, formacion } from '../data/formacion';
   template: `
     <section id="formacion" aria-labelledby="formacion-titulo" class="section">
       <p class="eyebrow"><span aria-hidden="true">// </span>formación</p>
-      <h2 id="formacion-titulo" class="section-title">Formación</h2>
+      <h2 id="formacion-titulo" class="section-title">La base <span class="text-accent">detrás del código</span></h2>
+      <p class="mt-2 text-text-muted">Ingeniería, tecnología y cursos que sigo sumando.</p>
 
       <div class="mt-10 grid gap-6 md:grid-cols-2">
         <div>

@@ -10,8 +10,8 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
     <section id="experiencia" aria-labelledby="experiencia-titulo" class="section">
       <header class="mb-12">
         <p class="eyebrow"><span aria-hidden="true">// </span>experiencia</p>
-        <h2 id="experiencia-titulo" class="section-title"><span class="text-accent">Experiencia</span> laboral</h2>
-        <p class="mt-2 text-sm text-text-muted">Caso destacado · Empresa</p>
+        <h2 id="experiencia-titulo" class="section-title">Lo que <span class="text-accent">construyo hoy</span></h2>
+        <p class="mt-2 text-text-muted">Frontend Angular para el ERP de MASSEQ, desde 2024.</p>
       </header>
 
       <article class="group reveal overflow-hidden rounded-2xl border border-border bg-surface/80 shadow-lg">
@@ -80,7 +80,8 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
       </article>
 
       <p class="eyebrow mt-20"><span aria-hidden="true">// </span>trayectoria</p>
-      <h3 class="mt-2 font-display text-2xl font-semibold sm:text-3xl">Trayectoria</h3>
+      <h3 class="mt-2 font-display text-2xl font-semibold sm:text-3xl">Cómo <span class="text-accent">llegué hasta aquí</span></h3>
+      <p class="mt-2 text-text-muted">De maquetar pantallas a desarrollar módulos de un ERP, rol por rol.</p>
       <!--
         Timeline: a glowing dot per role, each role in its own card. Every role but the last draws a
         segment from its dot (center 39px down) to the next dot (gap 1.5rem + 39px), so the rail
