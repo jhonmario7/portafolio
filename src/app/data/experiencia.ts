@@ -23,7 +23,7 @@ export const casoDestacado = {
 };
 
 // Newest first. Non-technical roles from the CV (billing, audit) are left out on purpose.
-// resumen is always visible; detalles opens with "Ver detalles". logo: square tile (freelance uses the site mark).
+// resumen is always visible; "Ver detalles" opens detalles as two titled groups. logo: square tile (freelance uses the site mark).
 export const trayectoria = [
   {
     rol: 'Desarrollador Frontend Freelance',
@@ -33,9 +33,23 @@ export const trayectoria = [
     resumen:
       'Construyo y publico sitios y paneles para clientes, desde la propuesta hasta el despliegue, con foco en rendimiento, SEO y accesibilidad.',
     detalles: [
-      'iuscounterconsulting.com (por contrato): landing de una firma contable con carrusel accesible de 11 servicios y formulario a WhatsApp, en Angular 22 SSG.',
-      'fisioyuli.com: landing de una fisioterapeuta con SSG, hidratación incremental y Signal Forms; PageSpeed 94–100 y WCAG AA.',
-      'King Padel: panel administrativo en Angular 21 (standalone, signals) con reservas, canchas, clientes y usuarios.',
+      {
+        titulo: 'Landings para clientes',
+        descripcion: 'Sitios rápidos y accesibles pensados para convertir visitas en contactos.',
+        puntos: [
+          'iuscounterconsulting.com (por contrato): landing de una firma contable con carrusel accesible de 11 servicios y formulario a WhatsApp, en Angular 22 SSG.',
+          'fisioyuli.com: landing de una fisioterapeuta con SSG, hidratación incremental y Signal Forms; PageSpeed 94–100 y WCAG AA.',
+        ],
+      },
+      {
+        titulo: 'Paneles administrativos',
+        descripcion: 'Herramientas para operar un negocio desde un solo lugar.',
+        puntos: [
+          'King Padel: panel en Angular 21 (standalone, signals) para un club de pádel.',
+          'Calendario de reservas por cancha, ligas, torneos, ranking y la carta del restaurante.',
+          'Roles de cliente y administrador, con saldos y puntos por cliente.',
+        ],
+      },
     ],
   },
   {
@@ -46,10 +60,24 @@ export const trayectoria = [
     resumen:
       'Apoyé la operación tecnológica de la empresa: soporte a usuarios, redes y gestión de incidencias de principio a fin.',
     detalles: [
-      'Soporte técnico en hardware y software, con mantenimiento preventivo y correctivo de equipos.',
-      'Configuración y administración de redes LAN/WAN, diagnóstico de routers, switches y puntos de red.',
-      'Registro, seguimiento y cierre de incidencias con trazabilidad y priorización.',
-      'Capacitaciones y acompañamiento a usuarios en herramientas informáticas.',
+      {
+        titulo: 'Soporte y mantenimiento',
+        descripcion: 'Mantuve funcionando los equipos y las herramientas de los usuarios.',
+        puntos: [
+          'Soporte técnico en hardware y software, resolviendo fallas a tiempo para no frenar la operación.',
+          'Mantenimiento preventivo y correctivo: limpieza, diagnósticos, actualizaciones e instalación de software.',
+          'Apoyo en el inventario de recursos tecnológicos.',
+        ],
+      },
+      {
+        titulo: 'Redes e incidencias',
+        descripcion: 'Conectividad estable y cada caso con trazabilidad.',
+        puntos: [
+          'Configuración y administración de redes LAN/WAN; diagnóstico de routers, switches y puntos de red.',
+          'Registro, seguimiento y cierre de incidencias con priorización y comunicación clara.',
+          'Capacitaciones y acompañamiento en el uso de herramientas informáticas.',
+        ],
+      },
     ],
   },
   {
@@ -60,9 +88,22 @@ export const trayectoria = [
     resumen:
       'Desarrollé el frontend de un proyecto de laboratorio para el equipo de veterinaria, orientado a la extracción del subsuelo y a exámenes clínicos.',
     detalles: [
-      'Funcionalidades frontend con HTML, CSS, JavaScript y Angular a nivel junior.',
-      'Optimización, pruebas y depuración; integración de servicios con MySQL y pruebas de peticiones con Postman.',
-      'Trabajo por sprints junto a perfiles junior y senior, presentando avances del proyecto.',
+      {
+        titulo: 'Desarrollo frontend',
+        descripcion: 'Interfaces para un proyecto de laboratorio del área de veterinaria.',
+        puntos: [
+          'Funcionalidades con HTML, CSS, JavaScript y Angular a nivel junior.',
+          'Optimización, pruebas y depuración de la interfaz.',
+        ],
+      },
+      {
+        titulo: 'Integración y trabajo en equipo',
+        descripcion: 'Servicios conectados y entregas por sprints.',
+        puntos: [
+          'Integración de servicios con MySQL y pruebas de peticiones con Postman.',
+          'Sprints junto a perfiles junior y senior, presentando los avances del proyecto.',
+        ],
+      },
     ],
   },
   {
@@ -73,9 +114,22 @@ export const trayectoria = [
     resumen:
       'Mi primer rol en desarrollo: llevé diseños de Adobe XD y Figma a interfaces responsive y di mis primeros pasos con TypeScript.',
     detalles: [
-      'Diseño y maquetación de pantallas en Adobe XD y Figma, convertidas a HTML y CSS responsive.',
-      'Interacciones sencillas con JavaScript y ajustes en TypeScript con acompañamiento del equipo.',
-      'Correcciones de estilo, organización de componentes y validación visual frente al diseño.',
+      {
+        titulo: 'Del diseño al código',
+        descripcion: 'Del prototipo a una interfaz responsive fiel al diseño.',
+        puntos: [
+          'Diseño y maquetación de pantallas en Adobe XD y Figma, llevadas a HTML y CSS responsive.',
+          'Correcciones de estilo y validación visual frente al diseño.',
+        ],
+      },
+      {
+        titulo: 'Primeros pasos en desarrollo',
+        descripcion: 'Interacción y tipado, con acompañamiento del equipo.',
+        puntos: [
+          'Interacciones sencillas con JavaScript.',
+          'Ajustes y mejoras en TypeScript; organización de componentes.',
+        ],
+      },
     ],
   },
 ];

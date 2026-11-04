@@ -91,8 +91,12 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
               aria-hidden="true"
             ></span>
             <article class="rounded-2xl border border-border bg-surface/80 p-5 sm:p-8">
-              <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-                <div class="flex min-w-0 items-center gap-4">
+              <!--
+                Desktop: left = logo, title, company and summary; right = date pill with "Ver detalles"
+                under it. Phones stack: date, title, summary, button.
+              -->
+              <div class="grid gap-x-8 gap-y-3 sm:grid-cols-[1fr_auto]">
+                <div class="flex min-w-0 items-center gap-4 sm:col-start-1 sm:row-start-1">
                   <!-- Decorative: the company name is right next to it. -->
                   <img
                     [ngSrc]="item.logo"
@@ -107,34 +111,44 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
                     <p class="mt-1 text-left text-accent">{{ item.lugar }}</p>
                   </div>
                 </div>
-                <p class="order-first w-fit shrink-0 rounded-full border border-border px-3 py-1 font-mono text-xs text-text-muted sm:order-none">
+                <p class="order-first w-fit rounded-full border border-border px-3 py-1 font-mono text-xs text-text-muted sm:order-none sm:col-start-2 sm:row-start-1 sm:self-start sm:justify-self-end">
                   {{ item.periodo }}
                 </p>
+
+                <p class="max-w-3xl leading-relaxed text-text-muted sm:col-start-1 sm:row-start-2 sm:mt-1">{{ item.resumen }}</p>
+
+                <button
+                  type="button"
+                  class="-ml-4 inline-flex min-h-11 w-fit cursor-pointer items-center gap-1.5 rounded-full px-4 text-sm font-semibold transition-colors hover:bg-surface-2
+                    sm:col-start-2 sm:row-start-2 sm:-mr-4 sm:ml-0 sm:self-start sm:justify-self-end"
+                  [attr.aria-expanded]="open"
+                  [attr.aria-controls]="'detalles-' + i"
+                  (click)="toggle(i)"
+                >
+                  {{ open ? 'Ocultar detalles' : 'Ver detalles' }}
+                  <svg class="size-4 transition-transform duration-300" [class.rotate-180]="open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
               </div>
 
-              <p class="mt-4 max-w-3xl leading-relaxed text-text-muted">{{ item.resumen }}</p>
-
-              <button
-                type="button"
-                class="mt-4 inline-flex min-h-11 cursor-pointer items-center gap-1.5 rounded-full px-4 text-sm font-semibold transition-colors hover:bg-surface-2 -ml-4"
-                [attr.aria-expanded]="open"
-                [attr.aria-controls]="'detalles-' + i"
-                (click)="toggle(i)"
-              >
-                {{ open ? 'Ocultar detalles' : 'Ver detalles' }}
-                <svg class="size-4 transition-transform duration-300" [class.rotate-180]="open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
-              </button>
-
-              <ul [id]="'detalles-' + i" class="space-y-2 text-sm leading-relaxed text-text-muted" [class.mt-3]="open" [hidden]="!open">
-                @for (detalle of item.detalles; track $index) {
-                  <li class="flex gap-3">
-                    <span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
-                    <span class="text-justify hyphens-auto">{{ detalle }}</span>
-                  </li>
+              <!-- Details: a divider, then the achievements in two titled groups. -->
+              <div [id]="'detalles-' + i" class="mt-6 grid gap-4 border-t border-border pt-6 md:grid-cols-2" [hidden]="!open">
+                @for (grupo of item.detalles; track grupo.titulo) {
+                  <div class="rounded-xl border border-border bg-surface-2/60 p-5 sm:p-6">
+                    <h5 class="font-display text-lg font-semibold">{{ grupo.titulo }}</h5>
+                    <p class="mt-1 leading-relaxed text-text-muted">{{ grupo.descripcion }}</p>
+                    <ul class="mt-4 space-y-2 text-sm leading-relaxed text-text-muted">
+                      @for (punto of grupo.puntos; track $index) {
+                        <li class="flex gap-3">
+                          <span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
+                          <span class="text-justify hyphens-auto">{{ punto }}</span>
+                        </li>
+                      }
+                    </ul>
+                  </div>
                 }
-              </ul>
+              </div>
             </article>
           </li>
         }
