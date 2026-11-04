@@ -1,5 +1,5 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { casoDestacado, trayectoria } from '../data/experiencia';
 
 @Component({
@@ -80,14 +80,51 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
         </div>
       </article>
 
-      <h3 class="mt-16 font-display text-xl font-semibold">Trayectoria</h3>
-      <ol class="mt-6 border-l border-border">
-        @for (item of trayectoria; track item.rol) {
-          <li class="reveal relative pb-8 pl-6 last:pb-0">
-            <span class="absolute -left-[5px] top-2 size-2.5 rounded-full border-2 border-bg bg-accent" aria-hidden="true"></span>
-            <p class="font-mono text-sm text-text-muted">{{ item.periodo }}</p>
-            <h4 class="mt-1 font-semibold">{{ item.rol }} <span class="font-normal text-text-muted">· {{ item.lugar }}</span></h4>
-            <p class="mt-1 max-w-2xl text-text-muted">{{ item.resumen }}</p>
+      <h3 class="mt-20 font-display text-2xl font-semibold">Trayectoria</h3>
+      <!-- Timeline: a rail with a glowing dot per role, each role in its own card. -->
+      <ol class="relative mt-8 space-y-6 before:absolute before:inset-y-2 before:left-[7px] before:w-px before:bg-border">
+        @for (item of trayectoria; track item.rol; let i = $index) {
+          @let open = abiertos().has(i);
+          <li class="reveal relative pl-7 sm:pl-10">
+            <span
+              class="absolute left-0 top-8 size-[15px] rounded-full border-2 border-accent bg-bg shadow-[0_0_0_4px_rgb(255_107_107/0.15)]"
+              aria-hidden="true"
+            ></span>
+            <article class="rounded-2xl border border-border bg-surface/80 p-5 sm:p-8">
+              <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+                <div class="min-w-0">
+                  <h4 class="font-display text-xl font-semibold sm:text-2xl">{{ item.rol }}</h4>
+                  <p class="mt-1 text-left text-accent">{{ item.lugar }}</p>
+                </div>
+                <p class="order-first w-fit shrink-0 rounded-full border border-border px-3 py-1 font-mono text-xs text-text-muted sm:order-none">
+                  {{ item.periodo }}
+                </p>
+              </div>
+
+              <p class="mt-4 max-w-3xl leading-relaxed text-text-muted">{{ item.resumen }}</p>
+
+              <button
+                type="button"
+                class="mt-4 inline-flex min-h-11 cursor-pointer items-center gap-1.5 rounded-full px-4 text-sm font-semibold transition-colors hover:bg-surface-2 -ml-4"
+                [attr.aria-expanded]="open"
+                [attr.aria-controls]="'detalles-' + i"
+                (click)="toggle(i)"
+              >
+                {{ open ? 'Ocultar detalles' : 'Ver detalles' }}
+                <svg class="size-4 transition-transform duration-300" [class.rotate-180]="open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+
+              <ul [id]="'detalles-' + i" class="space-y-2 text-sm leading-relaxed text-text-muted" [class.mt-3]="open" [hidden]="!open">
+                @for (detalle of item.detalles; track $index) {
+                  <li class="flex gap-3">
+                    <span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
+                    <span class="text-justify hyphens-auto">{{ detalle }}</span>
+                  </li>
+                }
+              </ul>
+            </article>
           </li>
         }
       </ol>
@@ -97,4 +134,13 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
 export class Experience {
   protected readonly c = casoDestacado;
   protected readonly trayectoria = trayectoria;
+  protected readonly abiertos = signal(new Set<number>());
+
+  protected toggle(i: number): void {
+    this.abiertos.update((set) => {
+      const next = new Set(set);
+      if (!next.delete(i)) next.add(i);
+      return next;
+    });
+  }
 }
