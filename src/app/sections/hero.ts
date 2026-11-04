@@ -1,5 +1,5 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, DestroyRef, afterNextRender, inject, signal } from '@angular/core';
+import { Component, DestroyRef, ElementRef, afterNextRender, inject, signal, viewChild } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
 import { Download, Github, Linkedin, Mail } from '@animateicons/angular/lucide';
 import { perfil } from '../data/perfil';
@@ -21,7 +21,7 @@ import { IconHover } from '../shared/icon-hover';
     >
       <div class="max-lg:contents">
         <header class="order-1">
-          <h1 id="inicio-titulo" class="name text-4xl font-bold leading-tight sm:text-5xl 2xl:text-6xl">
+          <h1 id="inicio-titulo" class="name text-4xl font-bold leading-tight sm:text-5xl lg:whitespace-nowrap lg:text-4xl xl:text-5xl">
             Hola, soy {{ p.nombreCorto }}
           </h1>
           <p class="mt-2 text-2xl font-bold sm:text-3xl">
@@ -30,7 +30,23 @@ import { IconHover } from '../shared/icon-hover';
           </p>
         </header>
 
-        <figure class="order-3 rounded-card border border-border bg-surface/70 p-4 font-mono text-sm backdrop-blur lg:mt-8">
+        <!--
+          LiquidGlass root: the red glows are what the glass refracts (it only sees its root's
+          children). Without WebGL, or before it starts, the card is CSS frosted glass over them.
+          "isolate" keeps the library's z-index:-1 canvas inside the card.
+        -->
+        <div #glassRoot class="relative order-3 lg:mt-8">
+          <!-- Opaque base: the library composes transparent areas over white, which washed the glass out. -->
+          <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-card bg-bg" aria-hidden="true">
+            <div class="absolute -left-4 top-0 size-40 rounded-full bg-brand/50 blur-2xl"></div>
+            <div class="absolute bottom-0 right-6 size-36 rounded-full bg-accent/35 blur-2xl"></div>
+          </div>
+        <figure
+          #glass
+          class="relative isolate rounded-card border border-white/15 bg-surface/60 p-4 font-mono text-sm backdrop-blur-xl
+            [&>canvas]:transition-opacity [&>canvas]:duration-700"
+          [class]="glassOn() ? '[&>canvas]:opacity-100' : '[&>canvas]:opacity-0'"
+        >
           <figcaption class="mb-3 flex items-center gap-2 text-xs text-text-muted">
             <span class="flex gap-2" aria-hidden="true">
               <span class="size-3 rounded-full bg-red-500"></span>
@@ -42,6 +58,7 @@ import { IconHover } from '../shared/icon-hover';
           <pre class="whitespace-pre-wrap leading-relaxed"><code><span class="text-red-300">const</span> skills = [
 <span class="block pl-4">@for (skill of p.skills; track skill; let last = $last) {<span class="text-amber-200">'{{ skill }}'</span>@if (!last) {<span class="text-text-muted">, </span>}}</span>];</code></pre>
         </figure>
+        </div>
 
         <div class="order-4 lg:mt-6">
           <!-- A wrapping list: Angular strips the whitespace between inline spans, so they never broke. -->
@@ -181,9 +198,13 @@ export class Hero {
   protected readonly icons = { mail: Mail, download: Download, linkedin: Linkedin, github: Github };
   protected readonly rolesText = perfil.roles.join(', ');
   protected readonly typed = signal(perfil.roles[0]);
+  protected readonly glassOn = signal(false);
+  private readonly glassRoot = viewChild.required<ElementRef<HTMLElement>>('glassRoot');
+  private readonly glass = viewChild.required<ElementRef<HTMLElement>>('glass');
 
   constructor() {
     const destroyRef = inject(DestroyRef);
+    this.startLiquidGlass(destroyRef);
     // Typewriter over the roles. The prerendered HTML already shows the first one in full.
     afterNextRender(() => {
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -213,4 +234,68 @@ export class Hero {
       destroyRef.onDestroy(() => clearTimeout(timer));
     });
   }
+
+  /**
+   * WebGL liquid glass over the skills card, desktop only. Its scene capture is ~1 s of main-thread
+   * work, so it waits for the first interaction; the CSS frost shows until it fades in.
+   */
+  private startLiquidGlass(destroyRef: DestroyRef): void {
+    afterNextRender(() => {
+      const desktop = matchMedia('(min-width: 1024px)');
+      let instance: { destroy(): void } | undefined;
+      let starting = false;
+
+      const sync = async () => {
+        if (desktop.matches && !instance && !starting) {
+          starting = true;
+          try {
+            await document.fonts.ready; // captured text falls back to system fonts otherwise
+            const { LiquidGlass } = await import('../vendor/liquidglass/index.js');
+            this.glass().nativeElement.dataset['config'] = JSON.stringify(glassConfig);
+            instance = await LiquidGlass.init({
+              root: this.glassRoot().nativeElement,
+              glassElements: [this.glass().nativeElement],
+            });
+            this.glassOn.set(true);
+          } catch {
+            // No WebGL or capture failed: the CSS frost stays.
+          } finally {
+            starting = false;
+          }
+        } else if (!desktop.matches && instance) {
+          instance.destroy();
+          instance = undefined;
+          this.glassOn.set(false);
+        }
+      };
+
+      const interactions = ['pointermove', 'keydown', 'scroll', 'touchstart'] as const;
+      const start = () => {
+        for (const type of interactions) removeEventListener(type, start);
+        void sync();
+        desktop.addEventListener('change', sync);
+      };
+      for (const type of interactions) addEventListener(type, start, { once: true, passive: true });
+
+      destroyRef.onDestroy(() => {
+        for (const type of interactions) removeEventListener(type, start);
+        desktop.removeEventListener('change', sync);
+        instance?.destroy();
+      });
+    });
+  }
 }
+
+// Measured on the rendered canvas: brightness -0.15 keeps the brightest pixel behind the code at
+// luminance ~0.03, so even the muted gray text stays above 4.5:1 (5.2:1). Higher washes it out.
+const glassConfig = {
+  cornerRadius: 16,
+  zRadius: 24,
+  blurAmount: 0.6,
+  brightness: -0.15,
+  saturation: 0.2,
+  refraction: 0.7,
+  chromAberration: 0.05,
+  edgeHighlight: 0.15,
+  shadowOpacity: 0.4,
+};

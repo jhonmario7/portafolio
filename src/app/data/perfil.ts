@@ -27,7 +27,15 @@ export const perfil = {
     'Git',
     'Figma',
   ],
-  habilidadesBlandas: ['Organización', 'Liderazgo', 'Responsabilidad', 'Puntualidad', 'Comunicación efectiva'],
+  habilidadesBlandas: [
+    'Aprendizaje continuo',
+    'Proactividad',
+    'Comunicación efectiva',
+    'Trabajo en equipo',
+    'Adaptabilidad',
+    'Liderazgo',
+    'Organización',
+  ],
   // ponytail: no longer shown in the hero; move to Experiencia when we refine that section.
   metricas: [
     { valor: '3 años', etiqueta: 'construyendo SPAs con Angular' },
