@@ -21,7 +21,7 @@ import { IconHover } from '../shared/icon-hover';
     >
       <div class="max-lg:contents">
         <header class="order-1">
-          <h1 id="inicio-titulo" class="name text-4xl font-bold leading-tight sm:text-5xl lg:whitespace-nowrap lg:text-4xl xl:text-5xl">
+          <h1 id="inicio-titulo" class="text-4xl font-bold leading-tight sm:text-5xl lg:whitespace-nowrap lg:text-4xl xl:text-5xl">
             Hola, soy {{ p.nombreCorto }}
           </h1>
           <p class="mt-2 text-2xl font-bold sm:text-3xl">
@@ -119,22 +119,6 @@ import { IconHover } from '../shared/icon-hover';
     </section>
   `,
   styles: `
-    /* Name: light-to-red gradient that slowly sweeps (static under reduced motion). */
-    .name {
-      background: linear-gradient(
-        90deg,
-        var(--color-text) 0%,
-        #fecaca 30%,
-        var(--color-accent) 50%,
-        #fecaca 70%,
-        var(--color-text) 100%
-      );
-      background-size: 200% 100%;
-      background-clip: text;
-      color: transparent;
-      animation: shimmer 8s linear infinite;
-    }
-
     .role {
       background: linear-gradient(90deg, var(--color-accent), #fca5a5);
       background-clip: text;
@@ -149,12 +133,6 @@ import { IconHover } from '../shared/icon-hover';
       vertical-align: -0.1em;
       background: var(--color-accent);
       animation: blink 1s steps(1) infinite;
-    }
-
-    @keyframes shimmer {
-      to {
-        background-position: -200% 0;
-      }
     }
 
     @keyframes blink {
