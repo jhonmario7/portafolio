@@ -32,11 +32,4 @@ export const perfil = {
     'Soy desarrollador frontend con <strong>3 años de experiencia</strong> construyendo aplicaciones en Angular y TypeScript. Hoy desarrollo módulos de <strong>un ERP empresarial con más de 10 módulos</strong> y, como freelance, publico landings y paneles para clientes.',
   bioExtra:
     'Cuido el rendimiento y la accesibilidad (mis landings marcan PageSpeed 94–100 y WCAG AA), trabajo en equipos Scrum y me mantengo al día: he llevado proyectos desde Angular 14 hasta 22.',
-  // ponytail: no longer shown in the hero; move to Experiencia when we refine that section.
-  metricas: [
-    { valor: '3 años', etiqueta: 'construyendo SPAs con Angular' },
-    { valor: '10+', etiqueta: 'módulos en un ERP empresarial' },
-    { valor: '94–100', etiqueta: 'PageSpeed en landings de clientes' },
-    { valor: 'v14 → v22', etiqueta: 'versiones de Angular en producción' },
-  ],
 };

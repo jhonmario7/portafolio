@@ -1,42 +1,76 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
 import { casoDestacado, trayectoria } from '../data/experiencia';
 
 @Component({
   selector: 'app-experience',
+  imports: [NgOptimizedImage],
   host: { class: 'block' },
   template: `
     <section id="experiencia" aria-labelledby="experiencia-titulo" class="section">
-      <p class="eyebrow">// experiencia</p>
-      <h2 id="experiencia-titulo" class="section-title">Dónde trabajo hoy</h2>
+      <header class="mb-12 text-center">
+        <h2 id="experiencia-titulo" class="text-3xl font-bold sm:text-4xl">
+          <span class="text-accent">Experiencia</span> laboral
+        </h2>
+        <p class="mt-2 text-center text-sm text-text-muted">Caso destacado · Empresa</p>
+      </header>
 
-      <article class="reveal mt-10 grid gap-8 rounded-card border border-border bg-surface/80 p-6 sm:p-8 lg:grid-cols-[1fr_1.4fr] lg:gap-12">
-        <header>
-          <p class="inline-flex rounded-full bg-brand px-3 py-1 text-xs font-semibold text-on-brand">Caso destacado</p>
-          <h3 class="mt-4 text-2xl font-bold">{{ c.producto }}</h3>
-          <p class="mt-2 text-text-muted">{{ c.rol }} · {{ c.empresa }}</p>
-          <p class="mt-1 font-mono text-sm text-text-muted">{{ c.periodo }}</p>
-          <p class="mt-6 leading-relaxed">{{ c.contexto }}</p>
-          <ul class="mt-6 flex flex-wrap gap-2" aria-label="Tecnologías">
-            @for (tech of c.stack; track tech) {
-              <li class="chip">{{ tech }}</li>
-            }
-          </ul>
-        </header>
+      <article class="group reveal overflow-hidden rounded-2xl border border-border bg-surface/80 shadow-lg">
+        <div class="grid lg:min-h-[480px] lg:grid-cols-2">
+          <!-- Screenshot as a muted backdrop: grayscale to sit in the red/black palette, color on hover. -->
+          <div class="relative order-2 min-h-[260px] sm:min-h-[300px] lg:order-1">
+            <img
+              [ngSrc]="c.imagen"
+              ngSrcset="640w, 960w, 1200w"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              fill
+              [alt]="c.alt"
+              class="object-cover grayscale transition duration-700 group-hover:grayscale-0"
+            />
+            <div class="absolute inset-0 bg-linear-to-r from-bg/90 via-bg/60 to-bg/30" aria-hidden="true"></div>
+          </div>
 
-        <div>
-          <h4 class="font-display text-lg font-semibold">Qué construí</h4>
-          <ul class="mt-4 space-y-4">
-            @for (aporte of c.aportes; track $index) {
-              <li class="flex gap-3 leading-relaxed text-text-muted">
-                <span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
-                {{ aporte }}
-              </li>
-            }
-          </ul>
+          <div class="order-1 flex flex-col justify-center p-6 sm:p-10 lg:order-2 lg:p-14">
+            <div class="max-w-[65ch] space-y-6">
+              <div>
+                <h3 class="text-lg font-semibold md:text-xl">{{ c.titulo }}</h3>
+                <p class="mt-1 font-mono text-xs text-text-muted">{{ c.periodo }}</p>
+              </div>
+
+              <dl class="space-y-1.5 border-b border-border pb-4 text-xs">
+                @for (dato of c.datos; track dato.etiqueta) {
+                  <div class="flex gap-2">
+                    <dt class="shrink-0 font-medium uppercase tracking-wider text-text-muted">{{ dato.etiqueta }}:</dt>
+                    <dd>{{ dato.valor }}</dd>
+                  </div>
+                }
+              </dl>
+
+              <ul class="space-y-2 text-sm leading-relaxed text-text-muted">
+                @for (aporte of c.aportes; track $index) {
+                  <li class="flex gap-3">
+                    <span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
+                    <span class="text-justify hyphens-auto [&_b]:font-medium [&_b]:text-red-300" [innerHTML]="aporte"></span>
+                  </li>
+                }
+              </ul>
+
+              <ul class="flex flex-wrap gap-2 border-t border-border pt-5" aria-label="Tecnologías">
+                @for (tech of c.stack; track tech) {
+                  <li
+                    class="rounded-md border border-border bg-surface-2/60 px-2 py-1 font-mono text-xs text-text-muted transition duration-300
+                      hover:border-brand/50 hover:text-red-200 hover:shadow-[0_0_14px_-2px_rgb(220_38_38/0.35)]"
+                  >
+                    {{ tech }}
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
         </div>
       </article>
 
-      <h3 class="mt-16 font-display text-xl font-semibold">Antes</h3>
+      <h3 class="mt-16 font-display text-xl font-semibold">Trayectoria</h3>
       <ol class="mt-6 border-l border-border">
         @for (item of trayectoria; track item.rol) {
           <li class="reveal relative pb-8 pl-6 last:pb-0">

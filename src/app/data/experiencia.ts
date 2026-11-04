@@ -1,17 +1,22 @@
 export const casoDestacado = {
-  empresa: 'MASSEQ S.A.S.',
-  rol: 'Desarrollador Frontend Angular',
-  periodo: 'Jun 2024 — actualidad',
-  producto: 'DATASSEQ, ERP empresarial',
-  contexto:
-    'Una plataforma ERP con más de 10 módulos (Talento Humano, Nómina, Gestión de Combustible, Dashboards) que crece en cada sprint y la usan equipos internos a diario.',
-  aportes: [
-    'Arquitectura modular con lazy loading, route guards e interceptores HTTP que centralizan la autenticación y el manejo de errores.',
-    'Formularios complejos con Reactive Forms y validaciones personalizadas, integrados a APIs REST con HttpClient y RxJS.',
-    'Tableros de indicadores con ApexCharts, ECharts y Chart.js sobre Angular Material, PrimeNG y NgBootstrap.',
-    'Componentes y subcomponentes reutilizables que comparten los distintos módulos.',
+  titulo: 'DATASSEQ – Plataforma ERP de MASSEQ',
+  periodo: 'Jun 2024 – actualidad',
+  datos: [
+    { etiqueta: 'Empresa', valor: 'MASSEQ S.A.S.' },
+    { etiqueta: 'Producto', valor: 'ERP de maquinaria, proyectos y licitaciones' },
+    { etiqueta: 'Rol', valor: 'Profesional de Innovación y Desarrollo · Frontend Angular' },
   ],
-  stack: ['Angular', 'TypeScript', 'RxJS', 'NgRx', 'Angular Material', 'PrimeNG', 'Scrum'],
+  // Static copy rendered with [innerHTML]: <b> marks the highlights.
+  aportes: [
+    'Desarrollo y mantengo módulos de <b>Talento Humano, Nómina, Gestión de Combustible y Dashboards</b> en una plataforma con más de 10 módulos.',
+    'Arquitectura modular con <b>lazy loading</b>, route guards e interceptores HTTP que centralizan la autenticación y el manejo de errores.',
+    'Formularios complejos con <b>Reactive Forms</b> y validaciones personalizadas sobre APIs REST con HttpClient y RxJS.',
+    'Tableros de indicadores con <b>ApexCharts, ECharts y Chart.js</b> sobre Angular Material, PrimeNG y NgBootstrap.',
+    'Componentes reutilizables entre módulos, en sprints <b>Scrum</b> con GitHub y GitLab.',
+  ],
+  stack: ['Angular', 'TypeScript', 'RxJS', 'NgRx', 'Angular Material', 'PrimeNG', 'ApexCharts', 'Scrum'],
+  imagen: 'datasseq',
+  alt: 'Pantalla de inicio de sesión de DATASSEQ, la aplicación administrativa de MASSEQ.',
 };
 
 // Newest first. Non-technical roles from the CV (billing, audit) are left out on purpose.
