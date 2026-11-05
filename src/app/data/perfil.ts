@@ -6,7 +6,7 @@ export const perfil = {
   // The hero types these one after another; screen readers get the whole list once.
   roles: ['Frontend Developer', 'Web Developer', 'Full Stack Developer', 'Web Designer'],
   ubicacion: 'Neiva, Colombia',
-  disponibilidad: 'Disponible para empleo remoto y proyectos freelance',
+  disponibilidad: 'Disponible para trabajo remoto y proyectos freelance',
   email: 'jmrodriguezramirez4@gmail.com',
   cv: 'cv/jhon-rodriguez-cv.pdf',
   linkedin: 'https://www.linkedin.com/in/jmariorodri',

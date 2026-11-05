@@ -25,14 +25,14 @@ import { perfil } from '../data/perfil';
           {{ p.disponibilidad }}
         </p>
 
-        <p class="eyebrow mt-8"><span aria-hidden="true">// </span>contacto</p>
+        <p class="eyebrow mt-8 text-center"><span aria-hidden="true">// </span>contacto</p>
         <h2
           id="contacto-titulo"
           class="mt-2 bg-linear-to-r from-text via-red-200 to-accent bg-clip-text font-display text-4xl font-bold leading-tight text-transparent sm:text-6xl"
         >
           Trabajemos juntos
         </h2>
-        <p class="mx-auto mt-4 max-w-xl text-center text-text-muted">
+        <p class="mx-auto mt-4 max-w-xl text-center text-text-muted hyphens-none">
           Busco un equipo remoto donde aportar con Angular, y también tomo landings y paneles como freelance.
         </p>
 
