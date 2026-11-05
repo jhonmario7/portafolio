@@ -11,7 +11,6 @@ export interface Proyecto {
   capturas: string[];
   demo?: string;
   codigo?: string;
-  nota?: string;
 }
 
 export const proyectos: Proyecto[] = [
@@ -46,12 +45,11 @@ export const proyectos: Proyecto[] = [
     stack: ['Angular 21', 'TypeScript', 'Standalone', 'Signals'],
     imagen: 'king-padel',
     capturas: [
+      'Pantalla de inicio de sesión del panel de King Padel.',
       'Calendario semanal de reservas con filtros por cancha y el botón Nueva reserva.',
       'Carta del restaurante del club organizada por categorías, con precios.',
       'Perfil del cliente con su saldo de King Points y King Coin y sus datos personales de prueba.',
-      'Pantalla de inicio de sesión del panel de King Padel.',
       'Formulario de registro para nuevos clientes del club.',
     ],
-    nota: 'Proyecto privado del cliente',
   },
 ];

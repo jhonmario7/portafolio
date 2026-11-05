@@ -96,11 +96,15 @@ import { Proyecto } from '../data/proyectos';
       width: 2.75rem;
       height: 2.75rem;
       translate: 0 -50%;
-      border: 1px solid var(--color-border);
+      /* Frosted: the screenshot shows through, blurred. */
+      border: 1px solid rgb(255 255 255 / 0.2);
       border-radius: 9999px;
-      background: rgb(10 10 10 / 0.75);
+      background: rgb(10 10 10 / 0.3);
       color: var(--color-text);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px) saturate(1.4);
+      box-shadow: 0 4px 16px rgb(0 0 0 / 0.3);
+      /* Keeps the white chevron readable over light screenshots. */
+      filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.6));
       cursor: pointer;
       transition: opacity 200ms, border-color 200ms;
     }

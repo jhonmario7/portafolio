@@ -54,8 +54,6 @@ import { ProjectCarousel } from './project-carousel';
                       </a>
                     }
                   </div>
-                } @else if (proyecto.nota) {
-                  <p class="mt-6 text-sm text-text-muted">{{ proyecto.nota }}</p>
                 }
               </div>
             </article>

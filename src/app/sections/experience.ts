@@ -134,8 +134,8 @@ import { Lightbox } from '../shared/lightbox';
 
                 <button
                   type="button"
-                  class="-ml-4 inline-flex min-h-11 w-fit cursor-pointer items-center gap-1.5 rounded-full px-4 text-sm font-semibold transition-colors hover:bg-surface-2
-                    sm:col-start-2 sm:row-start-2 sm:-mr-4 sm:ml-0 sm:self-start sm:justify-self-end"
+                  class="inline-flex min-h-11 w-fit cursor-pointer items-center gap-1.5 rounded-full border border-accent/70 px-5 text-sm font-semibold transition-colors
+                    hover:border-accent hover:bg-accent/10 sm:col-start-2 sm:row-start-2 sm:self-start sm:justify-self-end"
                   [attr.aria-expanded]="open"
                   [attr.aria-controls]="'detalles-' + i"
                   (click)="toggle(i)"
@@ -147,8 +147,19 @@ import { Lightbox } from '../shared/lightbox';
                 </button>
               </div>
 
-              <!-- Details: a divider, then the achievements in two titled groups. -->
-              <div [id]="'detalles-' + i" class="mt-6 grid gap-4 border-t border-border pt-6 md:grid-cols-2" [hidden]="!open">
+              <!--
+                Details: a divider, then the achievements in two titled groups. The outer grid animates
+                its row from 0fr to 1fr (height: auto can't transition); inert keeps closed content out
+                of the tab order and the accessibility tree.
+              -->
+              <div
+                [id]="'detalles-' + i"
+                class="grid transition-[grid-template-rows,opacity] duration-500 ease-out"
+                [class]="open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'"
+                [attr.inert]="open ? null : ''"
+              >
+              <div class="overflow-hidden">
+              <div class="mt-6 grid gap-4 border-t border-border pt-6 md:grid-cols-2">
                 @for (grupo of item.detalles; track grupo.titulo) {
                   <div class="rounded-xl border border-border bg-surface-2/60 p-5 sm:p-6">
                     <h5 class="font-display text-lg font-semibold">{{ grupo.titulo }}</h5>
@@ -163,6 +174,8 @@ import { Lightbox } from '../shared/lightbox';
                     </ul>
                   </div>
                 }
+              </div>
+              </div>
               </div>
             </article>
           </li>

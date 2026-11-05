@@ -19,7 +19,7 @@ export const casoDestacado = {
   logo: 'logos/masseq.webp',
   logoAlt: 'MASSEQ',
   imagen: 'datasseq',
-  alt: 'Pantalla de inicio de sesión de DATASSEQ, la aplicación administrativa de MASSEQ.',
+  alt: 'Panel principal de DATASSEQ con el menú de módulos: Abastecimiento, Activos, Búsqueda Documental, Control Diario, Control Obra, Dashboards, Gestión Combustible, Licitaciones y Liquidaciones.',
 };
 
 // Newest first. Non-technical roles from the CV (billing, audit) are left out on purpose.
