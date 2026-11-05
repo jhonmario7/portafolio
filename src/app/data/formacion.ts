@@ -110,5 +110,6 @@ export const formacion: Formacion[] = [
       'Bundlers y flujo de trabajo moderno',
     ],
     certificado: 'cert-js-moderno',
+    verificar: 'https://cursos.devtalles.com/certificates/a8zybgdqe9',
   },
 ];
