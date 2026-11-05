@@ -9,23 +9,15 @@ import { perfil } from '../data/perfil';
   imports: [AnimateIcons, IconHover],
   host: { class: 'block' },
   template: `
-    <section id="contacto" aria-labelledby="contacto-titulo" class="section relative isolate">
+    <section id="contacto" aria-labelledby="contacto-titulo" class="section relative isolate flex min-h-svh items-center">
       <!-- Ember glows behind the call to action. -->
       <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
         <div class="absolute left-[10%] top-16 size-40 rounded-full bg-brand/15 blur-3xl"></div>
         <div class="absolute bottom-10 right-[10%] size-56 rounded-full bg-accent/10 blur-3xl"></div>
       </div>
 
-      <div class="reveal mx-auto max-w-3xl text-center">
-        <p class="inline-flex items-center gap-3 rounded-full border border-accent/30 bg-brand/10 px-5 py-2 text-sm font-medium text-red-200">
-          <span class="relative flex size-2.5" aria-hidden="true">
-            <span class="absolute inset-0 rounded-full bg-accent motion-safe:animate-ping"></span>
-            <span class="relative size-2.5 rounded-full bg-accent"></span>
-          </span>
-          {{ p.disponibilidad }}
-        </p>
-
-        <p class="eyebrow mt-8 text-center"><span aria-hidden="true">// </span>contacto</p>
+      <div class="reveal mx-auto w-full max-w-3xl text-center">
+        <p class="eyebrow text-center"><span aria-hidden="true">// </span>contacto</p>
         <h2
           id="contacto-titulo"
           class="mt-2 bg-linear-to-r from-text via-red-200 to-accent bg-clip-text font-display text-4xl font-bold leading-tight text-transparent sm:text-6xl"
