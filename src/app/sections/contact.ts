@@ -20,7 +20,7 @@ import { perfil } from '../data/perfil';
         <p class="eyebrow text-center"><span aria-hidden="true">// </span>contacto</p>
         <h2
           id="contacto-titulo"
-          class="mt-2 bg-linear-to-r from-text via-red-200 to-accent bg-clip-text font-display text-4xl font-bold leading-tight text-transparent sm:text-6xl"
+          class="mt-2 font-display text-4xl font-bold leading-tight text-text sm:text-6xl"
         >
           Trabajemos juntos
         </h2>
