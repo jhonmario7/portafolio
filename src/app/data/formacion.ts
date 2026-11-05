@@ -1,3 +1,11 @@
+/** A practice project (or group of them) built during a course, with its public code. */
+export interface ProyectoCurso {
+  nombre: string;
+  stack: string;
+  codigo: string;
+  demo?: string;
+}
+
 /** A degree or certificate. `certificado` is the scan's base name in public/img/ (served as -640/-1200.webp). */
 export interface Formacion {
   titulo: string;
@@ -9,6 +17,7 @@ export interface Formacion {
   duracion: string;
   /** Certified hours, summed into the stats row. */
   horas?: number;
+  proyectos?: ProyectoCurso[];
   temas: string[];
   certificado: string;
   /** Public verification page, when the platform has one. */
@@ -71,6 +80,24 @@ export const formacion: Formacion[] = [
     tipo: 'Certificado',
     duracion: '31,5 horas',
     horas: 31.5,
+    // One row per block of the repo (counts as of Nov 2026); add a demo link if they get hosted.
+    proyectos: [
+      {
+        nombre: '25 proyectos con HTML',
+        stack: 'HTML5, semántica',
+        codigo: 'https://github.com/jhonmario7/100-proyectos-HTML-CSS-JS/tree/main/HTML',
+      },
+      {
+        nombre: '25 proyectos con CSS',
+        stack: 'CSS3, Flexbox, Grid',
+        codigo: 'https://github.com/jhonmario7/100-proyectos-HTML-CSS-JS/tree/main/CSS',
+      },
+      {
+        nombre: '43 proyectos con JavaScript',
+        stack: 'JavaScript, DOM',
+        codigo: 'https://github.com/jhonmario7/100-proyectos-HTML-CSS-JS/tree/main/JS',
+      },
+    ],
     temas: [
       'Maquetación con HTML semántico',
       'CSS moderno: Flexbox, Grid y diseño responsive',

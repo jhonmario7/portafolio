@@ -1,14 +1,36 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
+import { AnimateIcons } from '@animateicons/angular';
+import { Github, Globe } from '@animateicons/angular/lucide';
 import { formacion } from '../data/formacion';
+import { IconHover } from '../shared/icon-hover';
 import { Lightbox } from '../shared/lightbox';
 
 const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
 
 @Component({
   selector: 'app-education',
-  imports: [NgOptimizedImage, Lightbox],
+  imports: [NgOptimizedImage, AnimateIcons, IconHover, Lightbox],
   host: { class: 'block' },
+  styles: `
+    /* 44px touch target, quiet until hovered. */
+    .icon-link {
+      display: grid;
+      place-items: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      margin: -0.5rem 0;
+      border-radius: 0.5rem;
+      color: var(--color-text-muted);
+      transition: color 150ms, background-color 150ms;
+    }
+
+    .icon-link:hover,
+    .icon-link:focus-visible {
+      color: var(--color-accent);
+      background: rgb(255 255 255 / 0.05);
+    }
+  `,
   template: `
     <section id="formacion" aria-labelledby="formacion-titulo" class="section">
       <p class="eyebrow"><span aria-hidden="true">// </span>formación</p>
@@ -51,6 +73,38 @@ const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
               <p class="mt-2 flex items-center gap-2 text-left text-sm text-text-muted">
                 <span class="size-2 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>{{ f.duracion }}
               </p>
+
+              @if (f.proyectos; as proyectos) {
+                <h4 class="mt-5 flex items-center justify-between text-sm font-medium">
+                  Proyectos desarrollados
+                  <span class="rounded-full bg-brand/20 px-2 py-0.5 text-xs text-red-200">{{ proyectos.length }}</span>
+                </h4>
+                <ul class="mt-3 space-y-2">
+                  @for (p of proyectos; track p.nombre) {
+                    <li class="flex items-center gap-3 rounded-lg bg-surface-2/60 p-2.5 text-sm">
+                      <span class="grid size-8 shrink-0 place-items-center rounded-md bg-brand/20 text-accent" aria-hidden="true">
+                        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16" />
+                        </svg>
+                      </span>
+                      <span class="min-w-0 flex-1">
+                        <span class="block font-medium">{{ p.nombre }}</span>
+                        <span class="block text-xs text-text-muted">{{ p.stack }}</span>
+                      </span>
+                      @if (p.demo; as demo) {
+                        <a appIconHover [href]="demo" target="_blank" rel="noopener" class="icon-link">
+                          <animate-icons [icon]="icons.globe" [size]="16" aria-hidden="true" />
+                          <span class="sr-only">Ver demo de {{ p.nombre }} (abre en otra pestaña)</span>
+                        </a>
+                      }
+                      <a appIconHover [href]="p.codigo" target="_blank" rel="noopener" class="icon-link">
+                        <animate-icons [icon]="icons.github" [size]="16" aria-hidden="true" />
+                        <span class="sr-only">Ver código de {{ p.nombre }} (abre en otra pestaña)</span>
+                      </a>
+                    </li>
+                  }
+                </ul>
+              }
 
               <h4 class="mt-5 flex items-center justify-between text-sm font-medium">
                 Temas clave
@@ -108,6 +162,7 @@ const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
 })
 export class Education {
   protected readonly formacion = formacion;
+  protected readonly icons = { globe: Globe, github: Github };
   protected readonly stats = [
     { label: 'Títulos', valor: formacion.filter((f) => f.tipo === 'Título').length },
     { label: 'Certificados', valor: formacion.filter((f) => f.tipo === 'Certificado').length },
