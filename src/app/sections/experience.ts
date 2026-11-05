@@ -1,10 +1,13 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, signal } from '@angular/core';
+import { AnimateIcons } from '@animateicons/angular';
+import { Maximize2 } from '@animateicons/angular/lucide';
 import { casoDestacado, trayectoria } from '../data/experiencia';
+import { Lightbox } from '../shared/lightbox';
 
 @Component({
   selector: 'app-experience',
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, AnimateIcons, Lightbox],
   host: { class: 'block' },
   template: `
     <section id="experiencia" aria-labelledby="experiencia-titulo" class="section">
@@ -17,7 +20,12 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
       <article class="group reveal overflow-hidden rounded-2xl border border-border bg-surface/80 shadow-lg">
         <div class="grid lg:min-h-[480px] lg:grid-cols-2">
           <!-- Screenshot as a muted backdrop: grayscale to sit in the red/black palette, color on hover. -->
-          <div class="relative order-2 min-h-[260px] sm:min-h-[300px] lg:order-1">
+          <!-- Clicking it opens the full, uncropped screenshots. -->
+          <button
+            type="button"
+            class="relative order-2 min-h-[260px] cursor-zoom-in sm:min-h-[300px] lg:order-1"
+            (click)="visor.open(c.titulo, c.capturas)"
+          >
             <img
               [ngSrc]="c.imagen"
               ngSrcset="640w, 960w, 1200w"
@@ -26,8 +34,16 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
               [alt]="c.alt"
               class="object-cover grayscale transition duration-700 group-hover:grayscale-0"
             />
-            <div class="absolute inset-0 bg-linear-to-r from-bg/90 via-bg/60 to-bg/30" aria-hidden="true"></div>
-          </div>
+            <span class="absolute inset-0 bg-linear-to-r from-bg/90 via-bg/60 to-bg/30" aria-hidden="true"></span>
+            <span class="sr-only"> Ver capturas en grande.</span>
+            <span
+              class="absolute right-4 top-4 inline-flex items-center gap-2 rounded-full border border-border bg-bg/75 px-3 py-1.5 text-xs font-medium backdrop-blur"
+              aria-hidden="true"
+            >
+              <animate-icons [icon]="expand" [size]="14" />
+              Ver capturas ({{ c.capturas.length }})
+            </span>
+          </button>
 
           <div class="order-1 flex flex-col justify-center p-6 sm:p-10 lg:order-2 lg:p-14">
             <div class="max-w-[65ch] space-y-6">
@@ -161,12 +177,14 @@ import { casoDestacado, trayectoria } from '../data/experiencia';
           </li>
         }
       </ol>
+      <app-lightbox #visor />
     </section>
   `,
 })
 export class Experience {
   protected readonly c = casoDestacado;
   protected readonly trayectoria = trayectoria;
+  protected readonly expand = Maximize2;
   protected readonly abiertos = signal(new Set<number>());
 
   protected toggle(i: number): void {

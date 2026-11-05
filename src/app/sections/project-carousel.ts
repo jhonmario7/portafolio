@@ -1,7 +1,7 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, ElementRef, input, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, input, output, signal, viewChild } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
-import { ChevronLeft, ChevronRight } from '@animateicons/angular/lucide';
+import { ChevronLeft, ChevronRight, Maximize2 } from '@animateicons/angular/lucide';
 import { Proyecto } from '../data/proyectos';
 
 /**
@@ -31,14 +31,25 @@ import { Proyecto } from '../data/proyectos';
             aria-roledescription="diapositiva"
             [attr.aria-label]="i + 1 + ' de ' + total"
           >
-            <img
-              [ngSrc]="p.imagen + '-' + (i + 1)"
-              ngSrcset="640w, 1200w"
-              sizes="(min-width: 1024px) 560px, 92vw"
-              fill
-              [alt]="alt"
-              class="object-cover object-top"
-            />
+            <!-- The slide is cropped to fit; clicking it opens the full screenshot. -->
+            <button type="button" class="group absolute inset-0 cursor-zoom-in" (click)="ampliar.emit(i)">
+              <img
+                [ngSrc]="p.imagen + '-' + (i + 1)"
+                ngSrcset="640w, 1200w"
+                sizes="(min-width: 1024px) 560px, 92vw"
+                fill
+                [alt]="alt"
+                class="object-cover object-top"
+              />
+              <span class="sr-only"> Ver en grande.</span>
+              <span
+                class="absolute right-3 top-3 grid size-9 place-items-center rounded-full border border-border bg-bg/75 text-text opacity-80
+                  backdrop-blur transition-opacity group-hover:opacity-100"
+                aria-hidden="true"
+              >
+                <animate-icons [icon]="icons.expand" [size]="16" />
+              </span>
+            </button>
           </figure>
         }
       </div>
@@ -113,9 +124,11 @@ import { Proyecto } from '../data/proyectos';
 })
 export class ProjectCarousel {
   readonly proyecto = input.required<Proyecto>();
+  /** Index of the slide the user wants to see full size. */
+  readonly ampliar = output<number>();
 
   protected readonly index = signal(0);
-  protected readonly icons = { prev: ChevronLeft, next: ChevronRight };
+  protected readonly icons = { prev: ChevronLeft, next: ChevronRight, expand: Maximize2 };
   private readonly track = viewChild.required<ElementRef<HTMLElement>>('track');
 
   protected go(i: number): void {

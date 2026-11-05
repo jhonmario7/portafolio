@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
 import { Github, Globe } from '@animateicons/angular/lucide';
-import { proyectos } from '../data/proyectos';
+import { Proyecto, proyectos } from '../data/proyectos';
+import { Captura, Lightbox } from '../shared/lightbox';
 import { IconHover } from '../shared/icon-hover';
 import { ProjectCarousel } from './project-carousel';
 
 @Component({
   selector: 'app-projects',
-  imports: [AnimateIcons, IconHover, ProjectCarousel],
+  imports: [AnimateIcons, IconHover, ProjectCarousel, Lightbox],
   host: { class: 'block' },
   template: `
     <section id="proyectos" aria-labelledby="proyectos-titulo" class="section">
@@ -20,7 +21,11 @@ import { ProjectCarousel } from './project-carousel';
         @for (proyecto of proyectos; track proyecto.nombre; let odd = $odd) {
           <li>
             <article class="reveal grid items-center gap-6 lg:grid-cols-2 lg:gap-10">
-              <app-project-carousel [proyecto]="proyecto" [class.lg:order-last]="odd" />
+              <app-project-carousel
+                [proyecto]="proyecto"
+                [class.lg:order-last]="odd"
+                (ampliar)="visor.open(proyecto.nombre, capturas(proyecto), $event)"
+              />
 
               <div class="min-w-0">
                 <h3 class="text-2xl font-bold leading-snug">{{ proyecto.nombre }}</h3>
@@ -57,10 +62,15 @@ import { ProjectCarousel } from './project-carousel';
           </li>
         }
       </ul>
+      <app-lightbox #visor />
     </section>
   `,
 })
 export class Projects {
   protected readonly proyectos = proyectos;
   protected readonly icons = { globe: Globe, github: Github };
+
+  protected capturas(p: Proyecto): Captura[] {
+    return p.capturas.map((alt, i) => ({ src: `${p.imagen}-${i + 1}`, alt }));
+  }
 }
