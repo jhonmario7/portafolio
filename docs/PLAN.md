@@ -136,7 +136,7 @@ Simplificaciones respecto a la sección 2: sin `pages/home.ts` ni router (una so
 
 ### Fase 2 — Contenido completo ✅ (falta probar la vista previa real en LinkedIn/WhatsApp)
 - [x] Galería de proyecto en `<dialog>` nativo con flechas del teclado, Esc y clic en el fondo. Sin `@defer`: las imágenes solo se piden al abrirla. Fuera a propósito: King Padel 4 (nombres reales de jugadores) y FisioYuli 2 (reseña de un paciente)
-  - Reemplazada (rediseño por secciones) por un carrusel inline con scroll-snap nativo, flechas y puntos, al estilo de la referencia; sin librería
+  - Rediseño: portada con maqueta laptop + celular (CSS puro, inclinación 3D) y visor de imagen completa con flechas; reemplazó al carrusel inline
 - [x] Línea de tiempo del resto de la experiencia (solo roles técnicos)
 - [x] `education` (académica + cursos) y su pestaña en la navegación
 - [x] Imagen OG 1200×630 (`public/og/cover.jpg`) + `summary_large_image`

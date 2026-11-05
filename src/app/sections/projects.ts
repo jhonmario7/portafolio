@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
 import { Github, Globe } from '@animateicons/angular/lucide';
-import { proyectos } from '../data/proyectos';
-import { Lightbox } from '../shared/lightbox';
+import { Proyecto, proyectos } from '../data/proyectos';
+import { Captura, Lightbox } from '../shared/lightbox';
 import { IconHover } from '../shared/icon-hover';
-import { ProjectCarousel } from './project-carousel';
+import { DeviceMockup } from './device-mockup';
 
 @Component({
   selector: 'app-projects',
-  imports: [AnimateIcons, IconHover, ProjectCarousel, Lightbox],
+  imports: [AnimateIcons, IconHover, DeviceMockup, Lightbox],
   host: { class: 'block' },
   template: `
     <section id="proyectos" aria-labelledby="proyectos-titulo" class="section">
@@ -16,16 +16,21 @@ import { ProjectCarousel } from './project-carousel';
       <h2 id="proyectos-titulo" class="section-title">Lo que he construido <span class="text-accent">para clientes</span></h2>
       <p class="mt-2 text-text-muted">Sitios y paneles reales, publicados y en uso.</p>
 
-      <!-- Zigzag like the reference: screenshots carousel on one side, the story on the other. -->
+      <!-- Zigzag like the reference: device mockup on one side, the story on the other. -->
       <ul class="mt-12 space-y-16 lg:space-y-24">
         @for (proyecto of proyectos; track proyecto.nombre; let odd = $odd) {
           <li>
             <article class="reveal grid items-center gap-6 lg:grid-cols-2 lg:gap-10">
-              <app-project-carousel
-                [proyecto]="proyecto"
+              <!-- Cover: laptop + phone mockup; clicking it opens every screenshot full size. -->
+              <button
+                type="button"
+                class="block w-full cursor-zoom-in rounded-card"
                 [class.lg:order-last]="odd"
-                (ampliar)="visor.open({ src: proyecto.imagen + '-' + ($event + 1), alt: proyecto.capturas[$event] })"
-              />
+                (click)="visor.open(capturas(proyecto))"
+              >
+                <app-device-mockup [proyecto]="proyecto" [invertido]="odd" />
+                <span class="sr-only">Ver capturas de {{ proyecto.nombre }}</span>
+              </button>
 
               <div class="min-w-0">
                 <h3 class="text-2xl font-bold leading-snug">{{ proyecto.nombre }}</h3>
@@ -67,4 +72,12 @@ import { ProjectCarousel } from './project-carousel';
 export class Projects {
   protected readonly proyectos = proyectos;
   protected readonly icons = { globe: Globe, github: Github };
+
+  /** Desktop screenshots in order, then the phone one. */
+  protected capturas(p: Proyecto): Captura[] {
+    return [
+      ...p.capturas.map((alt, i) => ({ src: `${p.imagen}-${i + 1}`, alt })),
+      { src: `${p.imagen}-movil`, alt: p.movil },
+    ];
+  }
 }

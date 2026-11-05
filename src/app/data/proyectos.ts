@@ -7,8 +7,10 @@ export interface Proyecto {
    * `<imagen>-<n>-640.webp` and `<imagen>-<n>-1200.webp`.
    */
   imagen: string;
-  /** One alt text per screenshot, in carousel order. */
+  /** One alt text per desktop screenshot; the first one is the laptop screen in the cover. */
   capturas: string[];
+  /** Alt of the phone screenshot (<imagen>-movil-640/-1200.webp), shown on the cover's phone. */
+  movil: string;
   demo?: string;
   codigo?: string;
 }
@@ -24,6 +26,7 @@ export const proyectos: Proyecto[] = [
       'Inicio de fisioyuli.com con el titular, el botón para agendar por WhatsApp y la foto de la fisioterapeuta.',
       'Resultado de PageSpeed Insights en móvil: 92 en rendimiento y 100 en accesibilidad, buenas prácticas y SEO.',
     ],
+    movil: 'fisioyuli.com en celular: foto de la fisioterapeuta, botón de WhatsApp y el titular "Vuelve a moverte sin dolor".',
     demo: 'https://fisioyuli.com',
   },
   {
@@ -36,6 +39,7 @@ export const proyectos: Proyecto[] = [
       'Inicio de iuscounterconsulting.com con el titular y los cinco servicios de la firma.',
       'Formulario de contacto con nombre, teléfono, servicio de interés y autorización de datos.',
     ],
+    movil: 'iuscounterconsulting.com en celular: titular, botones para agendar y ver servicios, y las cinco áreas de la firma.',
     demo: 'https://iuscounterconsulting.com',
   },
   {
@@ -51,5 +55,6 @@ export const proyectos: Proyecto[] = [
       'Perfil del cliente con su saldo de King Points y King Coin y sus datos personales de prueba.',
       'Formulario de registro para nuevos clientes del club.',
     ],
+    movil: 'Inicio de sesión de King Padel en celular.',
   },
 ];

@@ -22,7 +22,7 @@ import { Lightbox } from '../shared/lightbox';
           <button
             type="button"
             class="group/img relative order-2 min-h-[260px] cursor-zoom-in overflow-hidden sm:min-h-[300px] lg:order-1"
-            (click)="visor.open({ src: c.imagen, alt: c.alt })"
+            (click)="visor.open([{ src: c.imagen, alt: c.alt }])"
           >
             <img
               [ngSrc]="c.imagen"

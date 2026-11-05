@@ -12,23 +12,30 @@ describe('Lightbox', () => {
     };
   });
 
-  it('shows the image and closes on a click anywhere but the image', async () => {
+  it('moves between captures within bounds and closes on a click outside the image', async () => {
     const fixture = TestBed.createComponent(Lightbox);
     await fixture.whenStable();
-    fixture.componentInstance.open({ src: 'demo', alt: 'Captura de prueba' });
+    const capturas = ['a', 'b', 'c'].map((src) => ({ src, alt: `captura ${src}` }));
+    fixture.componentInstance.open(capturas, 1);
     await fixture.whenStable();
     const el = fixture.nativeElement as HTMLElement;
     const dialog = el.querySelector('dialog')!;
-    const img = el.querySelector('img')!;
+    const img = () => el.querySelector('img')!;
 
     expect(dialog.open).toBe(true);
-    expect(img.getAttribute('alt')).toBe('Captura de prueba');
-    expect(img.getAttribute('src')).toBe('img/demo-1200.webp');
+    expect(img().getAttribute('src')).toBe('img/b-1200.webp');
 
-    img.click();
+    const next = el.querySelector<HTMLButtonElement>('button[aria-label="Captura siguiente"]')!;
+    next.click();
+    next.click();
+    await fixture.whenStable();
+    expect(img().getAttribute('alt')).toBe('captura c');
+    expect(next.disabled).toBe(true);
+    expect(dialog.open).toBe(true); // arrows don't close it
+
+    img().click();
     expect(dialog.open).toBe(true);
-
-    img.parentElement!.click(); // the empty area around the image
+    img().parentElement!.click(); // the empty area around the image
     expect(dialog.open).toBe(false);
   });
 });
