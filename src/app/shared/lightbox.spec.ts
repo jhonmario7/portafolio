@@ -1,4 +1,3 @@
-import { IMAGE_LOADER } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { Lightbox } from './lightbox';
 
@@ -8,29 +7,28 @@ describe('Lightbox', () => {
     HTMLDialogElement.prototype.showModal ??= function (this: HTMLDialogElement) {
       this.setAttribute('open', '');
     };
-    TestBed.configureTestingModule({
-      providers: [{ provide: IMAGE_LOADER, useValue: () => 'img/test.webp' }],
-    });
+    HTMLDialogElement.prototype.close ??= function (this: HTMLDialogElement) {
+      this.removeAttribute('open');
+    };
   });
 
-  it('opens on the chosen capture and stays within bounds', async () => {
+  it('shows the image and closes on a click anywhere but the image', async () => {
     const fixture = TestBed.createComponent(Lightbox);
     await fixture.whenStable();
-    const capturas = ['a', 'b', 'c'].map((src) => ({ src, alt: `captura ${src}` }));
-    fixture.componentInstance.open('Proyecto', capturas, 1);
+    fixture.componentInstance.open({ src: 'demo', alt: 'Captura de prueba' });
     await fixture.whenStable();
     const el = fixture.nativeElement as HTMLElement;
-    const counter = () => el.querySelector('[aria-live]')!.textContent!.trim();
+    const dialog = el.querySelector('dialog')!;
+    const img = el.querySelector('img')!;
 
-    expect(el.querySelector('dialog')!.open).toBe(true);
-    expect(counter()).toBe('2 de 3');
-    expect(el.querySelector('img')!.getAttribute('alt')).toBe('captura b');
+    expect(dialog.open).toBe(true);
+    expect(img.getAttribute('alt')).toBe('Captura de prueba');
+    expect(img.getAttribute('src')).toBe('img/demo-1200.webp');
 
-    const next = el.querySelector<HTMLButtonElement>('button[aria-label="Captura siguiente"]')!;
-    next.click();
-    next.click();
-    await fixture.whenStable();
-    expect(counter()).toBe('3 de 3');
-    expect(next.disabled).toBe(true);
+    img.click();
+    expect(dialog.open).toBe(true);
+
+    img.parentElement!.click(); // the empty area around the image
+    expect(dialog.open).toBe(false);
   });
 });

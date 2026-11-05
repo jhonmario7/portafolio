@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
 import { Github, Globe } from '@animateicons/angular/lucide';
-import { Proyecto, proyectos } from '../data/proyectos';
-import { Captura, Lightbox } from '../shared/lightbox';
+import { proyectos } from '../data/proyectos';
+import { Lightbox } from '../shared/lightbox';
 import { IconHover } from '../shared/icon-hover';
 import { ProjectCarousel } from './project-carousel';
 
@@ -24,7 +24,7 @@ import { ProjectCarousel } from './project-carousel';
               <app-project-carousel
                 [proyecto]="proyecto"
                 [class.lg:order-last]="odd"
-                (ampliar)="visor.open(proyecto.nombre, capturas(proyecto), $event)"
+                (ampliar)="visor.open({ src: proyecto.imagen + '-' + ($event + 1), alt: proyecto.capturas[$event] })"
               />
 
               <div class="min-w-0">
@@ -69,8 +69,4 @@ import { ProjectCarousel } from './project-carousel';
 export class Projects {
   protected readonly proyectos = proyectos;
   protected readonly icons = { globe: Globe, github: Github };
-
-  protected capturas(p: Proyecto): Captura[] {
-    return p.capturas.map((alt, i) => ({ src: `${p.imagen}-${i + 1}`, alt }));
-  }
 }

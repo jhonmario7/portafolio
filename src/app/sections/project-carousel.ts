@@ -1,7 +1,7 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, ElementRef, input, output, signal, viewChild } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
-import { ChevronLeft, ChevronRight, Maximize2 } from '@animateicons/angular/lucide';
+import { ChevronLeft, ChevronRight } from '@animateicons/angular/lucide';
 import { Proyecto } from '../data/proyectos';
 
 /**
@@ -31,24 +31,17 @@ import { Proyecto } from '../data/proyectos';
             aria-roledescription="diapositiva"
             [attr.aria-label]="i + 1 + ' de ' + total"
           >
-            <!-- The slide is cropped to fit; clicking it opens the full screenshot. -->
-            <button type="button" class="group absolute inset-0 cursor-zoom-in" (click)="ampliar.emit(i)">
+            <!-- The slide is cropped to fit; clicking it opens the full screenshot (zoom cursor as the cue). -->
+            <button type="button" class="group absolute inset-0 cursor-zoom-in overflow-hidden" (click)="ampliar.emit(i)">
               <img
                 [ngSrc]="p.imagen + '-' + (i + 1)"
                 ngSrcset="640w, 1200w"
                 sizes="(min-width: 1024px) 560px, 92vw"
                 fill
                 [alt]="alt"
-                class="object-cover object-top"
+                class="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
               />
               <span class="sr-only"> Ver en grande.</span>
-              <span
-                class="absolute right-3 top-3 grid size-9 place-items-center rounded-full border border-border bg-bg/75 text-text opacity-80
-                  backdrop-blur transition-opacity group-hover:opacity-100"
-                aria-hidden="true"
-              >
-                <animate-icons [icon]="icons.expand" [size]="16" />
-              </span>
             </button>
           </figure>
         }
@@ -128,7 +121,7 @@ export class ProjectCarousel {
   readonly ampliar = output<number>();
 
   protected readonly index = signal(0);
-  protected readonly icons = { prev: ChevronLeft, next: ChevronRight, expand: Maximize2 };
+  protected readonly icons = { prev: ChevronLeft, next: ChevronRight };
   private readonly track = viewChild.required<ElementRef<HTMLElement>>('track');
 
   protected go(i: number): void {
