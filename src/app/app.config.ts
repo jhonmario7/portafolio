@@ -9,7 +9,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideClientHydration(),
-    // Images in public/img/ ship as <name>-640.webp and <name>-1200.webp (hero photo and covers also -960).
+    // Images in public/img/ ship as <name>-640.webp and <name>-1200.webp (some also -960).
     // A src with an extension (e.g. logos/masseq.webp) is a single file served as is.
     {
       provide: IMAGE_LOADER,
