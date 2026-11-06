@@ -12,21 +12,21 @@ export const rutas: Record<Lang, string> = { en: '/', es: '/es' };
 
 const seo = {
   es: {
-    title: 'Jhon Mario Rodriguez · Desarrollador Frontend Angular',
+    title: 'Jhon Mario Rodriguez · Desarrollador de Software',
     description:
-      'Desarrollador Frontend Semi-Senior en Angular y TypeScript. 3 años construyendo un ERP empresarial y landings con SSG, PageSpeed 94–100 y WCAG AA.',
-    ogDescription: 'Angular y TypeScript: ERP empresarial con más de 10 módulos y landings rápidas y accesibles.',
+      'Ingeniero de Sistemas y desarrollador de software con más de 3 años de experiencia. Creo aplicaciones y sitios web rápidos, accesibles y pensados para quienes los usan.',
+    ogDescription: 'Ingeniero de Sistemas con más de 3 años de experiencia creando aplicaciones y sitios web rápidos, accesibles y fáciles de usar.',
     locale: 'es_CO',
-    imageAlt: 'Jhon Mario Rodriguez, Frontend Angular en Neiva, Colombia, junto a su foto.',
+    imageAlt: 'Jhon Mario Rodriguez, Desarrollador de Software en Neiva, Colombia, junto a su foto.',
     url: `${SITE}/es/`,
   },
   en: {
-    title: 'Jhon Mario Rodriguez · Angular Frontend Developer',
+    title: 'Jhon Mario Rodriguez · Software Developer',
     description:
-      'Mid-level Frontend Developer in Angular and TypeScript. 3 years building an enterprise ERP and landing pages with SSG, PageSpeed 94–100 and WCAG AA.',
-    ogDescription: 'Angular and TypeScript: an enterprise ERP with 10+ modules and fast, accessible landing pages.',
+      'Systems Engineer and software developer with 3+ years of experience. I build fast, accessible web applications and websites designed for the people who use them.',
+    ogDescription: 'Systems Engineer with 3+ years of experience building fast, accessible and easy-to-use web applications and websites.',
     locale: 'en_US',
-    imageAlt: 'Jhon Mario Rodriguez, Angular Frontend Developer in Neiva, Colombia, next to his photo.',
+    imageAlt: 'Jhon Mario Rodriguez, Software Developer in Neiva, Colombia, next to his photo.',
     url: `${SITE}/`,
   },
 };
@@ -65,6 +65,7 @@ export class I18n {
       meta.updateTag({ property: 'og:description', content: s.ogDescription });
       meta.updateTag({ property: 'og:locale', content: s.locale });
       meta.updateTag({ property: 'og:url', content: s.url });
+      meta.updateTag({ property: 'og:image', content: `${SITE}/og/cover-${this.lang()}.jpg` });
       meta.updateTag({ property: 'og:image:alt', content: s.imageAlt });
       doc.querySelector('link[rel="canonical"]')?.setAttribute('href', s.url);
     });
