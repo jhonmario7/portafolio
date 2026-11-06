@@ -9,6 +9,8 @@ import {
   Linkedin,
   Mail,
   Menu,
+  Moon,
+  Sun,
   X,
 } from '@animateicons/angular/lucide';
 import { perfil } from '../data/perfil';
@@ -24,8 +26,8 @@ const links = [
 ];
 
 const textos = {
-  es: { nav: 'Secciones', abrir: 'Abrir menú', cerrar: 'Cerrar menú', perfiles: 'Perfiles', nuevaPestana: ' (abre en otra pestaña)', idioma: 'Idioma' },
-  en: { nav: 'Sections', abrir: 'Open menu', cerrar: 'Close menu', perfiles: 'Profiles', nuevaPestana: ' (opens in a new tab)', idioma: 'Language' },
+  es: { nav: 'Secciones', abrir: 'Abrir menú', cerrar: 'Cerrar menú', perfiles: 'Perfiles', nuevaPestana: ' (abre en otra pestaña)', idioma: 'Idioma', claro: 'Cambiar a modo claro', oscuro: 'Cambiar a modo oscuro' },
+  en: { nav: 'Sections', abrir: 'Open menu', cerrar: 'Close menu', perfiles: 'Profiles', nuevaPestana: ' (opens in a new tab)', idioma: 'Language', claro: 'Switch to light mode', oscuro: 'Switch to dark mode' },
 };
 
 /** Each language is its own page; the link keeps the section you were reading. */
@@ -52,7 +54,17 @@ const perfiles = [
   },
   template: `
     <nav [attr.aria-label]="t.nav">
-      <div class="switch fixed right-[4.75rem] top-4 z-50 lg:right-6" role="group" [attr.aria-label]="t.idioma">
+      <div class="fixed right-[4.75rem] top-4 z-50 flex gap-2 lg:right-6">
+      <button
+        appIconHover
+        type="button"
+        class="flex size-12 cursor-pointer items-center justify-center rounded-full border border-border bg-bg/90 text-text-muted backdrop-blur transition-colors hover:text-text"
+        [attr.aria-label]="tema() === 'dark' ? t.claro : t.oscuro"
+        (click)="cambiarTema()"
+      >
+        <animate-icons [icon]="tema() === 'dark' ? icons.sun : icons.moon" [size]="20" aria-hidden="true" />
+      </button>
+      <div class="switch" role="group" [attr.aria-label]="t.idioma">
       @for (item of idiomas; track item.lang) {
         <a
           [href]="item.href + (active() === 'inicio' ? '' : '#' + active())"
@@ -61,6 +73,7 @@ const perfiles = [
           [attr.aria-current]="item.lang === i18n.lang ? 'true' : null"
         >{{ item.label }}<span class="sr-only"> · {{ item.nombre }}</span></a>
       }
+      </div>
     </div>
 
       <button
@@ -225,7 +238,21 @@ export class Nav {
   protected readonly idiomas = idiomas;
   protected readonly links = links;
   protected readonly perfiles = perfiles;
-  protected readonly icons = { menu: Menu, close: X };
+  protected readonly icons = { menu: Menu, close: X, sun: Sun, moon: Moon };
+  /** Prerendered as dark; the real value (set by the inline script in index.html) is read after hydration. */
+  protected readonly tema = signal<'dark' | 'light'>('dark');
+
+  protected cambiarTema(): void {
+    const tema = this.tema() === 'dark' ? 'light' : 'dark';
+    this.tema.set(tema);
+    document.documentElement.dataset['theme'] = tema;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', tema === 'light' ? '#faf7f5' : '#0a0a0a');
+    try {
+      localStorage.setItem('tema', tema);
+    } catch {
+      // Storage blocked (private mode): the choice just lasts until reload.
+    }
+  }
   protected readonly active = signal('inicio');
   protected readonly open = signal(false);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -245,6 +272,7 @@ export class Nav {
     const destroyRef = inject(DestroyRef);
     // Browser only: highlight the section that crosses the middle of the viewport.
     afterNextRender(() => {
+      if (document.documentElement.dataset['theme'] === 'light') this.tema.set('light');
       const observer = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {

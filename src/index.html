@@ -6,6 +6,14 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0a0a0a">
+  <!-- Theme before first paint, so a light-mode visitor never sees a dark flash. -->
+  <script>
+    try {
+      var tema = localStorage.getItem('tema') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.dataset.theme = tema;
+      if (tema === 'light') document.querySelector('meta[name="theme-color"]').content = '#faf7f5';
+    } catch (e) {}
+  </script>
   <meta name="description" content="Desarrollador Frontend Semi-Senior en Angular y TypeScript. 3 años construyendo un ERP empresarial y landings con SSG, PageSpeed 94–100 y WCAG AA.">
   <!-- ponytail: one page, so SEO lives here, not in a service. Move to core/seo.ts when case-study routes arrive (Fase 4). -->
   <!-- The canonical and the og:/description tags are set per language by I18n at prerender. -->

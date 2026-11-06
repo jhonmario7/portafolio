@@ -48,8 +48,8 @@ const textos = {
           </p>
         </header>
 
-        <!-- Frosted card over two soft red glows on a dark base. -->
-        <div class="relative order-3 lg:mt-8">
+        <!-- Frosted card over two soft red glows on a dark base; an editor, so dark in both themes. -->
+        <div class="dark-island relative order-3 lg:mt-8">
           <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-card bg-bg" aria-hidden="true">
             <div class="absolute -left-4 top-0 size-40 rounded-full bg-brand/50 blur-2xl"></div>
             <div class="absolute bottom-0 right-6 size-36 rounded-full bg-accent/35 blur-2xl"></div>
@@ -119,7 +119,7 @@ const textos = {
   `,
   styles: `
     .role {
-      background: linear-gradient(90deg, var(--color-accent), #fca5a5);
+      background: linear-gradient(90deg, var(--color-accent), var(--color-accent-soft));
       background-clip: text;
       color: transparent;
     }

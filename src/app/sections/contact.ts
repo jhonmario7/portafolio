@@ -14,7 +14,7 @@ const textos = {
     copiado: 'Correo copiado',
     fallo: 'No se pudo copiar; el correo es',
     cv: 'Descargar CV',
-    cvSub: '{{ t.cvSub }}',
+    cvSub: 'Perfil profesional completo en PDF',
     nuevaPestana: ' (abre en otra pestaña)',
   },
   en: {
@@ -62,7 +62,7 @@ const textos = {
           <div class="card group">
             <span class="tile" aria-hidden="true"><animate-icons [icon]="icons.mail" [size]="22" /></span>
             <div class="min-w-0 flex-1">
-              <a appIconHover [href]="'mailto:' + p.email" class="stretched font-display text-lg font-semibold group-hover:text-red-200">
+              <a appIconHover [href]="'mailto:' + p.email" class="stretched font-display text-lg font-semibold group-hover:text-accent-soft">
                 {{ t.correo }}
               </a>
               <p class="break-all text-left font-mono text-sm text-text-muted">{{ p.email }}</p>
@@ -70,7 +70,7 @@ const textos = {
             <button
               appIconHover
               type="button"
-              class="relative z-10 grid size-11 shrink-0 cursor-pointer place-items-center rounded-xl text-text-muted transition-colors hover:bg-white/5 hover:text-accent"
+              class="relative z-10 grid size-11 shrink-0 cursor-pointer place-items-center rounded-xl text-text-muted transition-colors hover:bg-text/5 hover:text-accent"
               [attr.aria-label]="copy() === 'copied' ? t.copiado : t.copiar"
               (click)="copyEmail()"
             >
@@ -81,7 +81,7 @@ const textos = {
           <div class="card group">
             <span class="tile" aria-hidden="true"><animate-icons [icon]="icons.download" [size]="22" /></span>
             <div class="min-w-0 flex-1">
-              <a appIconHover [href]="p.cv" download class="stretched font-display text-lg font-semibold group-hover:text-red-200">
+              <a appIconHover [href]="p.cv" download class="stretched font-display text-lg font-semibold group-hover:text-accent-soft">
                 {{ t.cv }}
               </a>
               <p class="text-left text-sm text-text-muted">{{ t.cvSub }}</p>
@@ -127,7 +127,11 @@ const textos = {
       padding: 1.25rem;
       border: 1px solid var(--color-border);
       border-radius: 1rem;
-      background: linear-gradient(to right, rgb(23 23 23 / 0.8), rgb(38 38 38 / 0.5));
+      background: linear-gradient(
+        to right,
+        color-mix(in srgb, var(--color-surface) 85%, transparent),
+        color-mix(in srgb, var(--color-surface-2) 60%, transparent)
+      );
       transition: border-color 300ms, box-shadow 300ms;
     }
 
@@ -203,7 +207,7 @@ const textos = {
       place-items: center;
       padding: 0.5rem;
       border-radius: 0.5rem;
-      background: rgb(255 255 255 / 0.04);
+      background: color-mix(in srgb, var(--color-text) 5%, transparent);
       transition: background-color 200ms;
     }
 

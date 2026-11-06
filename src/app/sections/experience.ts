@@ -81,7 +81,7 @@ const textos = {
                   height="96"
                   disableOptimizedSrcset
                   [alt]="c.logoAlt"
-                  class="h-9 w-auto shrink-0 object-contain md:h-10"
+                  class="h-9 w-auto shrink-0 object-contain md:h-10 light:box-content light:rounded-lg light:bg-neutral-950 light:p-2"
                 />
               </div>
 
@@ -98,7 +98,7 @@ const textos = {
                 @for (aporte of c.aportes; track $index) {
                   <li class="flex gap-3">
                     <span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
-                    <span class="text-justify hyphens-auto [&_b]:font-medium [&_b]:text-red-300" [innerHTML]="aporte"></span>
+                    <span class="text-justify hyphens-auto [&_b]:font-medium [&_b]:text-accent-soft" [innerHTML]="aporte"></span>
                   </li>
                 }
               </ul>
@@ -107,7 +107,7 @@ const textos = {
                 @for (tech of c.stack; track tech) {
                   <li
                     class="rounded-md border border-border bg-surface-2/60 px-2 py-1 font-mono text-xs text-text-muted transition duration-300
-                      hover:border-brand/50 hover:text-red-200 hover:shadow-[0_0_14px_-2px_rgb(220_38_38/0.35)]"
+                      hover:border-brand/50 hover:text-accent-soft hover:shadow-[0_0_14px_-2px_rgb(220_38_38/0.35)]"
                   >
                     {{ tech }}
                   </li>

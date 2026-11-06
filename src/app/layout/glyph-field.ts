@@ -30,7 +30,8 @@ export class GlyphField {
       // only the cells near the cursor (~150 instead of thousands on a large screen).
       const rest = document.createElement('canvas');
       const restCtx = rest.getContext('2d')!;
-      const restColor = `rgb(245 245 244 / ${BASE_ALPHA})`;
+      // Theme colors, re-read on every repaint so the field follows the light/dark toggle.
+      let accent = '#ff6b6b';
 
       let cols = 0;
       let rows = 0;
@@ -57,7 +58,10 @@ export class GlyphField {
           context.textAlign = 'center';
           context.textBaseline = 'middle';
         }
-        restCtx.fillStyle = restColor;
+        const styles = getComputedStyle(document.documentElement);
+        accent = styles.getPropertyValue('--color-accent').trim() || accent;
+        restCtx.fillStyle = styles.getPropertyValue('--color-text').trim() || '#f5f5f4';
+        restCtx.globalAlpha = BASE_ALPHA;
         cols = Math.ceil(innerWidth / CELL);
         rows = Math.ceil(innerHeight / CELL);
         chars = Array.from({ length: cols * rows }, () => GLYPHS[(Math.random() * GLYPHS.length) | 0]);
@@ -90,8 +94,10 @@ export class GlyphField {
           }
           if (Math.random() < h * 0.15) chars[i] = GLYPHS[(Math.random() * GLYPHS.length) | 0];
           ctx.clearRect(x - CELL / 2, y - CELL / 2, CELL, CELL);
-          ctx.fillStyle = `rgb(255 107 107 / ${BASE_ALPHA + h * (PEAK_ALPHA - BASE_ALPHA)})`;
+          ctx.fillStyle = accent;
+          ctx.globalAlpha = BASE_ALPHA + h * (PEAK_ALPHA - BASE_ALPHA);
           ctx.fillText(chars[i], x, y);
+          ctx.globalAlpha = 1;
         }
         return hot.size > 0;
       };
@@ -117,7 +123,10 @@ export class GlyphField {
       addEventListener('pointermove', onMove, { passive: true });
       document.documentElement.addEventListener('pointerleave', onLeave);
       addEventListener('resize', onResize);
+      const themeWatch = new MutationObserver(resize);
+      themeWatch.observe(document.documentElement, { attributeFilter: ['data-theme'] });
       destroyRef.onDestroy(() => {
+        themeWatch.disconnect();
         cancelAnimationFrame(frame);
         clearTimeout(resizeTimer);
         removeEventListener('pointermove', onMove);

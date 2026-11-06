@@ -33,7 +33,7 @@ const textos = {
     codigo: 'Ver código de',
     verificar: 'Verificar',
     nuevaPestana: ' (abre en otra pestaña)',
-    continuo: '{{ t.continuo }}',
+    continuo: 'Aprendizaje continuo desde 2018',
   },
   en: {
     eyebrow: 'education',
@@ -74,7 +74,7 @@ const textos = {
     .icon-link:hover,
     .icon-link:focus-visible {
       color: var(--color-accent);
-      background: rgb(255 255 255 / 0.05);
+      background: color-mix(in srgb, var(--color-text) 6%, transparent);
     }
   `,
   template: `
@@ -123,7 +123,7 @@ const textos = {
               @if (f.proyectos; as proyectos) {
                 <h4 class="mt-5 flex items-center justify-between text-sm font-medium">
                   {{ t.proyectos }}
-                  <span class="rounded-full bg-brand/20 px-2 py-0.5 text-xs text-red-200">{{ proyectos.length }}</span>
+                  <span class="rounded-full bg-brand/20 px-2 py-0.5 text-xs text-accent-soft">{{ proyectos.length }}</span>
                 </h4>
                 <ul class="mt-3 space-y-2">
                   @for (p of proyectos; track p.nombre) {
@@ -154,7 +154,7 @@ const textos = {
 
               <h4 class="mt-5 flex items-center justify-between text-sm font-medium">
                 {{ t.temas }}
-                <span class="rounded-full bg-brand/20 px-2 py-0.5 text-xs text-red-200">{{ f.temas.length }}</span>
+                <span class="rounded-full bg-brand/20 px-2 py-0.5 text-xs text-accent-soft">{{ f.temas.length }}</span>
               </h4>
               <ul class="mt-3 space-y-2">
                 @for (tema of f.temas; track tema) {
@@ -196,7 +196,7 @@ const textos = {
       </ul>
 
       <p class="mt-12 flex justify-center">
-        <span class="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-brand/10 px-5 py-2.5 text-sm font-medium text-red-200">
+        <span class="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-brand/10 px-5 py-2.5 text-sm font-medium text-accent-soft">
           <span class="size-2 rounded-full bg-accent motion-safe:animate-pulse" aria-hidden="true"></span>
           {{ t.continuo }}
         </span>

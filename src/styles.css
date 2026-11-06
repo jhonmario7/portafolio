@@ -3,6 +3,9 @@
 @import '@fontsource-variable/jetbrains-mono';
 @import 'tailwindcss';
 
+/* light:… utilities apply only in the light theme (data-theme="light" on <html>). */
+@custom-variant light (&:where([data-theme='light'], [data-theme='light'] *));
+
 /*
  * Design tokens. Tailwind 4 turns each one into utilities
  * (bg-surface, text-accent, font-display…) and exposes it as a CSS variable.
@@ -20,6 +23,7 @@
   --color-brand: #dc2626; /* fill, white text 4.8:1 */
   --color-on-brand: #ffffff;
   --color-accent: #ff6b6b; /* text/icons 7.1:1 */
+  --color-accent-soft: #fca5a5; /* highlighted words and counters */
 
   /* Errors and warnings use amber so they never read as the brand color. */
   --color-alert: #fbbf24; /* 11.9:1 */
@@ -29,6 +33,40 @@
   --font-mono: 'JetBrains Mono Variable', ui-monospace, Consolas, monospace;
 
   --radius-card: 1rem;
+}
+
+/*
+ * Light theme: same tokens, warm white base. The inline script in index.html sets data-theme
+ * before first paint (saved choice, else the system's), so there is no flash.
+ * Contrast (WCAG AA) against bg and surface.
+ */
+:root[data-theme='light'] {
+  --color-bg: #faf7f5;
+  --color-surface: #ffffff;
+  --color-surface-2: #f3eeeb;
+  --color-border: #e7dfdb;
+  --color-text: #1c1917; /* 16.9:1 */
+  --color-text-muted: #57534e; /* 7.3:1 */
+  --color-accent: #b91c1c; /* 6.1:1 */
+  --color-accent-soft: #991b1b; /* 8.3:1 */
+  --color-alert: #b45309; /* 4.8:1 */
+  --brasa-glow: rgb(220 38 38 / 0.18);
+  --brasa-end: #fbe3e1;
+  color-scheme: light;
+}
+
+/* Blocks that stay dark in both themes (the code editor card): the dark tokens, scoped. */
+.dark-island {
+  --color-bg: #0a0a0a;
+  --color-surface: #141414;
+  --color-surface-2: #1c1c1c;
+  --color-border: #262626;
+  --color-text: #f5f5f4;
+  --color-text-muted: #a8a29e;
+  --color-accent: #ff6b6b;
+  --color-accent-soft: #fca5a5;
+  color: var(--color-text);
+  color-scheme: dark;
 }
 
 @layer base {
@@ -54,8 +92,8 @@
     pointer-events: none;
     background-image:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E"),
-      radial-gradient(ellipse 60% 70% at 100% 105%, rgb(220 38 38 / 0.4), transparent 60%),
-      linear-gradient(160deg, var(--color-bg) 45%, #1f0606 100%);
+      radial-gradient(ellipse 60% 70% at 100% 105%, var(--brasa-glow, rgb(220 38 38 / 0.4)), transparent 60%),
+      linear-gradient(160deg, var(--color-bg) 45%, var(--brasa-end, #1f0606) 100%);
   }
 
   h1,
