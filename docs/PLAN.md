@@ -152,10 +152,21 @@ Simplificaciones respecto a la sección 2: sin `pages/home.ts` ni router (una so
 - [~] Lighthouse en vivo: escritorio **100/100/100/100**; móvil **94–95**/100/100/100 (FCP 1.8 s, LCP 2.4 s). El siguiente salto sería quitar JS inicial (el motor de animateicons pesa ~20 kB comprimido)
 
 ### Fase 4 — Opcional
-- [ ] Inglés (`/es`, `/en`, `hreflang`)
-- [ ] Dominio propio
-- [ ] Analítica sin cookies (p. ej. Cloudflare Web Analytics)
+- [x] Inglés: `/` en inglés (por defecto) y `/es/` en español, las dos prerenderizadas, con `hreflang`, canonical y Open Graph por idioma (`src/app/i18n.ts`). El selector ES/EN cambia el idioma en el sitio con el router (sin recargar ni mover el scroll). Los textos viven en registros `{ es, en }` en `data/` y en cada componente. `/en` redirige a `/` (`public/_redirects`)
+- [x] Modo claro/oscuro: tokens redefinidos bajo `[data-theme='light']`, script en `index.html` que lo aplica antes del primer pintado (elección guardada o la del sistema)
+- [x] Botón "volver arriba" de vidrio con anillo de progreso (CSS `animation-timeline: scroll()`)
+- [x] Sitemap con las dos URLs y sus alternas, 404 bilingüe, JSON-LD en inglés
+- [ ] Dominio propio → ver checklist abajo
+- [ ] Analítica sin cookies (p. ej. Cloudflare Web Analytics; requiere permitir `static.cloudflareinsights.com` en la CSP)
 - [ ] Páginas de caso de estudio por proyecto
+- [ ] CV en inglés (hoy la versión en inglés enlaza el PDF en español, marcado "(Spanish)")
+
+#### Checklist para cuando compres el dominio
+1. Cloudflare Pages → proyecto → **Custom domains** → agregar el dominio (si lo compras en Cloudflare, el DNS se configura solo).
+2. Reemplazar `https://jhonmario.pages.dev` por el dominio nuevo en: `src/app/i18n.ts` (`SITE`), `src/index.html` (canonical, `hreflang`, `og:url`, `og:image`, JSON-LD), `public/sitemap.xml` y `public/robots.txt`. Búsqueda rápida: `grep -rn "pages.dev" src public`.
+3. Redirigir `jhonmario.pages.dev` al dominio nuevo (301) para no partir el SEO. `_redirects` no admite redirecciones entre dominios: se hace con **Bulk Redirects** en el panel de Cloudflare (origen `jhonmario.pages.dev`, destino `https://TU-DOMINIO`, conservando ruta y query).
+4. Google Search Console: verificar el dominio y enviar `https://TU-DOMINIO/sitemap.xml`.
+5. Actualizar el enlace en LinkedIn, GitHub y el CV; volver a pasar la URL por el LinkedIn Post Inspector para refrescar la vista previa.
 - [x] **Fondo interactivo** (`layout/glyph-field.ts`, chunk de ~1 kB con `@defer (on idle)`; reposo pintado una vez en un canvas aparte, cada frame solo redibuja las celdas cerca del cursor y el bucle se detiene solo): campo de glifos (binario / fragmentos de código) en `<canvas>` sobre la brasa que reacciona al mouse (se iluminan o cambian cerca del cursor). Condiciones: solo con `pointer: fine` (no en móvil), se pausa con la pestaña oculta y fuera de pantalla, sin animar con `prefers-reduced-motion`, se carga con `@defer (on idle)` para no tocar el LCP, y opacidad baja para no competir con el texto.
 
 ---
@@ -182,7 +193,7 @@ Simplificaciones respecto a la sección 2: sin `pages/home.ts` ni router (una so
 |---|---|
 | Lighthouse móvil | ≥ 90 en todo; meta 100 en SEO / A11y / BP |
 | LCP · CLS · INP | < 2.5 s · < 0.1 · < 200 ms |
-| JS inicial transferido | < 150 KB (hoy 64 KB) |
+| JS inicial transferido | < 150 KB (hoy 132 KB con estilos, nov 2026) |
 | Accesibilidad | 0 violaciones axe, navegación completa por teclado, contraste AA |
 | SEO | HTML prerenderizado con todo el contenido, canonical correcto, OG con URL absoluta |
 | Seguridad | `npm audit` en 0 antes de cada release |

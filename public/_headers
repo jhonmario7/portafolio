@@ -19,3 +19,11 @@
 # Fonts keep stable names (outputHashing "bundles") so index.html can preload them: a month, not immutable.
 /media/*
   Cache-Control: public, max-age=2592000
+
+# Cloudflare's Early Hints copy <link rel="modulepreload" href="chunk-….js"> into a Link header
+# with the relative URL, which on /es/ resolves to /es/chunk-….js (404). The HTML's own <base>
+# resolves it correctly, so drop the header there.
+/es
+  ! Link
+/es/*
+  ! Link
