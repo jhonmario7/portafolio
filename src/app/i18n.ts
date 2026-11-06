@@ -17,6 +17,7 @@ const seo = {
       'Desarrollador Frontend Semi-Senior en Angular y TypeScript. 3 años construyendo un ERP empresarial y landings con SSG, PageSpeed 94–100 y WCAG AA.',
     ogDescription: 'Angular y TypeScript: ERP empresarial con más de 10 módulos y landings rápidas y accesibles.',
     locale: 'es_CO',
+    imageAlt: 'Jhon Mario Rodriguez, Frontend Angular en Neiva, Colombia, junto a su foto.',
     url: `${SITE}/es/`,
   },
   en: {
@@ -25,6 +26,7 @@ const seo = {
       'Mid-level Frontend Developer in Angular and TypeScript. 3 years building an enterprise ERP and landing pages with SSG, PageSpeed 94–100 and WCAG AA.',
     ogDescription: 'Angular and TypeScript: an enterprise ERP with 10+ modules and fast, accessible landing pages.',
     locale: 'en_US',
+    imageAlt: 'Jhon Mario Rodriguez, Angular Frontend Developer in Neiva, Colombia, next to his photo.',
     url: `${SITE}/`,
   },
 };
@@ -56,6 +58,7 @@ export class I18n {
       meta.updateTag({ property: 'og:description', content: s.ogDescription });
       meta.updateTag({ property: 'og:locale', content: s.locale });
       meta.updateTag({ property: 'og:url', content: s.url });
+      meta.updateTag({ property: 'og:image:alt', content: s.imageAlt });
       doc.querySelector('link[rel="canonical"]')?.setAttribute('href', s.url);
     });
   }
