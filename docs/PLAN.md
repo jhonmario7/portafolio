@@ -149,7 +149,9 @@ Simplificaciones respecto a la sección 2: sin `pages/home.ts` ni router (una so
 - [x] CSP en `_headers` (orígenes propios). `autoCsp` de Angular no funciona con prerender todavía; por eso conserva `'unsafe-inline'`
 - [x] Pruebas: copiar correo (copiado y rechazado) y límites de la galería. Sin `active-section` ni `seo`: no existen como servicios
 - [x] Liquid glass arranca con la primera interacción (mouse, tecla, scroll): su captura ocupaba ~1 s de CPU durante la carga
-- [~] Lighthouse en vivo: escritorio **100/100/100/100**; móvil **94–95**/100/100/100 (FCP 1.8 s, LCP 2.4 s). El siguiente salto sería quitar JS inicial (el motor de animateicons pesa ~20 kB comprimido)
+- [~] Lighthouse en vivo (nov 2026, bilingüe): escritorio **97–100**/100/100/100; móvil **87–92**/100/100/100 (FCP 1.7–2.0 s, LCP 2.6–2.8 s, TBT 110–280 ms) en `/` y `/es/`
+  - Hecho: hidratación incremental de las secciones bajo el hero (`@defer (hydrate on viewport)`), `@font-face` latinas en línea en `index.html` + preload de las 3 fuentes, Early Hints desactivados en `/es/` (404 de chunk)
+  - Pendiente: un CLS intermitente (0.05–0.14) cuando la fuente llega justo después del primer pintado. Opciones: `font-display: optional` (sin salto nunca, pero la primera visita lenta puede ver la fuente del sistema) o fuentes de respaldo con métricas ajustadas (`size-adjust`)
 
 ### Fase 4 — Opcional
 - [x] Inglés: `/` en inglés (por defecto) y `/es/` en español, las dos prerenderizadas, con `hreflang`, canonical y Open Graph por idioma (`src/app/i18n.ts`). El selector ES/EN cambia el idioma en el sitio con el router (sin recargar ni mover el scroll). Los textos viven en registros `{ es, en }` en `data/` y en cada componente. `/en` redirige a `/` (`public/_redirects`)
