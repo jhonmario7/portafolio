@@ -38,15 +38,19 @@ export interface Captura {
           <!--
             Plain <img> on purpose: NgOptimizedImage needs fixed dimensions, and here the image must
             size itself to the screenshot's own aspect ratio inside the viewport.
+            One element per capture (tracked by src): reusing a single <img> and swapping its src
+            kept the previous picture on screen until the new one loaded.
           -->
-          <img
-            [src]="'img/' + c.src + '-1200.webp'"
-            [srcset]="'img/' + c.src + '-640.webp 640w, img/' + c.src + '-1200.webp 1200w'"
-            sizes="92vw"
-            [alt]="c.alt"
-            decoding="async"
-            class="max-h-[78dvh] max-w-full rounded-xl border border-border object-contain shadow-2xl md:max-h-[88dvh]"
-          />
+          @for (img of [c]; track img.src) {
+            <img
+              [src]="'img/' + img.src + '-1200.webp'"
+              [srcset]="'img/' + img.src + '-640.webp 640w, img/' + img.src + '-1200.webp 1200w'"
+              sizes="92vw"
+              [alt]="img.alt"
+              decoding="async"
+              class="max-h-[78dvh] max-w-full rounded-xl border border-border object-contain shadow-2xl md:max-h-[88dvh]"
+            />
+          }
         @if (capturas().length > 1) {
           <div class="flex gap-4 md:contents">
           <button type="button" class="flecha md:left-6" [attr.aria-label]="t().anterior" [disabled]="index() === 0" (click)="move(-1)">
