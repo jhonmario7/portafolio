@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { DeferBlockState, TestBed } from '@angular/core/testing';
 import { App } from './app';
 import { appConfig } from './app.config';
 
@@ -29,6 +29,8 @@ describe('App', () => {
   it('points every nav link at a section that exists', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
+    // Sections below the hero sit in @defer blocks (prerendered in production); render them here.
+    for (const block of await fixture.getDeferBlocks()) await block.render(DeferBlockState.Complete);
     const el = fixture.nativeElement as HTMLElement;
 
     const hrefs = [...el.querySelectorAll('nav a[href^="#"]')].map((a) => a.getAttribute('href'));
