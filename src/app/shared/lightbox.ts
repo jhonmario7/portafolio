@@ -33,7 +33,8 @@ export interface Captura {
       (keydown.arrowright)="move(1)"
     >
       @if (captura(); as c) {
-        <div class="grid size-full place-items-center p-4 sm:p-10">
+        <!-- Phones: the arrows sit under the image (a landscape screenshot fills the width); md+: at the sides. -->
+        <div class="flex size-full flex-col items-center justify-center gap-4 p-4 sm:p-10">
           <!--
             Plain <img> on purpose: NgOptimizedImage needs fixed dimensions, and here the image must
             size itself to the screenshot's own aspect ratio inside the viewport.
@@ -44,24 +45,26 @@ export interface Captura {
             sizes="92vw"
             [alt]="c.alt"
             decoding="async"
-            class="max-h-[88dvh] max-w-full rounded-xl border border-border object-contain shadow-2xl"
+            class="max-h-[78dvh] max-w-full rounded-xl border border-border object-contain shadow-2xl md:max-h-[88dvh]"
           />
-        </div>
         @if (capturas().length > 1) {
-          <button type="button" class="flecha left-3 sm:left-6" [attr.aria-label]="t.anterior" [disabled]="index() === 0" (click)="move(-1)">
+          <div class="flex gap-4 md:contents">
+          <button type="button" class="flecha md:left-6" [attr.aria-label]="t.anterior" [disabled]="index() === 0" (click)="move(-1)">
             <animate-icons [icon]="icons.prev" [size]="22" aria-hidden="true" />
           </button>
           <button
             type="button"
-            class="flecha right-3 sm:right-6"
+            class="flecha md:right-6"
             [attr.aria-label]="t.siguiente"
             [disabled]="index() === capturas().length - 1"
             (click)="move(1)"
           >
             <animate-icons [icon]="icons.next" [size]="22" aria-hidden="true" />
           </button>
+          </div>
           <p class="sr-only" aria-live="polite">{{ t.captura }} {{ index() + 1 }} {{ t.de }} {{ capturas().length }}</p>
         }
+        </div>
         <button
           type="button"
           class="fixed right-4 top-4 grid size-11 cursor-pointer place-items-center rounded-full border border-border bg-bg/80 text-text backdrop-blur transition-colors hover:border-text-muted"
@@ -76,13 +79,10 @@ export interface Captura {
   styles: `
     /* Frosted arrows: the page shows through, blurred. */
     .flecha {
-      position: fixed;
-      top: 50%;
       display: grid;
       place-items: center;
       width: 3rem;
       height: 3rem;
-      translate: 0 -50%;
       border: 1px solid rgb(255 255 255 / 0.2);
       border-radius: 9999px;
       background: rgb(10 10 10 / 0.3);
@@ -94,9 +94,23 @@ export interface Captura {
       transition: opacity 200ms;
     }
 
+    /* Under the image a dead end only dims; at the sides it disappears. */
     .flecha:disabled {
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    @media (min-width: 768px) {
+      .flecha {
+        position: fixed;
+        top: 50%;
+        translate: 0 -50%;
+      }
+
+      .flecha:disabled {
+        opacity: 0;
+        pointer-events: none;
+      }
     }
 
     /* Zoom + fade in and out; the backdrop fades with it. */

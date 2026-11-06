@@ -49,7 +49,7 @@ const textos = {
 
       <article class="group reveal overflow-hidden rounded-2xl border border-border bg-surface/80 shadow-lg">
         <div class="grid lg:min-h-[480px] lg:grid-cols-2">
-          <!-- Screenshot as a muted backdrop: grayscale to sit in the red/black palette, color on hover. -->
+          <!-- Dark theme: grayscale backdrop that sits in the red/black palette, color on hover. Light theme: full color, no veil. -->
           <!-- Clicking it opens the full, uncropped screenshot (zoom cursor as the cue). -->
           <button
             type="button"
@@ -62,9 +62,9 @@ const textos = {
               sizes="(min-width: 1024px) 50vw, 100vw"
               fill
               [alt]="c.alt"
-              class="object-cover grayscale transition duration-700 group-hover:grayscale-0 group-hover/img:scale-[1.03]"
+              class="object-cover grayscale transition duration-700 group-hover:grayscale-0 group-hover/img:scale-[1.03] light:grayscale-0"
             />
-            <span class="absolute inset-0 bg-linear-to-r from-bg/90 via-bg/60 to-bg/30" aria-hidden="true"></span>
+            <span class="absolute inset-0 bg-linear-to-r from-bg/90 via-bg/60 to-bg/30 light:hidden" aria-hidden="true"></span>
             <span class="sr-only"> {{ t.verGrande }}</span>
           </button>
 

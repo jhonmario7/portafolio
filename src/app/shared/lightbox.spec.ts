@@ -25,7 +25,7 @@ describe('Lightbox', () => {
     expect(dialog.open).toBe(true);
     expect(img().getAttribute('src')).toBe('img/b-1200.webp');
 
-    const next = el.querySelector<HTMLButtonElement>('button[aria-label="Captura siguiente"]')!;
+    const next = el.querySelector<HTMLButtonElement>('button[aria-label="Next screenshot"]')!;
     next.click();
     next.click();
     await fixture.whenStable();

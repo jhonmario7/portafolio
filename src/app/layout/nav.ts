@@ -32,8 +32,8 @@ const textos = {
 
 /** Each language is its own page; the link keeps the section you were reading. */
 const idiomas: { lang: Lang; label: string; nombre: string; href: string }[] = [
-  { lang: 'es', label: 'ES', nombre: 'Español', href: '/' },
-  { lang: 'en', label: 'EN', nombre: 'English', href: '/en' },
+  { lang: 'en', label: 'EN', nombre: 'English', href: '/' },
+  { lang: 'es', label: 'ES', nombre: 'Español', href: '/es' },
 ];
 
 const perfiles = [

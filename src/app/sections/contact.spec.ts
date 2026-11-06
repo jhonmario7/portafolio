@@ -13,12 +13,12 @@ describe('Contact', () => {
   }
 
   it('confirms when the email was copied', async () => {
-    expect(await clickCopy(() => Promise.resolve())).toBe('Correo copiado');
+    expect(await clickCopy(() => Promise.resolve())).toBe('Email copied');
   });
 
   it('shows the email instead when the clipboard is denied', async () => {
     const message = await clickCopy(() => Promise.reject(new Error('denied')));
-    expect(message).toContain('No se pudo copiar');
+    expect(message).toContain("Couldn't copy");
     expect(message).toContain('@');
   });
 });

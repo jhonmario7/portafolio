@@ -13,7 +13,7 @@ const seo = {
       'Desarrollador Frontend Semi-Senior en Angular y TypeScript. 3 años construyendo un ERP empresarial y landings con SSG, PageSpeed 94–100 y WCAG AA.',
     ogDescription: 'Angular y TypeScript: ERP empresarial con más de 10 módulos y landings rápidas y accesibles.',
     locale: 'es_CO',
-    url: `${SITE}/`,
+    url: `${SITE}/es/`,
   },
   en: {
     title: 'Jhon Mario Rodriguez · Angular Frontend Developer',
@@ -21,20 +21,20 @@ const seo = {
       'Mid-level Frontend Developer in Angular and TypeScript. 3 years building an enterprise ERP and landing pages with SSG, PageSpeed 94–100 and WCAG AA.',
     ogDescription: 'Angular and TypeScript: an enterprise ERP with 10+ modules and fast, accessible landing pages.',
     locale: 'en_US',
-    url: `${SITE}/en/`,
+    url: `${SITE}/`,
   },
 };
 
 /**
- * Each language is its own prerendered page (/ and /en/), so the language is fixed for the
+ * Each language is its own prerendered page (/ in English, the default, and /es/), so the language is fixed for the
  * page's lifetime: read once from the URL, the same on the server and in the browser.
  * Switching languages is a plain link to the other page.
  */
 @Service()
 export class I18n {
-  readonly lang: Lang = inject(PlatformLocation).pathname.startsWith('/en') ? 'en' : 'es';
-  /** Prefix for in-page anchors: with <base href="/">, a bare "#id" would point at the Spanish page. */
-  readonly base = this.lang === 'en' ? '/en' : '';
+  readonly lang: Lang = inject(PlatformLocation).pathname.startsWith('/es') ? 'es' : 'en';
+  /** Prefix for in-page anchors: with <base href="/">, a bare "#id" would point at the English page. */
+  readonly base = this.lang === 'es' ? '/es' : '';
 
   constructor() {
     const s = seo[this.lang];

@@ -1,0 +1,3 @@
+# English became the default at /, Spanish moved to /es/. Old /en links keep working (the hash survives).
+/en   /   301
+/en/  /   301
