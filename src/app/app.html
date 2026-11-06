@@ -11,10 +11,23 @@
 <div class="lg:pl-24">
   <main id="contenido" tabindex="-1">
     <app-hero />
-    <app-experience />
-    <app-projects />
-    <app-education />
-    <app-contact />
+    <!--
+      Incremental hydration: these are in the prerendered HTML (SEO, anchors, no layout shift),
+      but their JS loads and hydrates only on entering the viewport, so the hero paints sooner.
+      A language switch hydrates all of them at once (hydrate when), so they swap language too.
+    -->
+    @defer (hydrate on viewport; hydrate when i18n.cambiado()) {
+      <app-experience />
+    }
+    @defer (hydrate on viewport; hydrate when i18n.cambiado()) {
+      <app-projects />
+    }
+    @defer (hydrate on viewport; hydrate when i18n.cambiado()) {
+      <app-education />
+    }
+    @defer (hydrate on viewport; hydrate when i18n.cambiado()) {
+      <app-contact />
+    }
   </main>
 
   <footer class="border-t border-border px-4 py-8 sm:px-6">

@@ -39,7 +39,10 @@ const seo = {
 @Service()
 export class I18n {
   private readonly router = inject(Router);
-  readonly lang = signal<Lang>(langOf(inject(PlatformLocation).pathname));
+  private readonly inicial = langOf(inject(PlatformLocation).pathname);
+  readonly lang = signal<Lang>(this.inicial);
+  /** True once the reader switches language: sections still waiting to hydrate do it right away, so they swap too. */
+  readonly cambiado = computed(() => this.lang() !== this.inicial);
   /** Prefix for in-page anchors: with <base href="/">, a bare "#id" would point at the English page. */
   readonly base = computed(() => (this.lang() === 'es' ? '/es' : ''));
 

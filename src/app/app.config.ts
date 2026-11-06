@@ -2,13 +2,14 @@ import { IMAGE_LOADER, ImageLoaderConfig } from '@angular/common';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
+import { provideClientHydration, withIncrementalHydration } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideClientHydration(),
+    // Sections below the hero ship prerendered but hydrate only when they scroll into view.
+    provideClientHydration(withIncrementalHydration()),
     // Images in public/img/ ship as <name>-640.webp and <name>-1200.webp (some also -960).
     // A src with an extension (e.g. logos/masseq.webp) is a single file served as is.
     {
