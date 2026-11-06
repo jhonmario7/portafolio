@@ -1,7 +1,7 @@
 import { DOCUMENT, PlatformLocation } from '@angular/common';
 import { Service, Signal, computed, effect, inject, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 export type Lang = 'es' | 'en';
 
@@ -47,7 +47,11 @@ export class I18n {
   readonly base = computed(() => (this.lang() === 'es' ? '/es' : ''));
 
   constructor() {
-    this.router.events.subscribe(() => this.lang.set(langOf(this.router.url)));
+    // Only finished navigations: on NavigationStart router.url is still the previous URL ("/" on
+    // the first load of /es/), which flipped the language for a moment and hydrated every section.
+    this.router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd) this.lang.set(langOf(e.urlAfterRedirects));
+    });
 
     const doc = inject(DOCUMENT);
     const meta = inject(Meta);
