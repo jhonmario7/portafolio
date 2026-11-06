@@ -40,7 +40,7 @@ const textos = {
       <div class="max-lg:contents">
         <header class="order-1">
           <h1 id="inicio-titulo" class="text-4xl font-bold leading-tight sm:text-5xl lg:whitespace-nowrap lg:text-4xl xl:text-5xl">
-            {{ t.hola }} {{ p.nombreCorto }}
+            {{ t().hola }} {{ p.nombreCorto }}
           </h1>
           <p class="mt-2 text-2xl font-bold sm:text-3xl">
             <span class="sr-only">{{ rolesText }}</span>
@@ -70,32 +70,32 @@ const textos = {
 
         <div class="order-4 lg:mt-6">
           <!-- Static copy from data/perfil.ts; [innerHTML] only to keep the <strong> highlights. -->
-          <p class="max-w-2xl leading-relaxed text-text-muted [&_strong]:font-semibold [&_strong]:text-text" [innerHTML]="b.bio"></p>
-          <p class="mt-3 max-w-2xl text-sm leading-relaxed text-text-muted">{{ b.bioExtra }}</p>
+          <p class="max-w-2xl leading-relaxed text-text-muted [&_strong]:font-semibold [&_strong]:text-text" [innerHTML]="b().bio"></p>
+          <p class="mt-3 max-w-2xl text-sm leading-relaxed text-text-muted">{{ b().bioExtra }}</p>
 
           <ul class="mt-6 flex flex-wrap justify-center gap-3 sm:gap-4 lg:justify-start">
             <li>
               <a appIconHover [href]="p.cv" download class="group relative flex rounded-full bg-brand p-3 text-on-brand transition hover:bg-red-700">
                 <animate-icons [icon]="icons.download" [size]="20" aria-hidden="true" />
-                <span class="tip">{{ t.cv }}</span>
+                <span class="tip">{{ t().cv }}</span>
               </a>
             </li>
             <li>
-              <a appIconHover [href]="i18n.base + '#contacto'" class="group relative flex rounded-full border border-accent p-3 text-accent transition hover:bg-accent hover:text-bg">
+              <a appIconHover [href]="i18n.base() + '#contacto'" class="group relative flex rounded-full border border-accent p-3 text-accent transition hover:bg-accent hover:text-bg">
                 <animate-icons [icon]="icons.mail" [size]="20" aria-hidden="true" />
-                <span class="tip">{{ t.hablemos }}</span>
+                <span class="tip">{{ t().hablemos }}</span>
               </a>
             </li>
             <li>
               <a appIconHover [href]="p.linkedin" target="_blank" rel="me noopener" class="group relative flex rounded-full border border-border p-3 text-text-muted transition hover:border-text-muted hover:text-text">
                 <animate-icons [icon]="icons.linkedin" [size]="20" aria-hidden="true" />
-                <span class="tip">LinkedIn<span class="sr-only">{{ t.nuevaPestana }}</span></span>
+                <span class="tip">LinkedIn<span class="sr-only">{{ t().nuevaPestana }}</span></span>
               </a>
             </li>
             <li>
               <a appIconHover [href]="p.github" target="_blank" rel="me noopener" class="group relative flex rounded-full border border-border p-3 text-text-muted transition hover:border-text-muted hover:text-text">
                 <animate-icons [icon]="icons.github" [size]="20" aria-hidden="true" />
-                <span class="tip">GitHub<span class="sr-only">{{ t.nuevaPestana }}</span></span>
+                <span class="tip">GitHub<span class="sr-only">{{ t().nuevaPestana }}</span></span>
               </a>
             </li>
           </ul>
@@ -111,7 +111,7 @@ const textos = {
           width="640"
           height="640"
           priority
-          [alt]="t.foto"
+          [alt]="t().foto"
           class="relative size-[240px] rounded-full border-4 border-accent/30 object-cover shadow-2xl sm:size-[280px] lg:size-[380px] xl:size-[440px]"
         />
       </div>

@@ -49,26 +49,26 @@ export interface Captura {
           />
         @if (capturas().length > 1) {
           <div class="flex gap-4 md:contents">
-          <button type="button" class="flecha md:left-6" [attr.aria-label]="t.anterior" [disabled]="index() === 0" (click)="move(-1)">
+          <button type="button" class="flecha md:left-6" [attr.aria-label]="t().anterior" [disabled]="index() === 0" (click)="move(-1)">
             <animate-icons [icon]="icons.prev" [size]="22" aria-hidden="true" />
           </button>
           <button
             type="button"
             class="flecha md:right-6"
-            [attr.aria-label]="t.siguiente"
+            [attr.aria-label]="t().siguiente"
             [disabled]="index() === capturas().length - 1"
             (click)="move(1)"
           >
             <animate-icons [icon]="icons.next" [size]="22" aria-hidden="true" />
           </button>
           </div>
-          <p class="sr-only" aria-live="polite">{{ t.captura }} {{ index() + 1 }} {{ t.de }} {{ capturas().length }}</p>
+          <p class="sr-only" aria-live="polite">{{ t().captura }} {{ index() + 1 }} {{ t().de }} {{ capturas().length }}</p>
         }
         </div>
         <button
           type="button"
           class="fixed right-4 top-4 grid size-11 cursor-pointer place-items-center rounded-full border border-border bg-bg/80 text-text backdrop-blur transition-colors hover:border-text-muted"
-          [attr.aria-label]="t.cerrar"
+          [attr.aria-label]="t().cerrar"
           (click)="dialog.close()"
         >
           <animate-icons [icon]="icons.close" [size]="20" aria-hidden="true" />

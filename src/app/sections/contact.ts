@@ -43,15 +43,15 @@ const textos = {
       </div>
 
       <div class="reveal mx-auto w-full max-w-3xl text-center">
-        <p class="eyebrow text-center"><span aria-hidden="true">// </span>{{ i18n.lang === 'en' ? 'contact' : 'contacto' }}</p>
+        <p class="eyebrow text-center"><span aria-hidden="true">// </span>{{ i18n.lang() === 'en' ? 'contact' : 'contacto' }}</p>
         <h2
           id="contacto-titulo"
           class="mt-2 font-display text-4xl font-bold leading-tight text-text sm:text-6xl"
         >
-          {{ t.titulo }}
+          {{ t().titulo }}
         </h2>
         <p class="mx-auto mt-4 max-w-xl text-center text-text-muted hyphens-none">
-          {{ t.intro }}
+          {{ t().intro }}
         </p>
 
         <div class="mx-auto mt-10 grid max-w-2xl grid-cols-[minmax(0,1fr)] gap-4 text-left">
@@ -63,7 +63,7 @@ const textos = {
             <span class="tile" aria-hidden="true"><animate-icons [icon]="icons.mail" [size]="22" /></span>
             <div class="min-w-0 flex-1">
               <a appIconHover [href]="'mailto:' + p.email" class="stretched font-display text-lg font-semibold group-hover:text-accent-soft">
-                {{ t.correo }}
+                {{ t().correo }}
               </a>
               <p class="break-all text-left font-mono text-sm text-text-muted">{{ p.email }}</p>
             </div>
@@ -71,7 +71,7 @@ const textos = {
               appIconHover
               type="button"
               class="relative z-10 grid size-11 shrink-0 cursor-pointer place-items-center rounded-xl text-text-muted transition-colors hover:bg-text/5 hover:text-accent"
-              [attr.aria-label]="copy() === 'copied' ? t.copiado : t.copiar"
+              [attr.aria-label]="copy() === 'copied' ? t().copiado : t().copiar"
               (click)="copyEmail()"
             >
               <animate-icons [icon]="copy() === 'copied' ? icons.copyCheck : icons.copy" [size]="20" aria-hidden="true" />
@@ -82,9 +82,9 @@ const textos = {
             <span class="tile" aria-hidden="true"><animate-icons [icon]="icons.download" [size]="22" /></span>
             <div class="min-w-0 flex-1">
               <a appIconHover [href]="p.cv" download class="stretched font-display text-lg font-semibold group-hover:text-accent-soft">
-                {{ t.cv }}
+                {{ t().cv }}
               </a>
-              <p class="text-left text-sm text-text-muted">{{ t.cvSub }}</p>
+              <p class="text-left text-sm text-text-muted">{{ t().cvSub }}</p>
             </div>
             <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M12 5v12m-5-5 5 5 5-5M5 21h14" />
@@ -95,8 +95,8 @@ const textos = {
         <!-- Announced to screen readers; visible so sighted users get the same confirmation. -->
         <p class="mt-3 min-h-5 text-center text-sm" [class]="copy() === 'failed' ? 'text-alert' : 'text-accent'" aria-live="polite">
           @switch (copy()) {
-            @case ('copied') { {{ t.copiado }} }
-            @case ('failed') { {{ t.fallo }} {{ p.email }} }
+            @case ('copied') { {{ t().copiado }} }
+            @case ('failed') { {{ t().fallo }} {{ p.email }} }
           }
         </p>
 
@@ -104,14 +104,14 @@ const textos = {
           <li>
             <a appIconHover [href]="p.linkedin" target="_blank" rel="me noopener" class="social">
               <span class="social-icon"><animate-icons [icon]="icons.linkedin" [size]="18" aria-hidden="true" /></span>
-              LinkedIn<span class="sr-only">{{ t.nuevaPestana }}</span>
+              LinkedIn<span class="sr-only">{{ t().nuevaPestana }}</span>
             </a>
           </li>
           <li class="h-6 w-px bg-border" aria-hidden="true"></li>
           <li>
             <a appIconHover [href]="p.github" target="_blank" rel="me noopener" class="social">
               <span class="social-icon"><animate-icons [icon]="icons.github" [size]="18" aria-hidden="true" /></span>
-              GitHub<span class="sr-only">{{ t.nuevaPestana }}</span>
+              GitHub<span class="sr-only">{{ t().nuevaPestana }}</span>
             </a>
           </li>
         </ul>

@@ -30,7 +30,7 @@ const textos = {
   en: { nav: 'Sections', abrir: 'Open menu', cerrar: 'Close menu', perfiles: 'Profiles', nuevaPestana: ' (opens in a new tab)', idioma: 'Language', claro: 'Switch to light mode', oscuro: 'Switch to dark mode' },
 };
 
-/** Each language is its own page; the link keeps the section you were reading. */
+/** Each language is its own page; switching keeps the section you were reading. */
 const idiomas: { lang: Lang; label: string; nombre: string; href: string }[] = [
   { lang: 'en', label: 'EN', nombre: 'English', href: '/' },
   { lang: 'es', label: 'ES', nombre: 'Español', href: '/es' },
@@ -53,24 +53,25 @@ const perfiles = [
     '(document:click)': 'closeIfOutside($event)',
   },
   template: `
-    <nav [attr.aria-label]="t.nav">
+    <nav [attr.aria-label]="t().nav">
       <div class="fixed right-[4.75rem] top-4 z-50 flex gap-2 lg:right-6">
       <button
         appIconHover
         type="button"
         class="flex size-12 cursor-pointer items-center justify-center rounded-full border border-border bg-bg/90 text-text-muted backdrop-blur transition-colors hover:text-text"
-        [attr.aria-label]="tema() === 'dark' ? t.claro : t.oscuro"
+        [attr.aria-label]="tema() === 'dark' ? t().claro : t().oscuro"
         (click)="cambiarTema()"
       >
         <animate-icons [icon]="tema() === 'dark' ? icons.sun : icons.moon" [size]="20" aria-hidden="true" />
       </button>
-      <div class="switch" role="group" [attr.aria-label]="t.idioma">
+      <div class="switch" role="group" [attr.aria-label]="t().idioma">
       @for (item of idiomas; track item.lang) {
         <a
           [href]="item.href + (active() === 'inicio' ? '' : '#' + active())"
           [attr.hreflang]="item.lang"
           [attr.lang]="item.lang"
-          [attr.aria-current]="item.lang === i18n.lang ? 'true' : null"
+          [attr.aria-current]="item.lang === i18n.lang() ? 'true' : null"
+          (click)="cambiarIdioma($event, item.lang)"
         >{{ item.label }}<span class="sr-only"> · {{ item.nombre }}</span></a>
       }
       </div>
@@ -82,7 +83,7 @@ const perfiles = [
         class="fixed right-4 top-4 z-50 flex size-12 cursor-pointer items-center justify-center rounded-xl border border-border bg-bg/90 text-text-muted backdrop-blur transition-colors hover:text-text lg:hidden"
         aria-controls="menu-secciones"
         [attr.aria-expanded]="open()"
-        [attr.aria-label]="open() ? t.cerrar : t.abrir"
+        [attr.aria-label]="open() ? t().cerrar : t().abrir"
         (click)="open.set(!open())"
       >
         <animate-icons [icon]="open() ? icons.close : icons.menu" [size]="22" aria-hidden="true" />
@@ -100,7 +101,7 @@ const perfiles = [
           <li>
             <a
               appIconHover
-              [href]="i18n.base + '#' + link.id"
+              [href]="i18n.base() + '#' + link.id"
               [attr.aria-current]="current ? 'location' : null"
               class="group relative flex items-center justify-center rounded-xl p-3 transition-all duration-300 xl:p-4"
               [class]="current
@@ -109,7 +110,7 @@ const perfiles = [
               (click)="close()"
             >
               <animate-icons [icon]="link.icon" [size]="22" aria-hidden="true" />
-              <span class="label">{{ i18n.pick(link.label) }}</span>
+              <span class="label">{{ link.label[i18n.lang()] }}</span>
               @if (current) {
                 <span
                   class="absolute -right-2 top-1/2 h-8 w-1 -translate-y-1/2 rounded-full bg-linear-to-b from-accent to-brand lg:-right-3"
@@ -121,7 +122,7 @@ const perfiles = [
         }
       </ul>
 
-      <ul class="mt-auto hidden flex-col gap-3 lg:flex" [attr.aria-label]="t.perfiles">
+      <ul class="mt-auto hidden flex-col gap-3 lg:flex" [attr.aria-label]="t().perfiles">
         @for (item of perfiles; track item.label) {
           <li>
             <a
@@ -132,7 +133,7 @@ const perfiles = [
               class="group relative flex items-center justify-center rounded-xl p-3 text-text-muted transition-colors hover:bg-surface-2 hover:text-text xl:p-4"
             >
               <animate-icons [icon]="item.icon" [size]="22" aria-hidden="true" />
-              <span class="label">{{ item.label }}<span class="sr-only">{{ t.nuevaPestana }}</span></span>
+              <span class="label">{{ item.label }}<span class="sr-only">{{ t().nuevaPestana }}</span></span>
             </a>
           </li>
         }
@@ -241,6 +242,13 @@ export class Nav {
   protected readonly icons = { menu: Menu, close: X, sun: Sun, moon: Moon };
   /** Prerendered as dark; the real value (set by the inline script in index.html) is read after hydration. */
   protected readonly tema = signal<'dark' | 'light'>('dark');
+
+  /** Plain link for crawlers and new tabs; a normal click swaps the language in place. */
+  protected cambiarIdioma(event: MouseEvent, lang: Lang): void {
+    if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    this.i18n.cambiar(lang, this.active() === 'inicio' ? undefined : this.active());
+  }
 
   protected cambiarTema(): void {
     const tema = this.tema() === 'dark' ? 'light' : 'dark';

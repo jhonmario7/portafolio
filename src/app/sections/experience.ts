@@ -1,5 +1,5 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { experiencia } from '../data/experiencia';
 import { I18n } from '../i18n';
 import { Lightbox } from '../shared/lightbox';
@@ -42,9 +42,9 @@ const textos = {
   template: `
     <section id="experiencia" aria-labelledby="experiencia-titulo" class="section">
       <header class="mb-12">
-        <p class="eyebrow"><span aria-hidden="true">// </span>{{ t.eyebrow }}</p>
-        <h2 id="experiencia-titulo" class="section-title">{{ t.titulo }} <span class="text-accent">{{ t.tituloAcento }}</span></h2>
-        <p class="mt-2 text-text-muted">{{ t.subtitulo }}</p>
+        <p class="eyebrow"><span aria-hidden="true">// </span>{{ t().eyebrow }}</p>
+        <h2 id="experiencia-titulo" class="section-title">{{ t().titulo }} <span class="text-accent">{{ t().tituloAcento }}</span></h2>
+        <p class="mt-2 text-text-muted">{{ t().subtitulo }}</p>
       </header>
 
       <article class="group reveal overflow-hidden rounded-2xl border border-border bg-surface/80 shadow-lg">
@@ -54,39 +54,39 @@ const textos = {
           <button
             type="button"
             class="group/img relative order-2 min-h-[260px] cursor-zoom-in overflow-hidden sm:min-h-[300px] lg:order-1"
-            (click)="visor.open([{ src: c.imagen, alt: c.alt }])"
+            (click)="visor.open([{ src: c().imagen, alt: c().alt }])"
           >
             <img
-              [ngSrc]="c.imagen"
+              [ngSrc]="c().imagen"
               ngSrcset="640w, 960w, 1200w"
               sizes="(min-width: 1024px) 50vw, 100vw"
               fill
-              [alt]="c.alt"
+              [alt]="c().alt"
               class="object-cover grayscale transition duration-700 group-hover:grayscale-0 group-hover/img:scale-[1.03] light:grayscale-0"
             />
             <span class="absolute inset-0 bg-linear-to-r from-bg/90 via-bg/60 to-bg/30 light:hidden" aria-hidden="true"></span>
-            <span class="sr-only"> {{ t.verGrande }}</span>
+            <span class="sr-only"> {{ t().verGrande }}</span>
           </button>
 
           <div class="order-1 flex flex-col justify-center p-6 sm:p-10 lg:order-2 lg:p-14">
             <div class="max-w-[65ch] space-y-6">
               <div class="flex flex-wrap items-start justify-between gap-4">
                 <div class="min-w-0 flex-1">
-                  <h3 class="text-lg font-semibold md:text-xl">{{ c.titulo }}</h3>
-                  <p class="mt-1 font-mono text-xs text-text-muted">{{ c.periodo }}</p>
+                  <h3 class="text-lg font-semibold md:text-xl">{{ c().titulo }}</h3>
+                  <p class="mt-1 font-mono text-xs text-text-muted">{{ c().periodo }}</p>
                 </div>
                 <img
-                  [ngSrc]="c.logo"
+                  [ngSrc]="c().logo"
                   width="234"
                   height="96"
                   disableOptimizedSrcset
-                  [alt]="c.logoAlt"
+                  [alt]="c().logoAlt"
                   class="h-9 w-auto shrink-0 object-contain md:h-10 light:box-content light:rounded-lg light:bg-neutral-950 light:p-2"
                 />
               </div>
 
               <dl class="space-y-1.5 border-b border-border pb-4 text-xs">
-                @for (dato of c.datos; track dato.etiqueta) {
+                @for (dato of c().datos; track dato.etiqueta) {
                   <div class="flex gap-2">
                     <dt class="shrink-0 font-medium uppercase tracking-wider text-text-muted">{{ dato.etiqueta }}:</dt>
                     <dd>{{ dato.valor }}</dd>
@@ -95,7 +95,7 @@ const textos = {
               </dl>
 
               <ul class="space-y-2 text-sm leading-relaxed text-text-muted">
-                @for (aporte of c.aportes; track $index) {
+                @for (aporte of c().aportes; track $index) {
                   <li class="flex gap-3">
                     <span class="mt-2 size-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
                     <span class="text-justify hyphens-auto [&_b]:font-medium [&_b]:text-accent-soft" [innerHTML]="aporte"></span>
@@ -103,8 +103,8 @@ const textos = {
                 }
               </ul>
 
-              <ul class="flex flex-wrap gap-2 border-t border-border pt-5" [attr.aria-label]="t.tecnologias">
-                @for (tech of c.stack; track tech) {
+              <ul class="flex flex-wrap gap-2 border-t border-border pt-5" [attr.aria-label]="t().tecnologias">
+                @for (tech of c().stack; track tech) {
                   <li
                     class="rounded-md border border-border bg-surface-2/60 px-2 py-1 font-mono text-xs text-text-muted transition duration-300
                       hover:border-brand/50 hover:text-accent-soft hover:shadow-[0_0_14px_-2px_rgb(220_38_38/0.35)]"
@@ -118,16 +118,16 @@ const textos = {
         </div>
       </article>
 
-      <p class="eyebrow mt-20"><span aria-hidden="true">// </span>{{ t.trayectoria }}</p>
-      <h3 class="mt-2 font-display text-2xl font-semibold sm:text-3xl">{{ t.trayectoriaTitulo }} <span class="text-accent">{{ t.trayectoriaAcento }}</span></h3>
-      <p class="mt-2 text-text-muted">{{ t.trayectoriaSub }}</p>
+      <p class="eyebrow mt-20"><span aria-hidden="true">// </span>{{ t().trayectoria }}</p>
+      <h3 class="mt-2 font-display text-2xl font-semibold sm:text-3xl">{{ t().trayectoriaTitulo }} <span class="text-accent">{{ t().trayectoriaAcento }}</span></h3>
+      <p class="mt-2 text-text-muted">{{ t().trayectoriaSub }}</p>
       <!--
         Timeline: a glowing dot per role, each role in its own card. Every role but the last draws a
         segment from its dot (center 39px down) to the next dot (gap 1.5rem + 39px), so the rail
         starts and ends at a dot.
       -->
       <ol class="mt-8 space-y-6">
-        @for (item of trayectoria; track item.rol; let i = $index) {
+        @for (item of trayectoria(); track $index; let i = $index) {
           @let open = abiertos().has(i);
           <li
             class="reveal relative pl-7 sm:pl-10
@@ -172,7 +172,7 @@ const textos = {
                   [attr.aria-controls]="'detalles-' + i"
                   (click)="toggle(i)"
                 >
-                  {{ open ? t.ocultar : t.ver }}
+                  {{ open ? t().ocultar : t().ver }}
                   <svg class="size-4 transition-transform duration-300" [class.rotate-180]="open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="m6 9 6 6 6-6" />
                   </svg>
@@ -220,8 +220,9 @@ const textos = {
 export class Experience {
   private readonly i18n = inject(I18n);
   protected readonly t = this.i18n.pick(textos);
-  protected readonly c = this.i18n.pick(experiencia).caso;
-  protected readonly trayectoria = this.i18n.pick(experiencia).trayectoria;
+  private readonly datos = this.i18n.pick(experiencia);
+  protected readonly c = computed(() => this.datos().caso);
+  protected readonly trayectoria = computed(() => this.datos().trayectoria);
   protected readonly abiertos = signal(new Set<number>());
 
   protected toggle(i: number): void {

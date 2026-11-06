@@ -1,10 +1,14 @@
 import { DOCUMENT, PlatformLocation } from '@angular/common';
-import { Service, inject } from '@angular/core';
+import { Service, Signal, computed, effect, inject, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 export type Lang = 'es' | 'en';
 
 const SITE = 'https://jhonmario.pages.dev';
+
+/** Path of each language's page: English is the default at /. */
+export const rutas: Record<Lang, string> = { en: '/', es: '/es' };
 
 const seo = {
   es: {
@@ -26,32 +30,47 @@ const seo = {
 };
 
 /**
- * Each language is its own prerendered page (/ in English, the default, and /es/), so the language is fixed for the
- * page's lifetime: read once from the URL, the same on the server and in the browser.
- * Switching languages is a plain link to the other page.
+ * Each language is its own prerendered page (/ and /es/), so search engines index both. In the
+ * browser, switching languages is a router navigation: the URL changes and the copy swaps in
+ * place, with no reload and no scroll. Copy comes from { es, en } records through pick().
  */
 @Service()
 export class I18n {
-  readonly lang: Lang = inject(PlatformLocation).pathname.startsWith('/es') ? 'es' : 'en';
+  private readonly router = inject(Router);
+  readonly lang = signal<Lang>(langOf(inject(PlatformLocation).pathname));
   /** Prefix for in-page anchors: with <base href="/">, a bare "#id" would point at the English page. */
-  readonly base = this.lang === 'es' ? '/es' : '';
+  readonly base = computed(() => (this.lang() === 'es' ? '/es' : ''));
 
   constructor() {
-    const s = seo[this.lang];
+    this.router.events.subscribe(() => this.lang.set(langOf(this.router.url)));
+
     const doc = inject(DOCUMENT);
     const meta = inject(Meta);
-    doc.documentElement.lang = this.lang;
-    inject(Title).setTitle(s.title);
-    meta.updateTag({ name: 'description', content: s.description });
-    meta.updateTag({ property: 'og:title', content: s.title });
-    meta.updateTag({ property: 'og:description', content: s.ogDescription });
-    meta.updateTag({ property: 'og:locale', content: s.locale });
-    meta.updateTag({ property: 'og:url', content: s.url });
-    doc.querySelector('link[rel="canonical"]')?.setAttribute('href', s.url);
+    const title = inject(Title);
+    effect(() => {
+      const s = seo[this.lang()];
+      doc.documentElement.lang = this.lang();
+      title.setTitle(s.title);
+      meta.updateTag({ name: 'description', content: s.description });
+      meta.updateTag({ property: 'og:title', content: s.title });
+      meta.updateTag({ property: 'og:description', content: s.ogDescription });
+      meta.updateTag({ property: 'og:locale', content: s.locale });
+      meta.updateTag({ property: 'og:url', content: s.url });
+      doc.querySelector('link[rel="canonical"]')?.setAttribute('href', s.url);
+    });
   }
 
-  /** The current language's entry of a { es, en } record. */
-  pick<T>(record: Record<Lang, T>): T {
-    return record[this.lang];
+  /** The current language's entry of a { es, en } record, as a signal. */
+  pick<T>(record: Record<Lang, T>): Signal<T> {
+    return computed(() => record[this.lang()]);
   }
+
+  /** Switch in place: the router doesn't scroll (anchorScrolling is off), so the reader stays put. */
+  cambiar(lang: Lang, seccion?: string): void {
+    void this.router.navigateByUrl(rutas[lang] + (seccion ? `#${seccion}` : ''));
+  }
+}
+
+function langOf(path: string): Lang {
+  return path.startsWith('/es') ? 'es' : 'en';
 }
