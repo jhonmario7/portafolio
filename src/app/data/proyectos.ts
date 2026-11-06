@@ -1,3 +1,5 @@
+import { Lang } from '../i18n';
+
 export interface Proyecto {
   nombre: string;
   descripcion: string;
@@ -15,7 +17,7 @@ export interface Proyecto {
   codigo?: string;
 }
 
-export const proyectos: Proyecto[] = [
+const proyectosEs: Proyecto[] = [
   {
     nombre: 'FisioYuli',
     descripcion:
@@ -58,3 +60,41 @@ export const proyectos: Proyecto[] = [
     movil: 'Inicio de sesión de King Padel en celular.',
   },
 ];
+
+const proyectosEnTexto: Pick<Proyecto, 'descripcion' | 'capturas' | 'movil'>[] = [
+  {
+    descripcion:
+      'Landing page for a physiotherapist in Neiva, built so patients can book over WhatsApp in one tap. Prerendered (SSG) with incremental hydration and a Signal Forms form; it scores PageSpeed 94–100 and meets WCAG AA.',
+    capturas: [
+      'fisioyuli.com home page with the headline, the WhatsApp booking button and a photo of the physiotherapist.',
+      'PageSpeed Insights mobile result: 92 for performance and 100 for accessibility, best practices and SEO.',
+    ],
+    movil: 'fisioyuli.com on a phone: photo of the physiotherapist, WhatsApp button and the headline "Vuelve a moverte sin dolor".',
+  },
+  {
+    descripcion:
+      'Landing page for an accounting, tax and legal advisory firm, built under contract. It includes an accessible carousel with its 11 services, a contact form delivered through WhatsApp and prerendering (SSG) for search ranking.',
+    capturas: [
+      "iuscounterconsulting.com home page with the headline and the firm's five services.",
+      'Contact form with name, phone, service of interest and data consent.',
+    ],
+    movil: "iuscounterconsulting.com on a phone: headline, buttons to book and see services, and the firm's five practice areas.",
+  },
+  {
+    descripcion:
+      "Dashboard to run a padel club: court booking calendar, leagues, tournaments, a points ranking and credit balance per customer, and the restaurant's menu, with customer and admin roles.",
+    capturas: [
+      'King Padel dashboard sign-in screen.',
+      'Weekly booking calendar with court filters and the New booking button.',
+      "The club restaurant's menu organized by category, with prices.",
+      'Customer profile with King Points and King Coin balances and test personal data.',
+      'Sign-up form for new club members.',
+    ],
+    movil: 'King Padel sign-in on a phone.',
+  },
+];
+
+export const proyectos: Record<Lang, Proyecto[]> = {
+  es: proyectosEs,
+  en: proyectosEs.map((p, i) => ({ ...p, ...proyectosEnTexto[i] })),
+};

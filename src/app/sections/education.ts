@@ -1,12 +1,58 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
 import { Github, Globe } from '@animateicons/angular/lucide';
 import { formacion } from '../data/formacion';
+import { I18n } from '../i18n';
 import { IconHover } from '../shared/icon-hover';
 import { Lightbox } from '../shared/lightbox';
 
-const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
+// Stats come from the data, so they're the same in both languages.
+const items = formacion.es;
+const horas = items.reduce((total, f) => total + (f.horas ?? 0), 0);
+const cifras = {
+  titulos: items.filter((f) => f.tipo === 'Título').length,
+  certificados: items.filter((f) => f.tipo === 'Certificado').length,
+  horas: `+${Math.floor(horas / 10) * 10}`,
+  instituciones: new Set(items.flatMap((f) => f.institucion.split(' · '))).size,
+};
+
+const textos = {
+  es: {
+    eyebrow: 'formación',
+    titulo: 'La base',
+    tituloAcento: 'detrás del código',
+    subtitulo: 'Ingeniería, tecnología y cursos que sigo sumando.',
+    stats: ['Títulos', 'Certificados', 'Horas certificadas', 'Instituciones'],
+    tipo: { Título: 'Título', Certificado: 'Certificado' },
+    proyectos: 'Proyectos desarrollados',
+    temas: 'Temas clave',
+    ver: { Título: 'Ver título', Certificado: 'Ver certificado' },
+    altDe: { Título: 'Título de', Certificado: 'Certificado de' },
+    demo: 'Ver demo de',
+    codigo: 'Ver código de',
+    verificar: 'Verificar',
+    nuevaPestana: ' (abre en otra pestaña)',
+    continuo: '{{ t.continuo }}',
+  },
+  en: {
+    eyebrow: 'education',
+    titulo: 'The foundation',
+    tituloAcento: 'behind the code',
+    subtitulo: "Engineering, technology and the courses I keep adding.",
+    stats: ['Degrees', 'Certificates', 'Certified hours', 'Institutions'],
+    tipo: { Título: 'Degree', Certificado: 'Certificate' },
+    proyectos: 'Projects built',
+    temas: 'Key topics',
+    ver: { Título: 'View degree', Certificado: 'View certificate' },
+    altDe: { Título: 'Degree in', Certificado: 'Certificate for' },
+    demo: 'View demo of',
+    codigo: 'View code of',
+    verificar: 'Verify',
+    nuevaPestana: ' (opens in a new tab)',
+    continuo: 'Always learning since 2018',
+  },
+};
 
 @Component({
   selector: 'app-education',
@@ -33,9 +79,9 @@ const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
   `,
   template: `
     <section id="formacion" aria-labelledby="formacion-titulo" class="section">
-      <p class="eyebrow"><span aria-hidden="true">// </span>formación</p>
-      <h2 id="formacion-titulo" class="section-title">La base <span class="text-accent">detrás del código</span></h2>
-      <p class="mt-2 text-text-muted">Ingeniería, tecnología y cursos que sigo sumando.</p>
+      <p class="eyebrow"><span aria-hidden="true">// </span>{{ t.eyebrow }}</p>
+      <h2 id="formacion-titulo" class="section-title">{{ t.titulo }} <span class="text-accent">{{ t.tituloAcento }}</span></h2>
+      <p class="mt-2 text-text-muted">{{ t.subtitulo }}</p>
 
       <dl class="mt-10 grid grid-cols-2 gap-4 md:grid-cols-4">
         @for (s of stats; track s.label) {
@@ -66,7 +112,7 @@ const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
                   <p class="truncate text-left text-sm font-medium text-accent">{{ f.institucion }}</p>
                   <p class="text-left font-mono text-xs text-text-muted">{{ f.periodo }}</p>
                 </div>
-                <span class="shrink-0 rounded-full border border-border px-2.5 py-0.5 text-xs text-text-muted">{{ f.tipo }}</span>
+                <span class="shrink-0 rounded-full border border-border px-2.5 py-0.5 text-xs text-text-muted">{{ t.tipo[f.tipo] }}</span>
               </div>
 
               <h3 class="mt-4 font-display text-lg font-semibold leading-snug">{{ f.titulo }}</h3>
@@ -76,7 +122,7 @@ const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
 
               @if (f.proyectos; as proyectos) {
                 <h4 class="mt-5 flex items-center justify-between text-sm font-medium">
-                  Proyectos desarrollados
+                  {{ t.proyectos }}
                   <span class="rounded-full bg-brand/20 px-2 py-0.5 text-xs text-red-200">{{ proyectos.length }}</span>
                 </h4>
                 <ul class="mt-3 space-y-2">
@@ -94,12 +140,12 @@ const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
                       @if (p.demo; as demo) {
                         <a appIconHover [href]="demo" target="_blank" rel="noopener" class="icon-link">
                           <animate-icons [icon]="icons.globe" [size]="16" aria-hidden="true" />
-                          <span class="sr-only">Ver demo de {{ p.nombre }} (abre en otra pestaña)</span>
+                          <span class="sr-only">{{ t.demo }} {{ p.nombre }}{{ t.nuevaPestana }}</span>
                         </a>
                       }
                       <a appIconHover [href]="p.codigo" target="_blank" rel="noopener" class="icon-link">
                         <animate-icons [icon]="icons.github" [size]="16" aria-hidden="true" />
-                        <span class="sr-only">Ver código de {{ p.nombre }} (abre en otra pestaña)</span>
+                        <span class="sr-only">{{ t.codigo }} {{ p.nombre }}{{ t.nuevaPestana }}</span>
                       </a>
                     </li>
                   }
@@ -107,7 +153,7 @@ const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
               }
 
               <h4 class="mt-5 flex items-center justify-between text-sm font-medium">
-                Temas clave
+                {{ t.temas }}
                 <span class="rounded-full bg-brand/20 px-2 py-0.5 text-xs text-red-200">{{ f.temas.length }}</span>
               </h4>
               <ul class="mt-3 space-y-2">
@@ -128,9 +174,9 @@ const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
                 <button
                   type="button"
                   class="inline-flex min-h-11 cursor-zoom-in items-center gap-1.5 rounded-full border border-accent/70 px-5 text-sm font-semibold transition-colors hover:border-accent hover:bg-accent/10"
-                  (click)="visor.open([{ src: f.certificado, alt: (f.tipo === 'Título' ? 'Título de ' : 'Certificado de ') + f.titulo + ', ' + f.institucion }])"
+                  (click)="visor.open([{ src: f.certificado, alt: t.altDe[f.tipo] + ' ' + f.titulo + ', ' + f.institucion }])"
                 >
-                  Ver {{ f.tipo === 'Título' ? 'título' : 'certificado' }}
+                  {{ t.ver[f.tipo] }}
                   <span class="sr-only">: {{ f.titulo }}</span>
                 </button>
                 @if (f.verificar; as url) {
@@ -140,7 +186,7 @@ const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
                     rel="noopener"
                     class="inline-flex min-h-11 items-center px-3 text-sm text-text-muted underline-offset-4 transition-colors hover:text-text hover:underline"
                   >
-                    Verificar<span class="sr-only"> {{ f.titulo }} (se abre en otra pestaña)</span>
+                    {{ t.verificar }}<span class="sr-only"> {{ f.titulo }}{{ t.nuevaPestana }}</span>
                   </a>
                 }
               </div>
@@ -152,7 +198,7 @@ const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
       <p class="mt-12 flex justify-center">
         <span class="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-brand/10 px-5 py-2.5 text-sm font-medium text-red-200">
           <span class="size-2 rounded-full bg-accent motion-safe:animate-pulse" aria-hidden="true"></span>
-          Aprendizaje continuo desde 2018
+          {{ t.continuo }}
         </span>
       </p>
 
@@ -161,12 +207,14 @@ const horas = formacion.reduce((total, f) => total + (f.horas ?? 0), 0);
   `,
 })
 export class Education {
-  protected readonly formacion = formacion;
+  private readonly i18n = inject(I18n);
+  protected readonly t = this.i18n.pick(textos);
+  protected readonly formacion = this.i18n.pick(formacion);
   protected readonly icons = { globe: Globe, github: Github };
   protected readonly stats = [
-    { label: 'Títulos', valor: formacion.filter((f) => f.tipo === 'Título').length },
-    { label: 'Certificados', valor: formacion.filter((f) => f.tipo === 'Certificado').length },
-    { label: 'Horas certificadas', valor: `+${Math.floor(horas / 10) * 10}` },
-    { label: 'Instituciones', valor: new Set(formacion.flatMap((f) => f.institucion.split(' · '))).size },
+    { label: this.t.stats[0], valor: cifras.titulos },
+    { label: this.t.stats[1], valor: cifras.certificados },
+    { label: this.t.stats[2], valor: cifras.horas },
+    { label: this.t.stats[3], valor: cifras.instituciones },
   ];
 }

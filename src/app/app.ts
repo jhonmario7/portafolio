@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { perfil } from './data/perfil';
+import { I18n } from './i18n';
 import { GlyphField } from './layout/glyph-field';
 import { Nav } from './layout/nav';
 import { Contact } from './sections/contact';
@@ -15,6 +16,7 @@ import { Projects } from './sections/projects';
   templateUrl: './app.html',
 })
 export class App {
+  protected readonly i18n = inject(I18n);
   protected readonly name = perfil.nombre;
   // Baked in at prerender; every deploy rebuilds, so it stays current.
   protected readonly year = new Date().getFullYear();

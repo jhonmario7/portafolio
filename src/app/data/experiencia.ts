@@ -1,4 +1,6 @@
-export const casoDestacado = {
+import { Lang } from '../i18n';
+
+const casoEs = {
   titulo: 'DATASSEQ – Plataforma ERP de MASSEQ',
   periodo: 'Jun 2024 – actualidad',
   datos: [
@@ -24,7 +26,7 @@ export const casoDestacado = {
 
 // Newest first. Non-technical roles from the CV (billing, audit) are left out on purpose.
 // resumen is always visible; "Ver detalles" opens detalles as two titled groups. logo: square tile (freelance uses the site mark).
-export const trayectoria = [
+const trayectoriaEs = [
   {
     rol: 'Desarrollador Frontend Freelance',
     lugar: 'Proyectos para clientes',
@@ -133,3 +135,131 @@ export const trayectoria = [
     ],
   },
 ];
+
+// English: same logos, images and links; only the copy is replaced.
+const casoEn = {
+  ...casoEs,
+  titulo: 'DATASSEQ – MASSEQ ERP platform',
+  periodo: 'Jun 2024 – present',
+  datos: [
+    { etiqueta: 'Company', valor: 'MASSEQ S.A.S.' },
+    { etiqueta: 'Product', valor: 'ERP for machinery, projects and tenders' },
+    { etiqueta: 'Role', valor: 'Innovation and Development Professional · Angular Frontend' },
+  ],
+  aportes: [
+    'I build and maintain the <b>Human Resources, Payroll, Fuel Management and Dashboards</b> modules of a platform with 10+ modules.',
+    'Modular architecture with <b>lazy loading</b>, route guards and HTTP interceptors that centralize authentication and error handling.',
+    'Complex forms with <b>Reactive Forms</b> and custom validation over REST APIs with HttpClient and RxJS.',
+    'KPI dashboards with <b>ApexCharts, ECharts and Chart.js</b> on Angular Material, PrimeNG and NgBootstrap.',
+    'Components reused across modules, in <b>Scrum</b> sprints with GitHub and GitLab.',
+  ],
+  alt: 'DATASSEQ main panel with the module menu: Procurement, Assets, Document Search, Daily Control, Site Control, Dashboards, Fuel Management, Tenders and Settlements.',
+};
+
+const trayectoriaEnTexto = [
+  {
+    rol: 'Freelance Frontend Developer',
+    lugar: 'Client projects',
+    periodo: 'May 2026 – present',
+    resumen:
+      'I build and ship websites and dashboards for clients, from the proposal to deployment, focused on performance, SEO and accessibility.',
+    detalles: [
+      {
+        titulo: 'Client landing pages',
+        descripcion: 'Fast, accessible sites designed to turn visits into leads.',
+        puntos: [
+          'iuscounterconsulting.com (contract work): landing page for an accounting firm with an accessible carousel of 11 services and a WhatsApp contact form, in Angular 22 SSG.',
+          'fisioyuli.com: landing page for a physiotherapist with SSG, incremental hydration and Signal Forms; PageSpeed 94–100 and WCAG AA.',
+        ],
+      },
+      {
+        titulo: 'Admin dashboards',
+        descripcion: 'Tools to run a business from a single place.',
+        puntos: [
+          'King Padel: Angular 21 dashboard (standalone, signals) for a padel club.',
+          'Court booking calendar, leagues, tournaments, rankings and the restaurant menu.',
+          'Customer and admin roles, with balances and points per customer.',
+        ],
+      },
+    ],
+  },
+  {
+    rol: 'IT Professional',
+    lugar: 'OPTISALUD',
+    periodo: 'Oct 2023 – May 2024',
+    resumen:
+      "I supported the company's technology operations: user support, networking and end-to-end incident management.",
+    detalles: [
+      {
+        titulo: 'Support and maintenance',
+        descripcion: "I kept users' equipment and tools running.",
+        puntos: [
+          'Hardware and software support, fixing issues in time so operations never stalled.',
+          'Preventive and corrective maintenance: cleaning, diagnostics, updates and software installation.',
+          'Help with the inventory of technology assets.',
+        ],
+      },
+      {
+        titulo: 'Networks and incidents',
+        descripcion: 'Stable connectivity and every case traceable.',
+        puntos: [
+          'LAN/WAN setup and administration; diagnosis of routers, switches and network points.',
+          'Logging, tracking and closing incidents with clear priorities and communication.',
+          'Training and guidance on using IT tools.',
+        ],
+      },
+    ],
+  },
+  {
+    rol: 'Junior Developer and IT Assistant',
+    lugar: 'Corporación Universitaria del Huila',
+    periodo: 'Feb 2023 – Aug 2023',
+    resumen:
+      "I built the frontend of a lab project for the veterinary team, focused on subsoil extraction and clinical tests.",
+    detalles: [
+      {
+        titulo: 'Frontend development',
+        descripcion: 'Interfaces for a lab project in the veterinary department.',
+        puntos: [
+          'Features with HTML, CSS, JavaScript and Angular at a junior level.',
+          'Interface optimization, testing and debugging.',
+        ],
+      },
+      {
+        titulo: 'Integration and teamwork',
+        descripcion: 'Connected services and sprint-based delivery.',
+        puntos: [
+          'Service integration with MySQL and request testing with Postman.',
+          'Sprints alongside junior and senior developers, presenting project progress.',
+        ],
+      },
+    ],
+  },
+  {
+    rol: 'Junior Frontend Developer',
+    lugar: 'ADN Training',
+    periodo: 'Feb 2022 – May 2022',
+    resumen:
+      'My first development role: I turned Adobe XD and Figma designs into responsive interfaces and took my first steps with TypeScript.',
+    detalles: [
+      {
+        titulo: 'From design to code',
+        descripcion: 'From prototype to a responsive interface true to the design.',
+        puntos: [
+          'Screen design and layout in Adobe XD and Figma, built in responsive HTML and CSS.',
+          'Style fixes and visual checks against the design.',
+        ],
+      },
+      {
+        titulo: 'First steps in development',
+        descripcion: 'Interaction and typing, with guidance from the team.',
+        puntos: ['Simple interactions with JavaScript.', 'TypeScript tweaks and improvements; component organization.'],
+      },
+    ],
+  },
+];
+
+export const experiencia: Record<Lang, { caso: typeof casoEs; trayectoria: typeof trayectoriaEs }> = {
+  es: { caso: casoEs, trayectoria: trayectoriaEs },
+  en: { caso: casoEn, trayectoria: trayectoriaEs.map((item, i) => ({ ...item, ...trayectoriaEnTexto[i] })) },
+};

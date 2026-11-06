@@ -1,4 +1,4 @@
-<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<a class="skip-link" [href]="i18n.base + '#contenido'">{{ i18n.lang === 'en' ? 'Skip to content' : 'Saltar al contenido' }}</a>
 
 <app-nav />
 
@@ -19,7 +19,7 @@
 
   <footer class="border-t border-border px-4 py-8 sm:px-6">
     <p class="text-center text-sm text-text-muted">
-      © {{ year }} {{ name }} · Construido con <span class="text-accent">Angular</span> y Tailwind
+      © {{ year }} {{ name }} · {{ i18n.lang === 'en' ? 'Built with' : 'Construido con' }} <span class="text-accent">Angular</span> {{ i18n.lang === 'en' ? 'and' : 'y' }} Tailwind
     </p>
   </footer>
 </div>

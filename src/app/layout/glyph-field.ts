@@ -68,6 +68,8 @@ export class GlyphField {
       };
 
       const draw = () => {
+        // A hidden or minimized window can size the canvas to 0×0, and drawImage throws on that.
+        if (!rest.width || !rest.height) return;
         // Cells inside the cursor's square join the hot set; the rest of the set is the fading trail.
         const c0 = Math.max(0, Math.floor((pointer.x - RADIUS) / CELL));
         const c1 = Math.min(cols - 1, Math.floor((pointer.x + RADIUS) / CELL));

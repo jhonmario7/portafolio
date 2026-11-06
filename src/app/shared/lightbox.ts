@@ -1,6 +1,12 @@
-import { Component, ElementRef, computed, signal, viewChild } from '@angular/core';
+import { Component, ElementRef, computed, inject, signal, viewChild } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
 import { ChevronLeft, ChevronRight, X } from '@animateicons/angular/lucide';
+import { I18n } from '../i18n';
+
+const textos = {
+  es: { anterior: 'Captura anterior', siguiente: 'Captura siguiente', de: 'de', cerrar: 'Cerrar imagen', captura: 'Captura' },
+  en: { anterior: 'Previous screenshot', siguiente: 'Next screenshot', de: 'of', cerrar: 'Close image', captura: 'Screenshot' },
+};
 
 /** A screenshot by its base name in public/img/ (served as <src>-640.webp and <src>-1200.webp). */
 export interface Captura {
@@ -42,24 +48,24 @@ export interface Captura {
           />
         </div>
         @if (capturas().length > 1) {
-          <button type="button" class="flecha left-3 sm:left-6" aria-label="Captura anterior" [disabled]="index() === 0" (click)="move(-1)">
+          <button type="button" class="flecha left-3 sm:left-6" [attr.aria-label]="t.anterior" [disabled]="index() === 0" (click)="move(-1)">
             <animate-icons [icon]="icons.prev" [size]="22" aria-hidden="true" />
           </button>
           <button
             type="button"
             class="flecha right-3 sm:right-6"
-            aria-label="Captura siguiente"
+            [attr.aria-label]="t.siguiente"
             [disabled]="index() === capturas().length - 1"
             (click)="move(1)"
           >
             <animate-icons [icon]="icons.next" [size]="22" aria-hidden="true" />
           </button>
-          <p class="sr-only" aria-live="polite">Captura {{ index() + 1 }} de {{ capturas().length }}</p>
+          <p class="sr-only" aria-live="polite">{{ t.captura }} {{ index() + 1 }} {{ t.de }} {{ capturas().length }}</p>
         }
         <button
           type="button"
           class="fixed right-4 top-4 grid size-11 cursor-pointer place-items-center rounded-full border border-border bg-bg/80 text-text backdrop-blur transition-colors hover:border-text-muted"
-          aria-label="Cerrar imagen"
+          [attr.aria-label]="t.cerrar"
           (click)="dialog.close()"
         >
           <animate-icons [icon]="icons.close" [size]="20" aria-hidden="true" />
@@ -135,6 +141,7 @@ export interface Captura {
   `,
 })
 export class Lightbox {
+  protected readonly t = inject(I18n).pick(textos);
   protected readonly capturas = signal<Captura[]>([]);
   protected readonly index = signal(0);
   protected readonly captura = computed(() => this.capturas()[this.index()] ?? null);

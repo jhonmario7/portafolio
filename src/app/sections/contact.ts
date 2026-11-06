@@ -1,8 +1,34 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
 import { IconHover } from '../shared/icon-hover';
 import { Copy, CopyCheck, Download, Github, Linkedin, Mail } from '@animateicons/angular/lucide';
 import { perfil } from '../data/perfil';
+import { I18n } from '../i18n';
+
+const textos = {
+  es: {
+    titulo: 'Trabajemos juntos',
+    intro: 'Busco un equipo remoto donde aportar con Angular, y también tomo landings y paneles como freelance.',
+    correo: 'Enviar correo',
+    copiar: 'Copiar correo',
+    copiado: 'Correo copiado',
+    fallo: 'No se pudo copiar; el correo es',
+    cv: 'Descargar CV',
+    cvSub: '{{ t.cvSub }}',
+    nuevaPestana: ' (abre en otra pestaña)',
+  },
+  en: {
+    titulo: "Let's work together",
+    intro: "I'm looking for a remote team where I can contribute with Angular, and I also take on landing pages and dashboards as a freelancer.",
+    correo: 'Send an email',
+    copiar: 'Copy email',
+    copiado: 'Email copied',
+    fallo: "Couldn't copy; the email is",
+    cv: 'Download CV',
+    cvSub: 'Full professional profile in PDF (Spanish)',
+    nuevaPestana: ' (opens in a new tab)',
+  },
+};
 
 @Component({
   selector: 'app-contact',
@@ -17,15 +43,15 @@ import { perfil } from '../data/perfil';
       </div>
 
       <div class="reveal mx-auto w-full max-w-3xl text-center">
-        <p class="eyebrow text-center"><span aria-hidden="true">// </span>contacto</p>
+        <p class="eyebrow text-center"><span aria-hidden="true">// </span>{{ i18n.lang === 'en' ? 'contact' : 'contacto' }}</p>
         <h2
           id="contacto-titulo"
           class="mt-2 font-display text-4xl font-bold leading-tight text-text sm:text-6xl"
         >
-          Trabajemos juntos
+          {{ t.titulo }}
         </h2>
         <p class="mx-auto mt-4 max-w-xl text-center text-text-muted hyphens-none">
-          Busco un equipo remoto donde aportar con Angular, y también tomo landings y paneles como freelance.
+          {{ t.intro }}
         </p>
 
         <div class="mx-auto mt-10 grid max-w-2xl grid-cols-[minmax(0,1fr)] gap-4 text-left">
@@ -37,7 +63,7 @@ import { perfil } from '../data/perfil';
             <span class="tile" aria-hidden="true"><animate-icons [icon]="icons.mail" [size]="22" /></span>
             <div class="min-w-0 flex-1">
               <a appIconHover [href]="'mailto:' + p.email" class="stretched font-display text-lg font-semibold group-hover:text-red-200">
-                Enviar correo
+                {{ t.correo }}
               </a>
               <p class="break-all text-left font-mono text-sm text-text-muted">{{ p.email }}</p>
             </div>
@@ -45,7 +71,7 @@ import { perfil } from '../data/perfil';
               appIconHover
               type="button"
               class="relative z-10 grid size-11 shrink-0 cursor-pointer place-items-center rounded-xl text-text-muted transition-colors hover:bg-white/5 hover:text-accent"
-              [attr.aria-label]="copy() === 'copied' ? 'Correo copiado' : 'Copiar correo'"
+              [attr.aria-label]="copy() === 'copied' ? t.copiado : t.copiar"
               (click)="copyEmail()"
             >
               <animate-icons [icon]="copy() === 'copied' ? icons.copyCheck : icons.copy" [size]="20" aria-hidden="true" />
@@ -56,9 +82,9 @@ import { perfil } from '../data/perfil';
             <span class="tile" aria-hidden="true"><animate-icons [icon]="icons.download" [size]="22" /></span>
             <div class="min-w-0 flex-1">
               <a appIconHover [href]="p.cv" download class="stretched font-display text-lg font-semibold group-hover:text-red-200">
-                Descargar CV
+                {{ t.cv }}
               </a>
-              <p class="text-left text-sm text-text-muted">Perfil profesional completo en PDF</p>
+              <p class="text-left text-sm text-text-muted">{{ t.cvSub }}</p>
             </div>
             <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M12 5v12m-5-5 5 5 5-5M5 21h14" />
@@ -69,8 +95,8 @@ import { perfil } from '../data/perfil';
         <!-- Announced to screen readers; visible so sighted users get the same confirmation. -->
         <p class="mt-3 min-h-5 text-center text-sm" [class]="copy() === 'failed' ? 'text-alert' : 'text-accent'" aria-live="polite">
           @switch (copy()) {
-            @case ('copied') { Correo copiado }
-            @case ('failed') { No se pudo copiar; el correo es {{ p.email }} }
+            @case ('copied') { {{ t.copiado }} }
+            @case ('failed') { {{ t.fallo }} {{ p.email }} }
           }
         </p>
 
@@ -78,14 +104,14 @@ import { perfil } from '../data/perfil';
           <li>
             <a appIconHover [href]="p.linkedin" target="_blank" rel="me noopener" class="social">
               <span class="social-icon"><animate-icons [icon]="icons.linkedin" [size]="18" aria-hidden="true" /></span>
-              LinkedIn<span class="sr-only"> (abre en otra pestaña)</span>
+              LinkedIn<span class="sr-only">{{ t.nuevaPestana }}</span>
             </a>
           </li>
           <li class="h-6 w-px bg-border" aria-hidden="true"></li>
           <li>
             <a appIconHover [href]="p.github" target="_blank" rel="me noopener" class="social">
               <span class="social-icon"><animate-icons [icon]="icons.github" [size]="18" aria-hidden="true" /></span>
-              GitHub<span class="sr-only"> (abre en otra pestaña)</span>
+              GitHub<span class="sr-only">{{ t.nuevaPestana }}</span>
             </a>
           </li>
         </ul>
@@ -187,6 +213,8 @@ import { perfil } from '../data/perfil';
   `,
 })
 export class Contact {
+  protected readonly i18n = inject(I18n);
+  protected readonly t = this.i18n.pick(textos);
   protected readonly p = perfil;
   protected readonly icons = {
     mail: Mail,

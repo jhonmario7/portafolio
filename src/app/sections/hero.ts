@@ -2,8 +2,26 @@ import { NgOptimizedImage } from '@angular/common';
 import { Component, DestroyRef, afterNextRender, inject, signal } from '@angular/core';
 import { AnimateIcons } from '@animateicons/angular';
 import { Download, Github, Linkedin, Mail } from '@animateicons/angular/lucide';
-import { perfil } from '../data/perfil';
+import { bio, perfil } from '../data/perfil';
+import { I18n } from '../i18n';
 import { IconHover } from '../shared/icon-hover';
+
+const textos = {
+  es: {
+    hola: 'Hola, soy',
+    cv: 'Descargar CV',
+    hablemos: 'Hablemos',
+    nuevaPestana: ' (abre en otra pestaña)',
+    foto: 'Jhon Mario Rodriguez sonriendo, de traje vinotinto y corbata roja, al aire libre entre árboles.',
+  },
+  en: {
+    hola: "Hi, I'm",
+    cv: 'Download CV',
+    hablemos: "Let's talk",
+    nuevaPestana: ' (opens in a new tab)',
+    foto: 'Jhon Mario Rodriguez smiling, in a burgundy suit and red tie, outdoors among trees.',
+  },
+};
 
 @Component({
   selector: 'app-hero',
@@ -22,7 +40,7 @@ import { IconHover } from '../shared/icon-hover';
       <div class="max-lg:contents">
         <header class="order-1">
           <h1 id="inicio-titulo" class="text-4xl font-bold leading-tight sm:text-5xl lg:whitespace-nowrap lg:text-4xl xl:text-5xl">
-            Hola, soy {{ p.nombreCorto }}
+            {{ t.hola }} {{ p.nombreCorto }}
           </h1>
           <p class="mt-2 text-2xl font-bold sm:text-3xl">
             <span class="sr-only">{{ rolesText }}</span>
@@ -52,32 +70,32 @@ import { IconHover } from '../shared/icon-hover';
 
         <div class="order-4 lg:mt-6">
           <!-- Static copy from data/perfil.ts; [innerHTML] only to keep the <strong> highlights. -->
-          <p class="max-w-2xl leading-relaxed text-text-muted [&_strong]:font-semibold [&_strong]:text-text" [innerHTML]="p.bio"></p>
-          <p class="mt-3 max-w-2xl text-sm leading-relaxed text-text-muted">{{ p.bioExtra }}</p>
+          <p class="max-w-2xl leading-relaxed text-text-muted [&_strong]:font-semibold [&_strong]:text-text" [innerHTML]="b.bio"></p>
+          <p class="mt-3 max-w-2xl text-sm leading-relaxed text-text-muted">{{ b.bioExtra }}</p>
 
           <ul class="mt-6 flex flex-wrap justify-center gap-3 sm:gap-4 lg:justify-start">
             <li>
               <a appIconHover [href]="p.cv" download class="group relative flex rounded-full bg-brand p-3 text-on-brand transition hover:bg-red-700">
                 <animate-icons [icon]="icons.download" [size]="20" aria-hidden="true" />
-                <span class="tip">Descargar CV</span>
+                <span class="tip">{{ t.cv }}</span>
               </a>
             </li>
             <li>
-              <a appIconHover href="#contacto" class="group relative flex rounded-full border border-accent p-3 text-accent transition hover:bg-accent hover:text-bg">
+              <a appIconHover [href]="i18n.base + '#contacto'" class="group relative flex rounded-full border border-accent p-3 text-accent transition hover:bg-accent hover:text-bg">
                 <animate-icons [icon]="icons.mail" [size]="20" aria-hidden="true" />
-                <span class="tip">Hablemos</span>
+                <span class="tip">{{ t.hablemos }}</span>
               </a>
             </li>
             <li>
               <a appIconHover [href]="p.linkedin" target="_blank" rel="me noopener" class="group relative flex rounded-full border border-border p-3 text-text-muted transition hover:border-text-muted hover:text-text">
                 <animate-icons [icon]="icons.linkedin" [size]="20" aria-hidden="true" />
-                <span class="tip">LinkedIn<span class="sr-only"> (abre en otra pestaña)</span></span>
+                <span class="tip">LinkedIn<span class="sr-only">{{ t.nuevaPestana }}</span></span>
               </a>
             </li>
             <li>
               <a appIconHover [href]="p.github" target="_blank" rel="me noopener" class="group relative flex rounded-full border border-border p-3 text-text-muted transition hover:border-text-muted hover:text-text">
                 <animate-icons [icon]="icons.github" [size]="20" aria-hidden="true" />
-                <span class="tip">GitHub<span class="sr-only"> (abre en otra pestaña)</span></span>
+                <span class="tip">GitHub<span class="sr-only">{{ t.nuevaPestana }}</span></span>
               </a>
             </li>
           </ul>
@@ -93,7 +111,7 @@ import { IconHover } from '../shared/icon-hover';
           width="640"
           height="640"
           priority
-          alt="Jhon Mario Rodriguez sonriendo, de traje vinotinto y corbata roja, al aire libre entre árboles."
+          [alt]="t.foto"
           class="relative size-[240px] rounded-full border-4 border-accent/30 object-cover shadow-2xl sm:size-[280px] lg:size-[380px] xl:size-[440px]"
         />
       </div>
@@ -153,6 +171,9 @@ import { IconHover } from '../shared/icon-hover';
   `,
 })
 export class Hero {
+  protected readonly i18n = inject(I18n);
+  protected readonly t = this.i18n.pick(textos);
+  protected readonly b = this.i18n.pick(bio);
   protected readonly p = perfil;
   protected readonly icons = { mail: Mail, download: Download, linkedin: Linkedin, github: Github };
   protected readonly rolesText = perfil.roles.join(', ');

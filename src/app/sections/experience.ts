@@ -1,7 +1,39 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, signal } from '@angular/core';
-import { casoDestacado, trayectoria } from '../data/experiencia';
+import { Component, inject, signal } from '@angular/core';
+import { experiencia } from '../data/experiencia';
+import { I18n } from '../i18n';
 import { Lightbox } from '../shared/lightbox';
+
+const textos = {
+  es: {
+    eyebrow: 'experiencia',
+    titulo: 'Lo que',
+    tituloAcento: 'construyo hoy',
+    subtitulo: 'Frontend Angular para el ERP de MASSEQ, desde 2024.',
+    verGrande: 'Ver en grande.',
+    tecnologias: 'Tecnologías',
+    trayectoria: 'trayectoria',
+    trayectoriaTitulo: 'Cómo',
+    trayectoriaAcento: 'llegué hasta aquí',
+    trayectoriaSub: 'De maquetar pantallas a desarrollar módulos de un ERP, rol por rol.',
+    ver: 'Ver detalles',
+    ocultar: 'Ocultar detalles',
+  },
+  en: {
+    eyebrow: 'experience',
+    titulo: 'What I',
+    tituloAcento: 'build today',
+    subtitulo: "Angular frontend for MASSEQ's ERP, since 2024.",
+    verGrande: 'View full size.',
+    tecnologias: 'Technologies',
+    trayectoria: 'career',
+    trayectoriaTitulo: 'How I',
+    trayectoriaAcento: 'got here',
+    trayectoriaSub: 'From laying out screens to building ERP modules, role by role.',
+    ver: 'See details',
+    ocultar: 'Hide details',
+  },
+};
 
 @Component({
   selector: 'app-experience',
@@ -10,9 +42,9 @@ import { Lightbox } from '../shared/lightbox';
   template: `
     <section id="experiencia" aria-labelledby="experiencia-titulo" class="section">
       <header class="mb-12">
-        <p class="eyebrow"><span aria-hidden="true">// </span>experiencia</p>
-        <h2 id="experiencia-titulo" class="section-title">Lo que <span class="text-accent">construyo hoy</span></h2>
-        <p class="mt-2 text-text-muted">Frontend Angular para el ERP de MASSEQ, desde 2024.</p>
+        <p class="eyebrow"><span aria-hidden="true">// </span>{{ t.eyebrow }}</p>
+        <h2 id="experiencia-titulo" class="section-title">{{ t.titulo }} <span class="text-accent">{{ t.tituloAcento }}</span></h2>
+        <p class="mt-2 text-text-muted">{{ t.subtitulo }}</p>
       </header>
 
       <article class="group reveal overflow-hidden rounded-2xl border border-border bg-surface/80 shadow-lg">
@@ -33,7 +65,7 @@ import { Lightbox } from '../shared/lightbox';
               class="object-cover grayscale transition duration-700 group-hover:grayscale-0 group-hover/img:scale-[1.03]"
             />
             <span class="absolute inset-0 bg-linear-to-r from-bg/90 via-bg/60 to-bg/30" aria-hidden="true"></span>
-            <span class="sr-only"> Ver en grande.</span>
+            <span class="sr-only"> {{ t.verGrande }}</span>
           </button>
 
           <div class="order-1 flex flex-col justify-center p-6 sm:p-10 lg:order-2 lg:p-14">
@@ -71,7 +103,7 @@ import { Lightbox } from '../shared/lightbox';
                 }
               </ul>
 
-              <ul class="flex flex-wrap gap-2 border-t border-border pt-5" aria-label="Tecnologías">
+              <ul class="flex flex-wrap gap-2 border-t border-border pt-5" [attr.aria-label]="t.tecnologias">
                 @for (tech of c.stack; track tech) {
                   <li
                     class="rounded-md border border-border bg-surface-2/60 px-2 py-1 font-mono text-xs text-text-muted transition duration-300
@@ -86,9 +118,9 @@ import { Lightbox } from '../shared/lightbox';
         </div>
       </article>
 
-      <p class="eyebrow mt-20"><span aria-hidden="true">// </span>trayectoria</p>
-      <h3 class="mt-2 font-display text-2xl font-semibold sm:text-3xl">Cómo <span class="text-accent">llegué hasta aquí</span></h3>
-      <p class="mt-2 text-text-muted">De maquetar pantallas a desarrollar módulos de un ERP, rol por rol.</p>
+      <p class="eyebrow mt-20"><span aria-hidden="true">// </span>{{ t.trayectoria }}</p>
+      <h3 class="mt-2 font-display text-2xl font-semibold sm:text-3xl">{{ t.trayectoriaTitulo }} <span class="text-accent">{{ t.trayectoriaAcento }}</span></h3>
+      <p class="mt-2 text-text-muted">{{ t.trayectoriaSub }}</p>
       <!--
         Timeline: a glowing dot per role, each role in its own card. Every role but the last draws a
         segment from its dot (center 39px down) to the next dot (gap 1.5rem + 39px), so the rail
@@ -140,7 +172,7 @@ import { Lightbox } from '../shared/lightbox';
                   [attr.aria-controls]="'detalles-' + i"
                   (click)="toggle(i)"
                 >
-                  {{ open ? 'Ocultar detalles' : 'Ver detalles' }}
+                  {{ open ? t.ocultar : t.ver }}
                   <svg class="size-4 transition-transform duration-300" [class.rotate-180]="open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="m6 9 6 6 6-6" />
                   </svg>
@@ -186,8 +218,10 @@ import { Lightbox } from '../shared/lightbox';
   `,
 })
 export class Experience {
-  protected readonly c = casoDestacado;
-  protected readonly trayectoria = trayectoria;
+  private readonly i18n = inject(I18n);
+  protected readonly t = this.i18n.pick(textos);
+  protected readonly c = this.i18n.pick(experiencia).caso;
+  protected readonly trayectoria = this.i18n.pick(experiencia).trayectoria;
   protected readonly abiertos = signal(new Set<number>());
 
   protected toggle(i: number): void {

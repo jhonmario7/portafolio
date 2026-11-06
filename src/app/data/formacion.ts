@@ -1,3 +1,5 @@
+import { Lang } from '../i18n';
+
 /** A practice project (or group of them) built during a course, with its public code. */
 export interface ProyectoCurso {
   nombre: string;
@@ -25,7 +27,7 @@ export interface Formacion {
 }
 
 // Newest first within each group; add new courses at the top of the certificates.
-export const formacion: Formacion[] = [
+const formacionEs: Formacion[] = [
   {
     titulo: 'Ingeniería de Sistemas',
     institucion: 'CORHUILA',
@@ -140,3 +142,76 @@ export const formacion: Formacion[] = [
     verificar: 'https://cursos.devtalles.com/certificates/a8zybgdqe9',
   },
 ];
+
+// English copy, in the same order. Course names stay as issued on the certificates.
+const formacionEnTexto: Partial<Formacion>[] = [
+  {
+    titulo: 'Systems Engineering',
+    duracion: "Bachelor's degree",
+    temas: [
+      'Software engineering and application architecture',
+      'Relational databases and data modeling',
+      'Technology project management',
+      'Networks, operating systems and infrastructure',
+    ],
+  },
+  {
+    titulo: 'Technologist in Information Systems Analysis and Development',
+    duracion: 'Technology degree',
+    temas: [
+      'Requirements gathering and analysis',
+      'UML modeling and system design',
+      'Web development and SQL databases',
+      'Software testing and deployment',
+    ],
+  },
+  {
+    periodo: 'August 2026',
+    duracion: '8 hours',
+    temas: [
+      'Programming logic and algorithmic thinking',
+      'Variables, conditionals and loops',
+      'Functions and problem solving',
+    ],
+  },
+  {
+    periodo: 'August 2026',
+    duracion: '31.5 hours',
+    proyectos: [
+      { nombre: '25 HTML projects', stack: 'HTML5, semantics', codigo: 'https://github.com/jhonmario7/100-proyectos-HTML-CSS-JS/tree/main/HTML' },
+      { nombre: '25 CSS projects', stack: 'CSS3, Flexbox, Grid', codigo: 'https://github.com/jhonmario7/100-proyectos-HTML-CSS-JS/tree/main/CSS' },
+      { nombre: '43 JavaScript projects', stack: 'JavaScript, DOM', codigo: 'https://github.com/jhonmario7/100-proyectos-HTML-CSS-JS/tree/main/JS' },
+    ],
+    temas: [
+      'Semantic HTML layout',
+      'Modern CSS: Flexbox, Grid and responsive design',
+      'JavaScript and DOM manipulation',
+      'Hands-on projects from start to finish',
+    ],
+  },
+  {
+    periodo: 'October 2025',
+    duracion: '164 hours · Talento Tech bootcamp',
+    temas: [
+      'Programming fundamentals and algorithms',
+      'Basic data structures',
+      'Good practices and version control',
+      'Project-based teamwork',
+    ],
+  },
+  {
+    periodo: 'July 2024',
+    duracion: 'Full course',
+    temas: [
+      'ES6+: destructuring, modules and classes',
+      'Promises, async/await and consuming APIs',
+      'Object-oriented programming in JavaScript',
+      'Bundlers and a modern workflow',
+    ],
+  },
+];
+
+export const formacion: Record<Lang, Formacion[]> = {
+  es: formacionEs,
+  en: formacionEs.map((f, i) => ({ ...f, ...formacionEnTexto[i] })),
+};

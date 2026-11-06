@@ -12,14 +12,26 @@ import {
   X,
 } from '@animateicons/angular/lucide';
 import { perfil } from '../data/perfil';
+import { I18n, Lang } from '../i18n';
 import { IconHover } from '../shared/icon-hover';
 
 const links = [
-  { id: 'inicio', label: 'Inicio', icon: House },
-  { id: 'experiencia', label: 'Experiencia', icon: Briefcase },
-  { id: 'proyectos', label: 'Proyectos', icon: FolderOpen },
-  { id: 'formacion', label: 'Formación', icon: GraduationCap },
-  { id: 'contacto', label: 'Contacto', icon: Mail },
+  { id: 'inicio', label: { es: 'Inicio', en: 'Home' }, icon: House },
+  { id: 'experiencia', label: { es: 'Experiencia', en: 'Experience' }, icon: Briefcase },
+  { id: 'proyectos', label: { es: 'Proyectos', en: 'Projects' }, icon: FolderOpen },
+  { id: 'formacion', label: { es: 'Formación', en: 'Education' }, icon: GraduationCap },
+  { id: 'contacto', label: { es: 'Contacto', en: 'Contact' }, icon: Mail },
+];
+
+const textos = {
+  es: { nav: 'Secciones', abrir: 'Abrir menú', cerrar: 'Cerrar menú', perfiles: 'Perfiles', nuevaPestana: ' (abre en otra pestaña)', idioma: 'Idioma' },
+  en: { nav: 'Sections', abrir: 'Open menu', cerrar: 'Close menu', perfiles: 'Profiles', nuevaPestana: ' (opens in a new tab)', idioma: 'Language' },
+};
+
+/** Each language is its own page; the link keeps the section you were reading. */
+const idiomas: { lang: Lang; label: string; nombre: string; href: string }[] = [
+  { lang: 'es', label: 'ES', nombre: 'Español', href: '/' },
+  { lang: 'en', label: 'EN', nombre: 'English', href: '/en' },
 ];
 
 const perfiles = [
@@ -39,14 +51,25 @@ const perfiles = [
     '(document:click)': 'closeIfOutside($event)',
   },
   template: `
-    <nav aria-label="Secciones">
+    <nav [attr.aria-label]="t.nav">
+      <div class="switch fixed right-[4.75rem] top-4 z-50 lg:right-6" role="group" [attr.aria-label]="t.idioma">
+      @for (item of idiomas; track item.lang) {
+        <a
+          [href]="item.href + (active() === 'inicio' ? '' : '#' + active())"
+          [attr.hreflang]="item.lang"
+          [attr.lang]="item.lang"
+          [attr.aria-current]="item.lang === i18n.lang ? 'true' : null"
+        >{{ item.label }}<span class="sr-only"> · {{ item.nombre }}</span></a>
+      }
+    </div>
+
       <button
         #toggle
         type="button"
         class="fixed right-4 top-4 z-50 flex size-12 cursor-pointer items-center justify-center rounded-xl border border-border bg-bg/90 text-text-muted backdrop-blur transition-colors hover:text-text lg:hidden"
         aria-controls="menu-secciones"
         [attr.aria-expanded]="open()"
-        [attr.aria-label]="open() ? 'Cerrar menú' : 'Abrir menú'"
+        [attr.aria-label]="open() ? t.cerrar : t.abrir"
         (click)="open.set(!open())"
       >
         <animate-icons [icon]="open() ? icons.close : icons.menu" [size]="22" aria-hidden="true" />
@@ -64,7 +87,7 @@ const perfiles = [
           <li>
             <a
               appIconHover
-              [href]="'#' + link.id"
+              [href]="i18n.base + '#' + link.id"
               [attr.aria-current]="current ? 'location' : null"
               class="group relative flex items-center justify-center rounded-xl p-3 transition-all duration-300 xl:p-4"
               [class]="current
@@ -73,7 +96,7 @@ const perfiles = [
               (click)="close()"
             >
               <animate-icons [icon]="link.icon" [size]="22" aria-hidden="true" />
-              <span class="label">{{ link.label }}</span>
+              <span class="label">{{ i18n.pick(link.label) }}</span>
               @if (current) {
                 <span
                   class="absolute -right-2 top-1/2 h-8 w-1 -translate-y-1/2 rounded-full bg-linear-to-b from-accent to-brand lg:-right-3"
@@ -85,7 +108,7 @@ const perfiles = [
         }
       </ul>
 
-      <ul class="mt-auto hidden flex-col gap-3 lg:flex" aria-label="Perfiles">
+      <ul class="mt-auto hidden flex-col gap-3 lg:flex" [attr.aria-label]="t.perfiles">
         @for (item of perfiles; track item.label) {
           <li>
             <a
@@ -96,7 +119,7 @@ const perfiles = [
               class="group relative flex items-center justify-center rounded-xl p-3 text-text-muted transition-colors hover:bg-surface-2 hover:text-text xl:p-4"
             >
               <animate-icons [icon]="item.icon" [size]="22" aria-hidden="true" />
-              <span class="label">{{ item.label }}<span class="sr-only"> (abre en otra pestaña)</span></span>
+              <span class="label">{{ item.label }}<span class="sr-only">{{ t.nuevaPestana }}</span></span>
             </a>
           </li>
         }
@@ -105,6 +128,39 @@ const perfiles = [
     </nav>
   `,
   styles: `
+    /* ES | EN pill, same height as the menu button. */
+    .switch {
+      display: flex;
+      gap: 0.25rem;
+      padding: 0.25rem;
+      border: 1px solid var(--color-border);
+      border-radius: 9999px;
+      background: color-mix(in srgb, var(--color-bg) 90%, transparent);
+      backdrop-filter: blur(8px);
+    }
+
+    .switch a {
+      display: grid;
+      place-items: center;
+      min-width: 2.75rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      color: var(--color-text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      transition: color 150ms, background-color 150ms;
+    }
+
+    .switch a:hover {
+      color: var(--color-text);
+    }
+
+    .switch a[aria-current] {
+      background: var(--color-brand);
+      color: var(--color-on-brand);
+    }
+
     /* Phones: icons only, the label stays for screen readers. */
     @media (max-width: 1023.98px) {
       .label {
@@ -164,6 +220,9 @@ const perfiles = [
   `,
 })
 export class Nav {
+  protected readonly i18n = inject(I18n);
+  protected readonly t = this.i18n.pick(textos);
+  protected readonly idiomas = idiomas;
   protected readonly links = links;
   protected readonly perfiles = perfiles;
   protected readonly icons = { menu: Menu, close: X };
